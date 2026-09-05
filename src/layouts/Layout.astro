@@ -17,7 +17,7 @@ interface Props {
 
 const {
   title,
-  description = 'ZulIA es una consultoría tecnológica que diseña y construye software, automatizaciones, agentes de IA y productos digitales desde Monterrey, México.',
+  description = 'ZulIA es una consultoría de software, automatización e inteligencia artificial en Monterrey. Conectamos los sistemas que ya usas a una capa de IA que consulta y ejecuta con permisos.',
   image = '/og-card.png',
   canonical,
   pageType = 'website',
@@ -48,15 +48,15 @@ const organizationSchema = {
   url: 'https://zulia.lat/',
   logo: {
     '@type': 'ImageObject',
-    url: 'https://zulia.lat/logo.png',
-    contentUrl: 'https://zulia.lat/logo.png',
-    width: 1441,
-    height: 528,
+    url: 'https://zulia.lat/og-card.png',
+    contentUrl: 'https://zulia.lat/og-card.png',
+    width: 1200,
+    height: 630,
     caption: 'ZulIA',
   },
   image: 'https://zulia.lat/og-card.png',
   description,
-  slogan: 'De un problema complejo a un sistema que trabaja.',
+  slogan: 'Tus sistemas, operados desde un chat de IA.',
   founder: { '@id': 'https://zulia.lat/#haziel-zul' },
   telephone: '+52 81 2250 9882',
   areaServed: {
@@ -132,7 +132,7 @@ const schema = jsonLd
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:alt" content="ZulIA — consultoría de producto, software e inteligencia artificial aplicada" />
+    <meta property="og:image:alt" content="ZulIA, consultoría de software, automatización e inteligencia artificial en Monterrey" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />

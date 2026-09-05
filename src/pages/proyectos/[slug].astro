@@ -1,0 +1,167 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import ProjectTile from '../../components/ProjectTile.astro';
+import { getProjects, type Project } from '../../lib/projects';
+import { getServiceByLine } from '../../data/services';
+import { LINE_LABEL, STATUS_LABEL, ROLE_LABEL } from '../../data/site';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project, all: projects } }));
+}
+
+interface Props { project: Project; all: Project[] }
+const { project, all } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const service = getServiceByLine(d.line);
+const related = all.filter((p) => p.id !== project.id && p.data.line === d.line).slice(0, 3);
+
+const title = `${d.title} · ${d.client} | Proyectos ZulIA`;
+const meta = [
+  ['Cliente', d.client],
+  ['Sector', d.sector],
+  ['Ciudad', d.city],
+  ['Año', String(d.year)],
+  ['Estado', STATUS_LABEL[d.status]],
+  ['Línea', LINE_LABEL[d.line]],
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.title,
+  description: d.summary,
+  dateCreated: String(d.year),
+  creator: { '@id': 'https://zulia.lat/#organization' },
+  ...(d.url ? { url: d.url } : {}),
+};
+---
+
+<Layout title={title} description={d.summary} jsonLd={schema} pageType="article">
+  <Navbar />
+  <main id="contenido" class="case">
+    <section class="head section-tight">
+      <div class="shell">
+        <nav class="crumbs mono" aria-label="Ruta">
+          <a href="/proyectos/">Proyectos</a> <span>/</span> <a href={`/proyectos/#${d.line}`}>{LINE_LABEL[d.line]}</a>
+        </nav>
+        <h1 class="display">{d.title}</h1>
+        <p class="lead">{d.summary}</p>
+        <dl class="meta">
+          {meta.map(([k, v]) => (<div><dt class="mono">{k}</dt><dd>{v}</dd></div>))}
+          {d.url && (<div><dt class="mono">Sitio</dt><dd><a href={d.url} target="_blank" rel="noopener">{new URL(d.url).host}</a></dd></div>)}
+        </dl>
+      </div>
+    </section>
+
+    {d.cover && (
+      <section class="cover">
+        <div class="shell">
+          <figure class="stage frame">
+            <img src={d.cover} alt={d.coverAlt ?? d.title} width="1600" height="1000" loading="eager" decoding="async" />
+          </figure>
+        </div>
+      </section>
+    )}
+
+    <section class="body section">
+      <div class="shell cols">
+        <div class="main">
+          <h2 class="h3">El problema</h2>
+          <p class="prose">{d.problem}</p>
+
+          <h2 class="h3">Qué construimos</h2>
+          <ul class="built">
+            {d.built.map((b) => <li>{b}</li>)}
+          </ul>
+
+          <h2 class="h3">Resultado</h2>
+          <p class="prose">{d.outcome}</p>
+
+          <div class="prose extra"><Content /></div>
+
+          {d.role === 'equipo' && (
+            <p class="note mono">Producto construido como parte del equipo del cliente. Se muestra como experiencia profesional; las marcas pertenecen a sus propietarios.</p>
+          )}
+        </div>
+        <aside class="side">
+          <div class="block">
+            <p class="mono">Stack</p>
+            <ul class="stack">
+              {d.stack.map((s) => <li class="badge">{s}</li>)}
+            </ul>
+          </div>
+          <div class="block">
+            <p class="mono">Tipo de trabajo</p>
+            <p>{ROLE_LABEL[d.role]}</p>
+          </div>
+          {service && (
+            <div class="block">
+              <p class="mono">Servicio relacionado</p>
+              <a class="link" href={`/servicios/${service.slug}/`}>
+                {service.name}
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+              </a>
+            </div>
+          )}
+        </aside>
+      </div>
+    </section>
+
+    {related.length > 0 && (
+      <section class="related section-tight">
+        <div class="shell">
+          <p class="label">Más de {LINE_LABEL[d.line]}</p>
+          <div class="hairline-grid grid">
+            {related.map((p) => <ProjectTile project={p} />)}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <CtaBand title={`¿Tienes un problema parecido al de ${d.client}?`} />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .crumbs { display: flex; gap: .6rem; }
+  .crumbs a { color: var(--text-muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .head .display { margin-top: 1.25rem; max-width: 20ch; }
+  .head .lead { margin-top: 1.25rem; }
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 1px;
+    margin: 2.5rem 0 0;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .meta div { display: grid; gap: .3rem; padding: .9rem 1rem; background: var(--paper); }
+  .meta dd { margin: 0; font-weight: 500; }
+  .meta a { color: var(--blue-dark); }
+  .frame { margin: 0; aspect-ratio: 16 / 10; }
+  .cols { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 4rem; align-items: start; }
+  .main { display: grid; gap: 1rem; }
+  .main .h3 { margin-top: 1.5rem; }
+  .main .h3:first-child { margin-top: 0; }
+  .built { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--line); max-width: 65ch; }
+  .built li { padding: .8rem 0; border-bottom: 1px solid var(--line); line-height: 1.5; }
+  .extra { color: var(--text-muted); }
+  .note { margin-top: 1rem; color: var(--text-muted); text-transform: none; letter-spacing: 0; font-size: .78rem; }
+  .side { display: grid; gap: 1.5rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .block { display: grid; gap: .75rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+  .stack { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .related .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1.5rem; }
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 2.5rem; }
+    .side { position: static; }
+    .related .grid { grid-template-columns: 1fr; }
+  }
+</style>

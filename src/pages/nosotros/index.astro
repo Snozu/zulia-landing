@@ -1,0 +1,114 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { SITE } from '../../data/site';
+import { faqs } from '../../data/faqs';
+
+const title = 'Nosotros | ZulIA';
+const description =
+  'ZulIA es una consultoría de software, automatización e inteligencia artificial en Monterrey. Quiénes somos, cómo trabajamos y por qué el código es tuyo.';
+
+const principles = [
+  { t: 'La IA es una herramienta, no el producto', d: 'Se usa donde aporta. Si un proceso se resuelve con una regla o una integración, eso hacemos.' },
+  { t: 'Nada escribe en tus sistemas sin permiso', d: 'Lectura primero. Escritura declarada por herramienta. Dinero y cambios sensibles pasan por una persona.' },
+  { t: 'El código y la infraestructura son tuyos', d: 'Repositorios, servidores, dominios y accesos quedan a nombre de tu empresa desde el primer día.' },
+  { t: 'Criterio senior de principio a fin', d: 'Estrategia, diseño e ingeniería hablan con la misma persona. No hay traducción entre ventas y quien construye.' },
+];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': 'https://zulia.lat/#haziel-zul',
+  name: SITE.founder,
+  jobTitle: SITE.founderRole,
+  worksFor: { '@id': 'https://zulia.lat/#organization' },
+  url: 'https://zulia.lat/nosotros/',
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<Layout title={title} description={description} jsonLd={[personSchema, faqSchema]}>
+  <Navbar />
+  <main id="contenido">
+    <section class="head section-tight">
+      <div class="shell">
+        <p class="label">Nosotros</p>
+        <h1 class="display">Una consultoría que construye, opera y se queda.</h1>
+        <p class="lead">ZulIA nació en Monterrey para resolver un problema concreto: las empresas ya tienen sistemas, lo que no tienen es tiempo para usarlos. Construimos la capa que hace el trabajo mecánico y el software que la operación necesita.</p>
+      </div>
+    </section>
+
+    <section class="principles section">
+      <div class="shell">
+        <h2 class="h2">En qué creemos</h2>
+        <div class="hairline-grid four">
+          {principles.map((p) => (
+            <article class="cell">
+              <h3 class="h3">{p.t}</h3>
+              <p class="muted">{p.d}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="founder section-tight">
+      <div class="shell cols">
+        <div class="stage card">
+          <p class="mono">Fundador</p>
+          <h2 class="h2">{SITE.founder}</h2>
+          <p class="role">{SITE.founderRole}</p>
+        </div>
+        <div class="bio prose">
+          <p>Haziel es AI Growth Lead y Full Stack Developer en Envia.com, donde construye los asistentes que operan la plataforma logística para miles de usuarios. Lleva más de seis años construyendo plataformas, automatizaciones, sitios y sistemas de inteligencia artificial para logística, automotriz, industria, fintech y productos digitales.</p>
+          <p>Fundó ZulIA para llevar ese mismo criterio a empresas que no tienen un equipo de producto interno: diagnóstico honesto, fases del tamaño correcto y sistemas que el cliente pueda operar sin quedar atrapado con un proveedor.</p>
+          <p>Opera desde Monterrey y trabaja de forma remota con equipos en México y otros países.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq section">
+      <div class="shell-narrow">
+        <h2 class="h2">Preguntas frecuentes</h2>
+        <div class="qa">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .head .display { margin-top: 1rem; max-width: 20ch; }
+  .head .lead { margin-top: 1.25rem; }
+  .four { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 1.5rem; }
+  .cell { display: grid; gap: .75rem; align-content: start; padding: 1.5rem; }
+  .cols { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 3rem; align-items: start; }
+  .card { display: grid; gap: .75rem; padding: 2rem; min-height: 16rem; align-content: end; }
+  .card .mono { color: var(--stage-muted); }
+  .role { color: var(--stage-muted); }
+  .bio p { color: var(--ink-soft); }
+  .qa { margin-top: 1.5rem; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { padding: 1.1rem 0; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  summary::after { content: "+"; color: var(--blue-dark); font-weight: 500; }
+  details[open] summary::after { content: "−"; }
+  details p { padding: 0 0 1.25rem; max-width: 65ch; }
+  @media (max-width: 1000px) { .four { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 800px) { .cols { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .four { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,101 @@
+---
+const sources = ['ERP', 'CRM', 'Correo', 'WhatsApp', 'Archivos', 'Base de datos'];
+const rules = [
+  { k: 'Lectura', v: 'Consulta pedidos, saldos, inventario, documentos. Solo desde fuentes autorizadas.' },
+  { k: 'Escritura', v: 'Crea, actualiza o envía. Cada herramienta declara qué puede tocar.' },
+  { k: 'Aprobación', v: 'Dinero, contratos o cambios sensibles se detienen hasta que una persona diga sí.' },
+  { k: 'Trazabilidad', v: 'Cada llamada queda registrada con parámetros, latencia y costo.' },
+];
+---
+
+<section class="layer section" id="capa-agentica" aria-labelledby="layer-title">
+  <div class="shell">
+    <p class="label">Capa agéntica</p>
+    <h2 id="layer-title" class="h2">Una capa entre tus sistemas y tu equipo, que hace el trabajo mecánico.</h2>
+    <p class="lead">No cambias de ERP ni de CRM. Conectamos lo que ya tienes a un asistente con herramientas, permisos y memoria, disponible en el canal donde ya trabaja tu gente.</p>
+
+    <div class="diagram" role="img" aria-label="Diagrama: tus sistemas se conectan a la capa agéntica de ZulIA, y tu equipo la usa desde un chat">
+      <div class="col">
+        <p class="mono">Tus sistemas</p>
+        <ul>
+          {sources.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div class="arrow" aria-hidden="true"><i></i></div>
+      <div class="col core">
+        <p class="mono">Capa agéntica</p>
+        <dl>
+          {rules.map((r) => (<><dt>{r.k}</dt><dd>{r.v}</dd></>))}
+        </dl>
+      </div>
+      <div class="arrow" aria-hidden="true"><i></i></div>
+      <div class="col">
+        <p class="mono">Tu equipo</p>
+        <ul>
+          <li>WhatsApp</li>
+          <li>Chat web</li>
+          <li>Claude, ChatGPT o Cursor vía MCP</li>
+        </ul>
+        <a class="link" href="/servicios/capa-agentica/">
+          Cómo funciona
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .layer .h2 { margin-top: 1rem; }
+  .layer .lead { margin-top: 1.25rem; }
+  .diagram {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 3rem minmax(0, 1.6fr) 3rem minmax(0, 1fr);
+    align-items: stretch;
+    margin-top: 3rem;
+  }
+  .col {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+  }
+  .col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .35rem; }
+  .col li {
+    padding: .55rem .7rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: .92rem;
+    font-weight: 500;
+  }
+  .core { background: var(--stage); border-color: var(--stage-line); color: var(--stage-text); }
+  .core .mono { color: var(--stage-muted); }
+  .core dl { margin: 0; display: grid; gap: .9rem; }
+  .core dt { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-blue); }
+  .core dd { margin: .2rem 0 0; font-size: .92rem; line-height: 1.5; color: var(--stage-text); }
+  .arrow { position: relative; }
+  .arrow i {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: var(--line-dark);
+  }
+  .arrow i::after {
+    content: "";
+    position: absolute;
+    right: -1px; top: -4px;
+    width: 8px; height: 8px;
+    border-top: 1px solid var(--line-dark);
+    border-right: 1px solid var(--line-dark);
+    transform: rotate(45deg);
+  }
+  @media (max-width: 900px) {
+    .diagram { grid-template-columns: 1fr; }
+    .arrow { height: 2.5rem; }
+    .arrow i { top: 0; bottom: 0; left: 50%; right: auto; width: 1px; height: auto; }
+    .arrow i::after { right: -4px; top: auto; bottom: -1px; transform: rotate(135deg); }
+  }
+</style>

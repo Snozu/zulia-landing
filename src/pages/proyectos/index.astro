@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import ProjectTile from '../../components/ProjectTile.astro';
+import { getProjects } from '../../lib/projects';
+import { LINES } from '../../content.config';
+import { LINE_LABEL } from '../../data/site';
+
+const projects = await getProjects();
+const counts = Object.fromEntries(LINES.map((l) => [l, projects.filter((p) => p.data.line === l).length]));
+const title = 'Proyectos | ZulIA';
+const description =
+  'Veinte proyectos reales: capas agénticas sobre ERP y WhatsApp, software operativo a medida, sitios y catálogos, y método de ingeniería con IA. Con cliente, año, stack y resultado.';
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+  <main id="contenido">
+    <section class="head section-tight">
+      <div class="shell">
+        <p class="label">Proyectos</p>
+        <h1 class="display">Lo que hemos construido, con nombre, año y resultado.</h1>
+        <p class="lead">Cada caso dice qué problema había, qué se construyó, con qué stack y en qué estado está. Sin métricas inventadas: si algo está en piloto o en desarrollo, lo dice.</p>
+      </div>
+    </section>
+
+    <section class="list" aria-label="Lista de proyectos">
+      <div class="shell filters" role="group" aria-label="Filtrar por línea">
+        <button class="chip" type="button" aria-pressed="true" data-filter="all">Todos <span class="mono">{projects.length}</span></button>
+        {LINES.filter((l) => counts[l] > 0).map((l) => (
+          <button class="chip" type="button" aria-pressed="false" data-filter={l}>{LINE_LABEL[l]} <span class="mono">{counts[l]}</span></button>
+        ))}
+      </div>
+      <div class="shell">
+        <div class="hairline-grid grid" data-grid>
+          {projects.map((p, i) => <ProjectTile project={p} loading={i < 3 ? 'eager' : 'lazy'} />)}
+        </div>
+        <p class="empty mono" data-empty hidden>No hay proyectos en esta línea todavía.</p>
+      </div>
+    </section>
+
+    <CtaBand title="¿Tu operación se parece a alguno de estos casos?" text="Cuéntanos cuál. Te decimos qué aplica, qué no, y cuánto cuesta la primera fase." />
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const tiles = document.querySelectorAll<HTMLElement>('[data-grid] [data-line]');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+  const apply = (filter: string) => {
+    let visible = 0;
+    tiles.forEach((t) => {
+      const show = filter === 'all' || t.dataset.line === filter;
+      t.hidden = !show;
+      if (show) visible++;
+    });
+    if (empty) empty.hidden = visible > 0;
+    chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.filter === filter)));
+    history.replaceState(null, '', filter === 'all' ? location.pathname : `#${filter}`);
+  };
+  chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.filter ?? 'all')));
+  const initial = location.hash.slice(1);
+  if (initial && [...chips].some((c) => c.dataset.filter === initial)) apply(initial);
+</script>
+
+<style>
+  .head .display { margin-top: 1rem; max-width: 22ch; }
+  .head .lead { margin-top: 1.25rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; padding-bottom: 1.5rem; }
+  .filters .mono { margin-left: .4rem; font-size: .66rem; }
+  .chip[aria-pressed="true"] .mono { color: rgb(255 255 255 / .75); }
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .list { padding-bottom: var(--section); }
+  .empty { padding: 3rem 0; text-align: center; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>

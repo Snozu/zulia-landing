@@ -1,0 +1,48 @@
+---
+import { CTA, whatsappUrl } from '../data/site';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Cuéntanos qué te está costando tiempo.',
+  text = 'En una llamada de treinta minutos te decimos si tiene sentido, por dónde empezar y cuánto cuesta la primera fase.',
+} = Astro.props;
+---
+
+<section class="band" aria-labelledby="cta-title">
+  <div class="shell stage inner">
+    <div class="copy">
+      <h2 id="cta-title" class="h2">{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href={CTA.primaryHref}>{CTA.primary}</a>
+      <a class="link wa" href={whatsappUrl('Hola ZulIA, quiero platicar sobre un proyecto.')} target="_blank" rel="noopener">
+        Escribir por WhatsApp
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band { padding-block: var(--section); }
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+    padding: clamp(2rem, 5vw, 4rem);
+  }
+  .copy { display: grid; gap: 1rem; }
+  .copy p { color: var(--stage-muted); max-width: 52ch; font-size: 1.05rem; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; justify-content: end; }
+  .band .btn { background: var(--brand-blue); border-color: var(--brand-blue); }
+  .band .btn:hover { background: #2358e0; border-color: #2358e0; }
+  .wa { color: var(--stage-text); }
+  @media (max-width: 800px) {
+    .inner { grid-template-columns: 1fr; }
+    .actions { justify-content: start; }
+  }
+</style>

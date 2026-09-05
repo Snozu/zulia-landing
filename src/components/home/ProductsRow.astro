@@ -1,0 +1,33 @@
+---
+---
+
+<section class="products section-tight" aria-label="Producto propio y capacitación">
+  <div class="shell hairline-grid two">
+    <article class="cell">
+      <span class="badge badge-soft">Producto propio · Pre-lanzamiento</span>
+      <h2 class="h3">Semilla</h2>
+      <p>Prospección B2B operada por agentes. Encuentra, investiga, califica, escribe y da seguimiento hasta entregar conversaciones con interés real a tu equipo.</p>
+      <a class="link" href="/semilla/">
+        Conocer Semilla
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+      </a>
+    </article>
+    <article class="cell">
+      <span class="badge badge-soft">Capacitación · Monterrey e in company</span>
+      <h2 class="h3">Cursos de IA para equipos</h2>
+      <p>Para profesionistas y dueños de negocio que quieren usar IA en su trabajo real: correos, reportes, análisis y automatizaciones. Sin código.</p>
+      <a class="link" href="/cursos/">
+        Ver programas
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+      </a>
+    </article>
+  </div>
+</section>
+
+<style>
+  .two { grid-template-columns: 1fr 1fr; }
+  .cell { display: grid; gap: 1rem; align-content: start; padding: 2rem; }
+  .cell .badge { justify-self: start; }
+  .cell p { color: var(--text-muted); max-width: 48ch; }
+  @media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+</style>

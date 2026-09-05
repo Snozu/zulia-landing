@@ -1,0 +1,26 @@
+---
+interface Props {
+  class?: string;
+  height?: number;
+}
+const { class: className = '', height = 22 } = Astro.props;
+// Width follows the text at 700 weight in Onest: roughly 3.1 times the cap height.
+const width = Math.round(height * 3.15);
+---
+
+<svg
+  class={`wordmark ${className}`}
+  width={width}
+  height={height}
+  viewBox="0 0 315 100"
+  role="img"
+  aria-label="ZulIA"
+>
+  <text x="0" y="86" font-family="Onest Variable, Arial, sans-serif" font-size="108" font-weight="700" letter-spacing="-4">
+    <tspan fill="currentColor">Zul</tspan><tspan fill="var(--brand-blue)">IA</tspan>
+  </text>
+</svg>
+
+<style>
+  .wordmark { display: block; overflow: visible; }
+</style>

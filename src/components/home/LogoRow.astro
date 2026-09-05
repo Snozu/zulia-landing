@@ -1,0 +1,53 @@
+---
+import { BRANDS } from '../../data/site';
+---
+
+<section class="logos" aria-label="Marcas para las que hemos construido">
+  <div class="shell">
+    <p class="mono">Marcas y organizaciones para las que hemos construido</p>
+    <ul class="row">
+      {BRANDS.map((b) => (
+        <li>
+          <img class="light" src={b.file} alt={b.name} loading="lazy" decoding="async" />
+          {b.dark && <img class="dark" src={b.dark} alt={b.name} loading="lazy" decoding="async" />}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .logos { padding-block: 3rem; }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+    gap: 1px;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .row li {
+    display: grid;
+    place-items: center;
+    min-height: 5.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--paper);
+  }
+  .row img {
+    max-height: 2rem;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(1) contrast(1.05);
+    opacity: .8;
+    transition: opacity 160ms ease, filter 160ms ease;
+  }
+  .row li:hover img { filter: none; opacity: 1; }
+  .row .dark { display: none; }
+  :global(html.dark) .row .light:has(+ .dark) { display: none; }
+  :global(html.dark) .row .dark { display: block; }
+  :global(html.dark) .row img { filter: grayscale(1) invert(1) contrast(1.1); }
+  :global(html.dark) .row li:hover img { filter: invert(1); }
+</style>

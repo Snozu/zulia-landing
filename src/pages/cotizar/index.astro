@@ -1,0 +1,277 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { services } from '../../data/services';
+import { SITE } from '../../data/site';
+
+const title = 'Cotizar un proyecto | ZulIA';
+const description =
+  'Cuéntanos qué necesitas en cuatro pasos. Te respondemos con una recomendación de fase uno, alcance y rango de inversión en menos de dos días hábiles.';
+
+const contexts = [
+  ['erp', 'Ya tenemos ERP o sistema administrativo'],
+  ['crm', 'Ya tenemos CRM o base de clientes'],
+  ['whatsapp', 'Atendemos clientes por WhatsApp'],
+  ['sitio', 'Tenemos sitio web o catálogo'],
+  ['equipo', 'Tenemos equipo técnico interno'],
+  ['nada', 'Empezamos de cero'],
+];
+const budgets = [
+  ['menos-50', 'Menos de $50,000 MXN'],
+  ['50-150', '$50,000 a $150,000 MXN'],
+  ['150-400', '$150,000 a $400,000 MXN'],
+  ['mas-400', 'Más de $400,000 MXN'],
+  ['no-se', 'Todavía no lo sé'],
+];
+const timings = [
+  ['ya', 'Lo necesitamos ya'],
+  ['trimestre', 'En este trimestre'],
+  ['explorando', 'Estamos explorando'],
+];
+---
+
+<Layout title={title} description={description} noindex={false}>
+  <Navbar />
+  <main id="contenido">
+    <section class="head section-tight">
+      <div class="shell-narrow">
+        <p class="label">Cotizar</p>
+        <h1 class="display">Cuéntanos qué necesitas.</h1>
+        <p class="lead">Cuatro pasos, dos minutos. Con esto te respondemos con una propuesta de primera fase, alcance y rango de inversión en menos de dos días hábiles.</p>
+      </div>
+    </section>
+
+    <section class="form-wrap">
+      <div class="shell-narrow">
+        <form class="quote" data-quote novalidate>
+          <ol class="progress mono" aria-label="Progreso">
+            <li data-step-dot="1" aria-current="step">1 Proyecto</li>
+            <li data-step-dot="2">2 Contexto</li>
+            <li data-step-dot="3">3 Inversión</li>
+            <li data-step-dot="4">4 Contacto</li>
+          </ol>
+
+          <fieldset data-step="1">
+            <legend class="h3">¿Qué tipo de proyecto es?</legend>
+            <div class="options">
+              {services.map((s) => (
+                <label class="opt">
+                  <input type="radio" name="linea" value={s.slug} required />
+                  <span class="opt-body">
+                    <strong>{s.name}</strong>
+                    <span class="muted">{s.promise}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset data-step="2" hidden>
+            <legend class="h3">¿Con qué contamos hoy?</legend>
+            <p class="muted">Marca todo lo que aplique.</p>
+            <div class="options">
+              {contexts.map(([v, l]) => (
+                <label class="opt small">
+                  <input type="checkbox" name="contexto" value={v} />
+                  <span class="opt-body"><strong>{l}</strong></span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset data-step="3" hidden>
+            <legend class="h3">Inversión y tiempos</legend>
+            <p class="muted">Un rango basta. Sirve para proponer una primera fase del tamaño correcto.</p>
+            <div class="options">
+              {budgets.map(([v, l]) => (
+                <label class="opt small">
+                  <input type="radio" name="presupuesto" value={v} required />
+                  <span class="opt-body"><strong>{l}</strong></span>
+                </label>
+              ))}
+            </div>
+            <p class="h3 sub">¿Para cuándo?</p>
+            <div class="options">
+              {timings.map(([v, l]) => (
+                <label class="opt small">
+                  <input type="radio" name="tiempo" value={v} required />
+                  <span class="opt-body"><strong>{l}</strong></span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset data-step="4" hidden>
+            <legend class="h3">¿A quién le respondemos?</legend>
+            <div class="fields">
+              <div class="field"><label for="q-nombre">Nombre</label><input id="q-nombre" name="nombre" type="text" autocomplete="name" required /></div>
+              <div class="field"><label for="q-empresa">Empresa</label><input id="q-empresa" name="empresa" type="text" autocomplete="organization" required /></div>
+              <div class="field"><label for="q-email">Correo</label><input id="q-email" name="email" type="email" autocomplete="email" required /></div>
+              <div class="field"><label for="q-wa">WhatsApp</label><input id="q-wa" name="whatsapp" type="tel" autocomplete="tel" placeholder="+52" /></div>
+              <div class="field full"><label for="q-desc">Cuéntanos el problema en tus palabras</label><textarea id="q-desc" name="descripcion" required></textarea><span class="hint">Qué está lento, qué se hace a mano, qué te gustaría que pasara solo.</span></div>
+            </div>
+            <p class="field"><span class="error" data-error hidden>Completa los campos marcados para enviar.</span></p>
+          </fieldset>
+
+          <div class="nav">
+            <button class="btn btn-ghost" type="button" data-prev hidden>Anterior</button>
+            <button class="btn" type="button" data-next>Siguiente</button>
+            <button class="btn" type="submit" data-submit hidden>Enviar por WhatsApp</button>
+          </div>
+
+          <div class="done tile" data-done hidden>
+            <p class="label">Listo</p>
+            <h2 class="h3">Se abrió WhatsApp con tu resumen.</h2>
+            <p class="muted">Si no se abrió, cópialo y mándalo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>:</p>
+            <pre data-summary></pre>
+            <button class="btn btn-ghost" type="button" data-copy>Copiar resumen</button>
+          </div>
+        </form>
+
+        <aside class="aside">
+          <p class="mono">Qué pasa después</p>
+          <ol class="after">
+            <li>Leemos tu resumen y, si hace falta, te hacemos dos o tres preguntas por WhatsApp.</li>
+            <li>Te proponemos una primera fase: alcance cerrado, entregables y rango de inversión.</li>
+            <li>Si tiene sentido, agendamos treinta minutos para ajustarla contigo.</li>
+          </ol>
+          <p class="muted small">No compartimos tu información con nadie ni te metemos a una lista de correos.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  import { whatsappUrl } from '../../data/site';
+
+  const form = document.querySelector<HTMLFormElement>('[data-quote]');
+  if (form) {
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>('[data-step]')];
+    const dots = [...form.querySelectorAll<HTMLElement>('[data-step-dot]')];
+    const prev = form.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = form.querySelector<HTMLButtonElement>('[data-next]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const done = form.querySelector<HTMLElement>('[data-done]')!;
+    const err = form.querySelector<HTMLElement>('[data-error]')!;
+    let i = 0;
+
+    const params = new URLSearchParams(location.search);
+    const pre = params.get('linea');
+    if (pre) {
+      const r = form.querySelector<HTMLInputElement>(`input[name="linea"][value="${pre}"]`);
+      if (r) r.checked = true;
+    }
+
+    const show = (n: number) => {
+      i = n;
+      steps.forEach((s, k) => (s.hidden = k !== n));
+      dots.forEach((d, k) => {
+        if (k === n) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current');
+        d.classList.toggle('past', k < n);
+      });
+      prev.hidden = n === 0;
+      next.hidden = n === steps.length - 1;
+      submit.hidden = n !== steps.length - 1;
+      err.hidden = true;
+      form.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    };
+
+    const valid = (n: number) => {
+      const fs = steps[n];
+      const required = [...fs.querySelectorAll<HTMLInputElement>('input[required], textarea[required]')];
+      const groups = new Set(required.filter((x) => x.type === 'radio').map((x) => x.name));
+      for (const g of groups) if (!fs.querySelector(`input[name="${g}"]:checked`)) return false;
+      return required.filter((x) => x.type !== 'radio').every((x) => x.checkValidity());
+    };
+
+    next.addEventListener('click', () => {
+      if (!valid(i)) { err.hidden = false; return; }
+      show(i + 1);
+    });
+    prev.addEventListener('click', () => show(i - 1));
+
+    const labelOf = (name: string, value: string) => {
+      const input = form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${value}"]`);
+      return input?.closest('label')?.querySelector('strong')?.textContent?.trim() ?? value;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!valid(i)) { err.hidden = false; return; }
+      const fd = new FormData(form);
+      const contexto = fd.getAll('contexto').map((v) => labelOf('contexto', String(v)));
+      const lines = [
+        'Hola ZulIA, quiero cotizar un proyecto.',
+        '',
+        `Tipo: ${labelOf('linea', String(fd.get('linea')))}`,
+        `Contexto: ${contexto.length ? contexto.join(', ') : 'sin especificar'}`,
+        `Inversión: ${labelOf('presupuesto', String(fd.get('presupuesto')))}`,
+        `Tiempos: ${labelOf('tiempo', String(fd.get('tiempo')))}`,
+        '',
+        `Nombre: ${fd.get('nombre')}`,
+        `Empresa: ${fd.get('empresa')}`,
+        `Correo: ${fd.get('email')}`,
+        `WhatsApp: ${fd.get('whatsapp') || 'sin especificar'}`,
+        '',
+        `Problema: ${fd.get('descripcion')}`,
+      ];
+      const text = lines.join('\n');
+      const pre = form.querySelector<HTMLElement>('[data-summary]')!;
+      pre.textContent = text;
+      steps.forEach((s) => (s.hidden = true));
+      form.querySelector<HTMLElement>('.nav')!.hidden = true;
+      form.querySelector<HTMLElement>('.progress')!.hidden = true;
+      done.hidden = false;
+      (window as any).gtag?.('event', 'generate_lead', { form_id: 'cotizar', channel: 'whatsapp', linea: fd.get('linea') });
+      window.open(whatsappUrl(text), '_blank', 'noopener');
+    });
+
+    form.querySelector<HTMLButtonElement>('[data-copy]')?.addEventListener('click', async (e) => {
+      const btn = e.currentTarget as HTMLButtonElement;
+      const text = form.querySelector<HTMLElement>('[data-summary]')?.textContent ?? '';
+      try { await navigator.clipboard.writeText(text); btn.textContent = 'Copiado'; } catch { btn.textContent = 'Selecciona y copia el texto'; }
+    });
+
+    show(0);
+  }
+</script>
+
+<style>
+  .head .display { margin-top: 1rem; }
+  .head .lead { margin-top: 1.25rem; }
+  .form-wrap { padding-bottom: var(--section); }
+  .form-wrap .shell-narrow { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+  .quote { display: grid; gap: 2rem; }
+  .progress { display: flex; gap: 1.5rem; margin: 0; padding: 0 0 1rem; list-style: none; border-bottom: 1px solid var(--line); }
+  .progress li { color: var(--text-muted); }
+  .progress li[aria-current] { color: var(--ink); }
+  .progress li.past { color: var(--blue-dark); }
+  fieldset { margin: 0; padding: 0; border: 0; display: grid; gap: 1rem; }
+  legend { padding: 0; margin-bottom: .5rem; }
+  .sub { margin-top: 1rem; }
+  .options { display: grid; gap: .5rem; }
+  .opt { display: grid; grid-template-columns: 1.25rem 1fr; gap: .9rem; align-items: start; padding: 1rem 1.1rem; border: 1px solid var(--line-dark); border-radius: var(--radius); background: var(--white); cursor: pointer; }
+  .opt:has(input:checked) { border-color: var(--accent-surface); box-shadow: inset 0 0 0 1px var(--accent-surface); }
+  .opt input { margin: .2rem 0 0; accent-color: var(--accent-surface); }
+  .opt-body { display: grid; gap: .2rem; }
+  .opt-body .muted { font-size: .9rem; line-height: 1.45; }
+  .opt.small { padding: .8rem 1rem; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .fields .full { grid-column: 1 / -1; }
+  .nav { display: flex; justify-content: space-between; gap: 1rem; padding-top: .5rem; }
+  .nav [data-prev] { margin-right: auto; }
+  .done { display: grid; gap: .9rem; padding: 1.75rem; }
+  .done pre { margin: 0; padding: 1rem; border: 1px solid var(--line); background: var(--paper); font-family: var(--font-mono); font-size: .8rem; white-space: pre-wrap; }
+  .aside { display: grid; gap: 1rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .after { margin: 0; padding-left: 1.1rem; display: grid; gap: .6rem; }
+  .small { font-size: .82rem; }
+  @media (max-width: 900px) {
+    .form-wrap .shell-narrow { grid-template-columns: 1fr; }
+    .aside { position: static; }
+    .fields { grid-template-columns: 1fr; }
+    .progress { flex-wrap: wrap; gap: .75rem 1.25rem; }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import Wordmark from './Wordmark.astro';
+import { SITE, NAV, whatsappUrl } from '../data/site';
+import { services } from '../data/services';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell top">
+    <div class="brand-col">
+      <Wordmark height={22} />
+      <p class="muted">{SITE.tagline}. {SITE.city}.</p>
+    </div>
+    <div class="col">
+      <p class="mono">Servicios</p>
+      <ul>
+        {services.map((s) => (<li><a href={`/servicios/${s.slug}/`}>{s.shortName}</a></li>))}
+      </ul>
+    </div>
+    <div class="col">
+      <p class="mono">Empresa</p>
+      <ul>
+        {NAV.filter((n) => n.href !== '/servicios/').map((n) => (<li><a href={n.href}>{n.label}</a></li>))}
+        <li><a href="/cotizar/">Cotizar</a></li>
+      </ul>
+    </div>
+    <div class="col">
+      <p class="mono">Contacto</p>
+      <ul>
+        <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        <li><a href={whatsappUrl('Hola ZulIA, quiero platicar sobre un proyecto.')} target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="https://agenda.zulia.lat" target="_blank" rel="noopener">Agendar una llamada</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="shell bottom">
+    <span class="mono">{year} {SITE.name}</span>
+    <span class="mono">Las marcas de clientes pertenecen a sus propietarios</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--line); background: var(--paper-deep); }
+  .top {
+    display: grid;
+    grid-template-columns: 1.6fr repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-block: 3.5rem 2.5rem;
+  }
+  .brand-col { display: grid; gap: 1rem; align-content: start; color: var(--ink); }
+  .brand-col p { max-width: 28ch; font-size: .92rem; }
+  .col ul { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .55rem; }
+  .col a { color: var(--ink-soft); font-size: .92rem; text-decoration: none; }
+  .col a:hover { color: var(--ink); text-decoration: underline; }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 900px) {
+    .top { grid-template-columns: 1fr 1fr; }
+    .brand-col { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .top { grid-template-columns: 1fr; }
+    .bottom { flex-direction: column; gap: .5rem; }
+  }
+</style>

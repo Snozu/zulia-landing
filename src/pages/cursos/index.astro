@@ -1,0 +1,105 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+
+const title = 'Cursos de inteligencia artificial para empresas en Monterrey | ZulIA';
+const description =
+  'Capacitación práctica en IA para profesionistas, dueños de negocio y equipos completos. Programas abiertos en Monterrey y formato in company. Sin código.';
+
+const audiences = [
+  { t: 'Profesionistas', d: 'Administración, ventas, marketing, operaciones. Vives en correos, reportes y juntas y quieres dejar de perder tiempo en lo repetitivo.' },
+  { t: 'Dueños de negocio', d: 'Ya viste que la IA sirve. No sabes por dónde empezar en tu operación ni qué delegarle sin riesgo.' },
+  { t: 'Empresas, in company', d: 'Capacitar un área completa con sus propios documentos y procesos, y salir con un diagnóstico de qué automatizar.' },
+];
+const notFor = [
+  'Quien busca certificarse como ingeniero de inteligencia artificial.',
+  'Quien quiere aprender a programar o entrenar modelos.',
+  'Quien espera que el curso le consiga empleo.',
+];
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+  <main id="contenido">
+    <section class="head section-tight">
+      <div class="shell">
+        <p class="label">Cursos</p>
+        <h1 class="display">Tu equipo usando IA en su trabajo real, no en teoría.</h1>
+        <p class="lead">Cursos de inteligencia artificial en Monterrey para gente que trabaja: correos, reportes, análisis y automatizaciones sobre sus propios casos. No es una escuela de programadores.</p>
+        <div class="ctas">
+          <a class="btn" href="https://cursos.zulia.lat" target="_blank" rel="noopener">Ir a cursos.zulia.lat</a>
+          <a class="link" href="/cotizar/?linea=cursos">Cotizar capacitación in company
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="who section">
+      <div class="shell">
+        <h2 class="h2">Para quién es</h2>
+        <div class="hairline-grid three">
+          {audiences.map((a) => (
+            <article class="cell">
+              <h3 class="h3">{a.t}</h3>
+              <p class="muted">{a.d}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="not section-tight">
+      <div class="shell cols">
+        <div>
+          <h2 class="h2">Para quién no es</h2>
+          <p class="muted prose">Decirlo a tiempo evita reembolsos y expectativas rotas.</p>
+        </div>
+        <ul class="plain">
+          {notFor.map((n) => <li>{n}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="how section">
+      <div class="shell cols">
+        <div>
+          <h2 class="h2">Cómo se conecta con la consultoría</h2>
+          <p class="prose muted">Los cursos son una colaboración: ZulIA pone marca, método y respaldo técnico; un socio pone operación y comercial. Por eso viven en un subdominio de zulia.lat. Cuando un equipo sale del curso con una lista de procesos que quiere automatizar, la capa agéntica y el software a medida son el paso siguiente.</p>
+        </div>
+        <div class="stage panel">
+          <p class="mono">Ruta típica</p>
+          <ol class="route">
+            <li>Curso o taller in company</li>
+            <li>Diagnóstico de procesos automatizables</li>
+            <li>Primera automatización o asistente</li>
+            <li>Capa agéntica sobre los sistemas de la empresa</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <CtaBand title="¿Quieres capacitar a un área completa?" text="Cuéntanos cuántas personas, qué hacen y qué herramientas usan. Armamos el programa sobre sus casos reales." />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .head .display { margin-top: 1rem; max-width: 20ch; }
+  .head .lead { margin-top: 1.25rem; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+  .three { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1.5rem; }
+  .cell { display: grid; gap: .75rem; align-content: start; padding: 1.75rem; }
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+  .cols .prose { margin-top: .75rem; }
+  .plain { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .plain li { padding: .9rem 0; border-bottom: 1px solid var(--line); }
+  .panel { display: grid; gap: 1rem; padding: 1.75rem; }
+  .panel .mono { color: var(--stage-muted); }
+  .route { margin: 0; padding: 0; list-style: none; counter-reset: r; display: grid; gap: 0; }
+  .route li { counter-increment: r; display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; padding: .8rem 0; border-top: 1px solid var(--stage-line); }
+  .route li::before { content: counter(r); font-family: var(--font-mono); font-size: .75rem; color: var(--brand-blue); padding-top: .15rem; }
+  @media (max-width: 900px) { .three { grid-template-columns: 1fr; } .cols { grid-template-columns: 1fr; } }
+</style>
