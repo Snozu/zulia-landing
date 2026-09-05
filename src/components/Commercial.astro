@@ -1,0 +1,92 @@
+---
+const models = [
+  { number: '01', title: 'Claridad antes de invertir', time: '1–2 semanas', text: 'Entendemos el problema, revisamos procesos y sistemas, y definimos qué vale la pena construir, integrar o automatizar.' },
+  { number: '02', title: 'Una capacidad útil en producción', time: 'Por entregables', text: 'Diseñamos, desarrollamos e integramos una primera versión que tu equipo puede usar y evaluar con trabajo real.' },
+  { number: '03', title: 'Evolución con datos reales', time: 'Acompañamiento', text: 'Medimos lo que funciona, corregimos fricción y sumamos nuevas capacidades sin rehacer el producto cada seis meses.' },
+];
+---
+
+<section id="metodo" class="section-pad commercial" aria-labelledby="method-title">
+  <div class="page-shell">
+    <header class="method-head" data-reveal>
+      <div><p class="kicker">Una forma simple de empezar</p><h2 id="method-title" class="section-title">Primero claridad. Después código.</h2></div>
+      <p>No necesitas llegar con un documento técnico. Puedes traer una operación lenta, una idea, un cuello de botella o un producto que no está despegando.</p>
+    </header>
+
+    <div class="engagement-flow" data-reveal>
+      {models.map((model) => (
+        <article>
+          <span class="flow-number">{model.number}</span>
+          <div class="flow-copy"><h3>{model.title}</h3><p>{model.text}</p></div>
+          <small>{model.time}</small>
+        </article>
+      ))}
+    </div>
+
+    <aside id="experiencia-profesional" class="leader" data-reveal aria-labelledby="leader-title">
+      <div class="leader-intro">
+        <span class="leader-label">Quién está detrás de ZulIA</span>
+        <div class="leader-monogram" aria-hidden="true">HZ</div>
+        <p>Monterrey, México<br />Disponible para proyectos selectos</p>
+      </div>
+      <div class="leader-copy">
+        <p class="eyebrow">Criterio senior, trato directo</p>
+        <h2 id="leader-title">La estrategia, el diseño y la ingeniería hablan con la misma persona.</h2>
+        <p>Haziel Zul es AI Growth Lead y Full Stack Developer en Envia.com. Lleva más de seis años construyendo plataformas, automatizaciones, sitios y sistemas de IA para logística, automotriz, industria y productos digitales. En ZulIA no vendes el reto a una persona para explicárselo después a otras tres.</p>
+        <div class="leader-facts">
+          <span><strong>6+</strong> años construyendo</span>
+          <span><strong>12+</strong> proyectos de IA desplegados</span>
+          <span><strong>15+</strong> sitios en producción</span>
+        </div>
+        <a href="https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/" target="_blank" rel="noreferrer">Ver experiencia en LinkedIn</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .commercial { overflow: hidden; background: radial-gradient(circle at 92% 12%, color-mix(in srgb, var(--green) 7%, transparent), transparent 24%), var(--paper); }
+  .method-head { display: grid; grid-template-columns: 1.1fr .5fr; align-items: end; gap: clamp(3rem, 8vw, 8rem); margin-bottom: clamp(3.5rem, 6vw, 5rem); }
+  .method-head > p { margin: 0; color: var(--text-muted); font-size: .9rem; line-height: 1.7; }
+  .engagement-flow { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(2rem, 5vw, 5rem); padding-block: 2rem; }
+  .engagement-flow::before { display: none; }
+  .engagement-flow article { position: relative; display: block; padding-top: clamp(2rem, 5vw, 4rem); }
+  .flow-number { color: var(--blue-dark); font-size: .57rem; font-weight: 750; letter-spacing: .08em; }
+  .flow-copy { display: block; }
+  .engagement-flow h3 { margin: 0; font-size: clamp(1.5rem, 2.6vw, 2.55rem); font-weight: 590; letter-spacing: -.045em; line-height: 1.05; }
+  .engagement-flow p { max-width: 25rem; margin: 1rem 0 0; color: var(--text-muted); font-size: .76rem; line-height: 1.65; }
+  .engagement-flow small { display: inline-block; margin-top: 1.4rem; padding: .55rem .75rem; border-radius: 1rem; background: var(--blue-soft); color: var(--blue-dark); font-size: .49rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+
+  .leader { display: grid; grid-template-columns: .58fr 1.42fr; margin-top: clamp(5rem, 9vw, 8rem); overflow: hidden; border-radius: 3rem 3rem 7rem 3rem; background: var(--white); box-shadow: 0 30px 90px rgb(24 36 52 / .12); color: var(--ink); }
+  .leader-intro { position: relative; display: flex; min-height: 32rem; flex-direction: column; justify-content: space-between; overflow: hidden; padding: clamp(1.5rem, 4vw, 3rem); background: radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--night-accent) 22%, transparent), transparent 45%), var(--night); color: var(--night-text); }
+  .leader-intro::after { position: absolute; width: 18rem; height: 18rem; right: -7rem; bottom: -8rem; border-radius: 46% 54% 62% 38% / 58% 42% 58% 42%; background: color-mix(in srgb, var(--night-accent) 10%, transparent); filter: blur(2px); content: ""; }
+  .leader-label { position: relative; z-index: 1; color: var(--night-subtle); font-size: .54rem; font-weight: 730; letter-spacing: .065em; text-transform: uppercase; }
+  .leader-monogram { position: relative; z-index: 1; color: transparent; font-size: clamp(7rem, 13vw, 13rem); font-weight: 690; letter-spacing: -.14em; line-height: .65; transform: translateX(-.08em); -webkit-text-stroke: 1px var(--night-accent); }
+  .leader-intro p { position: relative; z-index: 1; margin: 0; color: var(--night-subtle); font-size: .55rem; font-weight: 650; line-height: 1.5; text-transform: uppercase; }
+  .leader-copy { padding: clamp(2rem, 6vw, 5.5rem); }
+  .leader-copy .eyebrow { color: var(--blue); }
+  .leader-copy h2 { max-width: 16ch; margin: 0; font-size: clamp(2.5rem, 4.6vw, 4.7rem); font-weight: 590; letter-spacing: -.06em; line-height: .96; }
+  .leader-copy > p:not(.eyebrow) { max-width: 44rem; margin: 1.6rem 0 0; color: var(--text-muted); font-size: .86rem; line-height: 1.75; }
+  .leader-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; padding: 1.25rem; border-radius: 2rem; background: var(--paper); }
+  .leader-facts span { color: var(--text-muted); font-size: .52rem; line-height: 1.45; text-transform: uppercase; }
+  .leader-facts strong { display: block; margin-bottom: .22rem; color: var(--ink); font-size: 1.6rem; letter-spacing: -.05em; }
+  .leader-copy > a { display: inline-flex; align-items: center; gap: .55rem; margin-top: 2rem; color: var(--ink); font-size: .69rem; font-weight: 700; text-decoration: none; }
+  .leader-copy > a:hover { color: var(--blue); }
+
+  @media (max-width: 880px) {
+    .method-head, .leader { grid-template-columns: 1fr; }
+    .engagement-flow { grid-template-columns: 1fr; gap: 1rem; }
+    .engagement-flow::before { display: none; }
+    .engagement-flow p { margin-top: .8rem; }
+    .leader-intro { min-height: 24rem; }
+  }
+
+  @media (max-width: 560px) {
+    .engagement-flow article { padding-top: 2rem; }
+    .leader-facts { grid-template-columns: 1fr; }
+    .leader { border-radius: 2rem 2rem 4rem 2rem; }
+    .leader-intro { min-height: 20rem; padding: 1.5rem; }
+    .leader-copy { padding: 2.25rem 1.5rem 2.5rem; }
+    .leader-copy h2 { font-size: clamp(2.35rem, 11vw, 3.4rem); }
+  }
+</style>

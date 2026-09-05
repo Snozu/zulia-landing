@@ -1,0 +1,127 @@
+---
+const endpoint = import.meta.env.PUBLIC_SEMILLA_LEAD_ENDPOINT ?? '';
+const whatsapp = '528122509882';
+---
+
+<section id="acceso" class="harvest" aria-labelledby="harvest-title">
+  <div class="harvest-word" aria-hidden="true">COSECHA</div>
+  <div class="page-shell harvest-grid">
+    <div class="harvest-copy" data-reveal>
+      <p class="harvest-kicker">Acceso anticipado · Semilla</p>
+      <h2 id="harvest-title">Estamos abriendo la demo. <em>Pide tu acceso.</em></h2>
+    </div>
+
+    <div class="capture" data-reveal>
+      <p class="capture-offer">Déjanos tu correo de trabajo. Te escribimos para darte acceso a la demo y mostrarte cómo se ve una campaña de Semilla sembrada para tu negocio.</p>
+      <form class="capture-form" data-lead-form data-endpoint={endpoint} data-whatsapp={whatsapp} novalidate>
+        <label for="semilla-email">Tu correo de trabajo</label>
+        <div class="capture-row">
+          <input id="semilla-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="tu@empresa.com" aria-describedby="capture-note capture-status" />
+          <button type="submit"><span>Quiero acceso</span><i aria-hidden="true"></i></button>
+        </div>
+        <input type="hidden" name="source" value="semilla-landing" />
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p id="capture-note" class="capture-note">Sin spam. Te escribimos solo para darte tu acceso a la demo.</p>
+        <p id="capture-status" class="capture-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="capture-success" data-lead-success hidden tabindex="-1">
+        <span>Acceso solicitado</span>
+        <h3>Listo. Revisa tu correo.</h3>
+        <p>Te escribimos en un momento para darte acceso a la demo de Semilla.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { trackEvent, trackOutbound } from '../lib/analytics';
+
+  document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+    const button = form.querySelector<HTMLButtonElement>('button');
+    const status = form.querySelector<HTMLElement>('.capture-status');
+    const success = form.parentElement?.querySelector<HTMLElement>('[data-lead-success]');
+
+    const setStatus = (message: string, state = '') => {
+      if (!status) return;
+      status.textContent = message;
+      status.dataset.state = state;
+    };
+
+    input?.addEventListener('input', () => setStatus(''));
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!input?.checkValidity()) {
+        input?.setAttribute('aria-invalid', 'true');
+        setStatus('Escribe un correo válido para guardar tu lugar.', 'error');
+        input?.focus();
+        return;
+      }
+
+      input.removeAttribute('aria-invalid');
+      if (button) { button.disabled = true; button.querySelector('span')!.textContent = 'Enviando…'; }
+      const email = input.value.trim();
+      const endpoint = form.dataset.endpoint;
+
+      try {
+        if (endpoint) {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'semilla-landing', website: form.querySelector<HTMLInputElement>('input[name="website"]')?.value ?? '', createdAt: new Date().toISOString() }),
+          });
+          if (!response.ok) throw new Error('lead-endpoint');
+        } else {
+          const message = `Hola, quiero acceso a la demo de Semilla. Mi correo es ${email}`;
+          trackOutbound('generate_lead', { form_id: 'semilla-capture', channel: 'whatsapp', source: 'semilla-landing' });
+          window.open(`https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+          setStatus('Abrimos WhatsApp para darte acceso, sin fingir un envío que todavía no está conectado.', 'handoff');
+          if (button) { button.disabled = false; button.querySelector('span')!.textContent = 'Quiero acceso'; }
+          return;
+        }
+
+        trackEvent('generate_lead', { form_id: 'semilla-capture', channel: 'endpoint', source: 'semilla-landing' });
+        form.hidden = true;
+        if (success) { success.hidden = false; success.focus(); }
+      } catch {
+        trackEvent('lead_error', { form_id: 'semilla-capture', source: 'semilla-landing' });
+        setStatus('No pudimos registrar tu correo. Intenta otra vez o escríbenos por WhatsApp.', 'error');
+        if (button) { button.disabled = false; button.querySelector('span')!.textContent = 'Quiero acceso'; }
+      }
+    });
+  });
+</script>
+
+<style>
+  .harvest { position: relative; isolation: isolate; padding-block: clamp(4rem, 7vw, 6.5rem); overflow: hidden; background: var(--paper); color: var(--ink); }
+  .harvest-word { position: absolute; z-index: -1; top: .05em; left: 50%; max-width: 100%; color: color-mix(in srgb, var(--ink) 4.5%, transparent); font-size: clamp(4.2rem, 17.5vw, 17rem); font-weight: 760; letter-spacing: -.06em; line-height: .75; white-space: nowrap; transform: translateX(-50%); }
+  .harvest-grid { display: grid; grid-template-columns: 1.05fr .62fr; align-items: end; gap: clamp(4rem, 10vw, 10rem); }
+  .harvest-kicker { margin: 0 0 1.2rem; color: var(--blue-dark); font-size: .72rem; font-weight: 720; letter-spacing: .08em; text-transform: uppercase; }
+  .harvest h2 { max-width: 13ch; margin: 0; font-size: clamp(2.3rem, 4vw, 3.6rem); font-weight: 620; letter-spacing: -.055em; line-height: .96; }
+  .harvest h2 em { display: block; color: var(--blue-dark); font-style: normal; }
+  .capture { padding: clamp(1.6rem, 3vw, 2.3rem); border-radius: 22px; background: var(--white); border: 1px solid var(--line); box-shadow: 0 32px 58px -32px rgb(8 12 28 / .46); }
+  .capture-offer { max-width: 31rem; margin: 0 0 1.6rem; color: var(--text-muted); font-size: 1rem; line-height: 1.7; }
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+  .capture-form label { display: block; margin-bottom: .55rem; color: var(--ink-soft); font-size: .7rem; font-weight: 740; letter-spacing: .04em; text-transform: uppercase; }
+  .capture-row { display: grid; grid-template-columns: 1fr auto; gap: .5rem; align-items: center; padding: .4rem .4rem .4rem 1.1rem; border: 1px solid var(--line-dark); border-radius: 999px; background: var(--paper); transition: border-color 180ms ease, box-shadow 180ms ease; }
+  .capture-row:focus-within { border-color: var(--blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue) 14%, transparent); }
+  .capture-row input { min-width: 0; padding: .72rem 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 1rem; outline: 0; }
+  .capture-row input::placeholder { color: var(--text-muted); opacity: .7; }
+  .capture-row input[aria-invalid="true"] { color: #b8493b; }
+  .capture-row button { display: inline-flex; align-items: center; gap: .55rem; padding: .82rem 1.4rem; border: 0; border-radius: 999px; background: linear-gradient(100deg, #2f6bff, #5b8cff); color: #fff; cursor: pointer; font: inherit; font-size: .85rem; font-weight: 700; white-space: nowrap; box-shadow: 0 12px 24px -10px color-mix(in srgb, #2f6bff 62%, transparent); transition: transform 180ms ease, box-shadow 180ms ease; }
+  .capture-row button i { width: 1.1rem; height: 1px; background: currentColor; font-style: normal; transform-origin: left; transition: transform 240ms cubic-bezier(.2,.8,.2,1); }
+  .capture-row button:hover { transform: translateY(-1px); box-shadow: 0 16px 30px -10px color-mix(in srgb, #2f6bff 70%, transparent); }
+  .capture-row button:hover i { transform: scaleX(1.5); }
+  .capture-row button:disabled { cursor: wait; opacity: .65; }
+  .capture-note,.capture-status { margin: .8rem 0 0; color: var(--text-muted); font-size: .72rem; line-height: 1.5; }
+  .capture-status { min-height: .8rem; }.capture-status[data-state="error"] { color: #b8493b; }
+  .capture-success { padding-top: 1rem; border-top: 1px solid var(--blue); outline: 0; }
+  .capture-success span { color: var(--blue-dark); font-size: .68rem; font-weight: 740; letter-spacing: .07em; text-transform: uppercase; }
+  .capture-success h3 { max-width: 12ch; margin: 1rem 0; font-size: clamp(2.4rem, 4vw, 4rem); font-weight: 620; letter-spacing: -.065em; line-height: .92; }
+  .capture-success p { max-width: 26rem; margin: 0; color: var(--text-muted); font-size: .95rem; line-height: 1.7; }
+  @media (max-width: 900px) { .harvest-grid { grid-template-columns: 1fr; align-items: start; }.capture { max-width: 38rem; } }
+  @media (max-width: 560px) { .harvest { padding-block: 7rem; }.harvest h2 { font-size: clamp(2.6rem, 11vw, 4.4rem); }.capture-row { grid-template-columns: 1fr; border-radius: 18px; padding: .6rem; }.capture-row button { justify-content: center; }.harvest-word { top: .2em; } }
+  @media (prefers-reduced-motion: reduce) { .capture-row button i { transition: none; } }
+</style>

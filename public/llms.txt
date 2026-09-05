@@ -1,0 +1,30 @@
+# ZulIA
+
+> Consultoría de producto y tecnología dirigida por Haziel Eduardo Zul Mendez desde Monterrey, México. Diseña y construye software a medida, automatizaciones, agentes de inteligencia artificial, sitios web y arquitectura tecnológica.
+
+## Sitio oficial
+
+- [Inicio](https://zulia.lat/): propuesta, experiencia, productos y contacto.
+- [Software a medida](https://zulia.lat/servicios/desarrollo-software-a-medida/): SaaS, portales, backoffices, APIs y sistemas internos.
+- [Agentes de inteligencia artificial](https://zulia.lat/servicios/agentes-inteligencia-artificial/): RAG, multiagentes, copilotos, memoria, herramientas y guardrails.
+- [Automatización de procesos](https://zulia.lat/servicios/automatizacion-procesos/): n8n, webhooks, CRM, ERP, WhatsApp, documentos y sincronización.
+- [Web, SEO y búsqueda con IA](https://zulia.lat/servicios/landing-pages-seo/): sitios rápidos y accesibles preparados para búsqueda clásica, generativa y agéntica.
+- [Consultoría y arquitectura](https://zulia.lat/servicios/consultoria-arquitectura-tecnologica/): diagnóstico, alternativas técnicas, arquitectura y roadmap.
+
+## Identidad y contacto
+
+- Nombre comercial: ZulIA (también Zulia IA).
+- Responsable: Haziel Eduardo Zul Mendez, AI Growth Lead y Full Stack Developer.
+- Ubicación: Monterrey, Nuevo León, México.
+- Idiomas: español e inglés.
+- [LinkedIn de Haziel Zul](https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/)
+- [Contacto por WhatsApp](https://wa.me/528122509882)
+
+## Evidencia pública y productos
+
+- Envia Copilot: sistema multiagente para la operación logística de Envia.com.
+- Enzo: asistente conversacional de Envia.com que cotiza, rastrea y gestiona envíos.
+- MontIA: asistente ejecutivo privado con memoria, señales y acciones bajo aprobación.
+- Semilla: producto de prospección B2B de ZulIA en fase piloto. Encuentra prospectos, prepara el contacto, da seguimiento y entrega conversaciones con interés al equipo comercial humano.
+
+Para más contexto legible por sistemas, consulta [llms-full.txt](https://zulia.lat/llms-full.txt).

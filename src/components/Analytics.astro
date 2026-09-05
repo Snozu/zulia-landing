@@ -1,0 +1,56 @@
+---
+// Google Analytics 4. The measurement ID is baked in at build time, so the
+// Docker build has to receive PUBLIC_GA_ID as a --build-arg (see Dockerfile).
+// Without an ID nothing is emitted at all: no script, no requests, no cookies.
+const gaId = import.meta.env.PUBLIC_GA_ID;
+---
+
+{
+  gaId && (
+    <>
+      <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+      {/* Los hits salen a este segundo origen; sin preconnect el handshake se
+          paga completo en la primera medición. */}
+      <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+      <script is:inline define:vars={{ gaId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          window.dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', gaId, {
+          // The landing is a static multi-page site: every route is a real
+          // document load, so GA's automatic page_view is already correct.
+          anonymize_ip: true,
+        });
+      </script>
+      <script is:inline>
+        // Delegated on document so it also covers links rendered later by the
+        // React islands. Programmatic window.open calls (the WhatsApp forms)
+        // don't fire a click on an anchor, so those track themselves.
+        document.addEventListener('click', (event) => {
+          const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+          if (!link) return;
+
+          const href = link.getAttribute('href') || '';
+          let channel = '';
+          if (href.includes('wa.me') || href.includes('api.whatsapp.com')) channel = 'whatsapp';
+          else if (href.startsWith('mailto:')) channel = 'email';
+          else if (href.startsWith('tel:')) channel = 'phone';
+          else if (href.includes('linkedin.com')) channel = 'linkedin';
+          if (!channel) return;
+
+          window.gtag?.('event', 'contact_click', {
+            channel,
+            link_url: href,
+            link_text: (link.textContent || '').trim().slice(0, 100),
+            page_path: window.location.pathname,
+            transport_type: 'beacon',
+          });
+        });
+      </script>
+    </>
+  )
+}

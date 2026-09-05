@@ -1,0 +1,86 @@
+---
+// Fecha y hora de lanzamiento de Semilla.
+// Cambia SOLO esta línea si mueves el día (formato ISO con zona horaria).
+// Ej. para el viernes 24: '2026-07-24T20:00:00-06:00'
+const LAUNCH = '2026-08-14T20:00:00-06:00';
+
+const launchDate = new Date(LAUNCH);
+// timeZone fijo: el build corre en UTC en el VPS y sin esto la etiqueta se corre un día.
+const fmt = new Intl.DateTimeFormat('es-MX', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Mexico_City' }).format(launchDate);
+const label = fmt.charAt(0).toUpperCase() + fmt.slice(1); // "Viernes 14 de agosto"
+---
+
+<section class="launch" aria-labelledby="launch-title" data-launch={LAUNCH}>
+  <div class="page-shell">
+    <p class="section-label">Cuenta regresiva</p>
+    <h2 id="launch-title">Semilla germina el<br /><em>{label}.</em></h2>
+
+    <div class="clock" data-clock aria-live="off">
+      <div class="unit"><strong data-d>00</strong><span>días</span></div>
+      <span class="sep" aria-hidden="true">:</span>
+      <div class="unit"><strong data-h>00</strong><span>horas</span></div>
+      <span class="sep" aria-hidden="true">:</span>
+      <div class="unit"><strong data-m>00</strong><span>min</span></div>
+      <span class="sep" aria-hidden="true">:</span>
+      <div class="unit"><strong data-s>00</strong><span>seg</span></div>
+    </div>
+
+    <p class="launch-note">Primera cosecha limitada. Deja tu correo abajo para entrar antes que nadie.</p>
+    <p class="launch-done" data-done hidden>🌱 Semilla ya salió. Pide tu acceso abajo.</p>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-launch]');
+  if (root) {
+    const target = new Date(root.dataset.launch!).getTime();
+    const clock = root.querySelector<HTMLElement>('[data-clock]');
+    const done = root.querySelector<HTMLElement>('[data-done]');
+    const d = root.querySelector<HTMLElement>('[data-d]');
+    const h = root.querySelector<HTMLElement>('[data-h]');
+    const m = root.querySelector<HTMLElement>('[data-m]');
+    const s = root.querySelector<HTMLElement>('[data-s]');
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    const tick = () => {
+      const diff = target - Date.now();
+      if (diff <= 0) {
+        if (clock) clock.hidden = true;
+        if (done) done.hidden = false;
+        return false;
+      }
+      if (d) d.textContent = pad(Math.floor(diff / 86400000));
+      if (h) h.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      if (m) m.textContent = pad(Math.floor((diff % 3600000) / 60000));
+      if (s) s.textContent = pad(Math.floor((diff % 60000) / 1000));
+      return true;
+    };
+
+    if (tick()) {
+      const id = window.setInterval(() => { if (!tick()) window.clearInterval(id); }, 1000);
+    }
+  }
+</script>
+
+<style>
+  .launch { padding-block: clamp(4rem, 7vw, 6.5rem); background: var(--paper); color: var(--ink); text-align: center; }
+  .launch .section-label { margin: 0 0 1.2rem; color: var(--blue-dark); font-size: .72rem; font-weight: 720; letter-spacing: .08em; text-transform: uppercase; }
+  .launch h2 { max-width: 20ch; margin: 0 auto; font-size: clamp(2.1rem, 4vw, 3.4rem); font-weight: 640; letter-spacing: -.04em; line-height: 1.02; text-wrap: balance; }
+  .launch h2 em { font-style: normal; background: linear-gradient(100deg, #2f6bff, #5b8cff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  .clock { display: inline-flex; align-items: flex-start; gap: clamp(.5rem, 2vw, 1.3rem); margin: clamp(2.5rem, 5vw, 3.5rem) 0 0; }
+  .unit { display: grid; gap: .5rem; min-width: clamp(4rem, 15vw, 6.2rem); padding: clamp(.9rem, 2vw, 1.4rem) clamp(.6rem, 1.5vw, 1rem); border: 1px solid var(--line); border-radius: 16px; background: var(--white); box-shadow: 0 20px 40px -28px rgb(8 12 28 / .42); }
+  .unit strong { font-family: var(--font-mono); font-size: clamp(2rem, 7vw, 3.4rem); font-weight: 700; letter-spacing: -.03em; line-height: 1; color: var(--blue-dark); font-variant-numeric: tabular-nums; }
+  .unit span { color: var(--text-muted); font-size: .68rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .sep { align-self: center; margin-top: -.3rem; color: var(--line-dark); font-family: var(--font-mono); font-size: clamp(1.6rem, 5vw, 2.6rem); font-weight: 700; }
+
+  .launch-note { max-width: 34rem; margin: clamp(2rem, 4vw, 2.8rem) auto 0; color: var(--text-muted); font-size: .95rem; line-height: 1.6; }
+  .launch-done { margin: clamp(2rem, 4vw, 2.8rem) auto 0; font-size: 1.2rem; font-weight: 640; color: var(--blue-dark); }
+
+  @media (max-width: 460px) {
+    .clock { gap: .35rem; }
+    .sep { display: none; }
+    .unit { min-width: 0; }
+    .clock { display: grid; grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

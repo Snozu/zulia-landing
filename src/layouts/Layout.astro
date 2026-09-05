@@ -1,0 +1,183 @@
+---
+import '../styles/global.css';
+import onestLatin from '@fontsource-variable/onest/files/onest-latin-wght-normal.woff2?url';
+import { services } from '../data/services';
+import Analytics from '../components/Analytics.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  pageType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Páginas de error o utilitarias que no deben entrar al índice. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = 'ZulIA es una consultoría tecnológica que diseña y construye software, automatizaciones, agentes de IA y productos digitales desde Monterrey, México.',
+  image = '/og-card.png',
+  canonical,
+  pageType = 'website',
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const robots = noindex
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+// Token de verificación de Google Search Console. Se llena una sola vez y
+// puede quedarse: Google revisa el meta tag periódicamente para no perder la
+// propiedad del sitio.
+const gscVerification = import.meta.env.PUBLIC_GSC_VERIFICATION;
+
+const canonicalUrl = canonical
+  ? new URL(canonical, Astro.site)
+  : new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const imageUrl = new URL(image, Astro.site ?? Astro.url.origin);
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': 'https://zulia.lat/#organization',
+  name: 'ZulIA',
+  alternateName: 'Zulia IA',
+  url: 'https://zulia.lat/',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://zulia.lat/logo.png',
+    contentUrl: 'https://zulia.lat/logo.png',
+    width: 1441,
+    height: 528,
+    caption: 'ZulIA',
+  },
+  image: 'https://zulia.lat/og-card.png',
+  description,
+  slogan: 'De un problema complejo a un sistema que trabaja.',
+  founder: { '@id': 'https://zulia.lat/#haziel-zul' },
+  telephone: '+52 81 2250 9882',
+  areaServed: {
+    '@type': 'Country',
+    name: 'México',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Monterrey',
+    addressRegion: 'Nuevo León',
+    addressCountry: 'MX',
+  },
+  knowsAbout: [
+    'Desarrollo de software a medida',
+    'Inteligencia artificial',
+    'Automatización de procesos',
+    'Diseño web',
+    'SEO técnico',
+    'Optimización para búsqueda generativa',
+    'Búsqueda agéntica',
+    'Arquitectura de software',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de consultoría tecnológica',
+    itemListElement: services.map((service) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: service.shortName,
+        url: `https://zulia.lat/servicios/${service.slug}/`,
+      },
+    })),
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+52 81 2250 9882',
+    contactType: 'sales',
+    availableLanguage: ['Spanish', 'English'],
+  },
+};
+
+const schema = jsonLd
+  ? Array.isArray(jsonLd)
+    ? [organizationSchema, ...jsonLd]
+    : [organizationSchema, jsonLd]
+  : [organizationSchema];
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#090a0c" />
+    <meta name="robots" content={robots} />
+    <meta name="author" content="Haziel Zul" />
+    <meta name="description" content={description} />
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="es-MX" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link rel="preload" href={onestLatin} as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="/favicon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={pageType} />
+    <meta property="og:site_name" content="ZulIA" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content="ZulIA — consultoría de producto, software e inteligencia artificial aplicada" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('theme');
+          const isDark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', isDark);
+          document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#090a0c' : '#f3f5f6');
+        } catch {}
+      })();
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+    <script>
+      const revealElements = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.remove('reveal-pending');
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+
+        revealElements.forEach((element) => {
+          // Hero content must paint immediately for LCP. Everything else can
+          // reveal on demand without forcing a full-page synchronous layout.
+          if (!element.closest('.hero, .service-hero')) element.classList.add('reveal-pending');
+          observer.observe(element);
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import SemillaHero from '../../components/SemillaHero.astro';
+import SemillaPlatform from '../../components/SemillaPlatform.astro';
+import SemillaCountdown from '../../components/SemillaCountdown.astro';
+import SemillaLeadCapture from '../../components/SemillaLeadCapture.astro';
+
+const title = 'Semilla | Plataforma de prospección agéntica B2B';
+const description = 'Semilla encuentra prospectos B2B con encaje, investiga el contexto, inicia conversaciones y da seguimiento hasta que existe una oportunidad real para tu equipo comercial.';
+const demoUrl = 'https://wa.me/528122509882?text=Hola%2C%20quiero%20ver%20Semilla%20en%20acci%C3%B3n.';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'ZulIA Semilla',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://zulia.lat/semilla/',
+  description,
+  creator: { '@id': 'https://zulia.lat/#organization' },
+};
+
+const pipeline = [
+  { n: '01', name: 'Cazador', job: 'Arma la lista según tu ICP (geo · industria · cargo)' },
+  { n: '02', name: 'Enriquecedor', job: 'Completa datos y valida correos · baja bounce' },
+  { n: '03', name: 'Calificador', job: 'Puntúa vs ICP y descarta lo que no encaja' },
+  { n: '04', name: 'Redactor', job: 'Escribe el mensaje personalizado por canal' },
+  { n: '05', name: 'Conversador', job: 'Clasifica la intención y agenda en segundos' },
+];
+---
+
+<Layout title={title} description={description} jsonLd={schema}>
+  <Navbar />
+
+  <main id="contenido">
+    <SemillaHero />
+
+    <section class="stakes" aria-labelledby="stakes-title">
+      <div class="page-shell" data-reveal>
+        <p class="section-label">El problema</p>
+        <h2 id="stakes-title">Tus próximos clientes no están esperando tu correo.<br /><em>Semilla llega antes.</em></h2>
+        <p>Buscar la cuenta correcta, entender por qué hablarle, escribir sin sonar a plantilla y dar seguimiento sin quemar tu marca es trabajo de todos los días. Semilla lo hace en automático para que tu equipo solo llegue a las conversaciones que ya tienen interés.</p>
+      </div>
+    </section>
+
+    <SemillaPlatform />
+
+    <section class="handoff" aria-labelledby="handoff-title">
+      <div class="page-shell">
+        <header class="handoff-head" data-reveal>
+          <p class="section-label">Cómo se reparte el trabajo</p>
+          <h2 id="handoff-title">Semilla no cierra.<br /><em>Hace que tengas algo que cerrar.</em></h2>
+          <p class="handoff-lead">Semilla ejecuta la prospección en automático hasta que aparece una respuesta con intención real. Ahí tu equipo toma la conversación con todo el contexto ya levantado.</p>
+        </header>
+
+        <div class="flow-scroll">
+          <div class="flow" role="list" data-pipeline>
+            {pipeline.map((s) => (
+              <div class="node arrow" role="listitem">
+                <span class="node-n">{s.n}</span>
+                <span class="node-name">{s.name}</span>
+                <span class="node-job">{s.job}</span>
+              </div>
+            ))}
+            <div class="pivot" role="listitem">
+              <span class="pivot-badge">Handoff</span>
+              <small>lead caliente + contexto</small>
+            </div>
+            <div class="node node-human" role="listitem">
+              <span class="node-n">humano</span>
+              <span class="node-name">Tu equipo</span>
+              <span class="node-job">Entra con todo el contexto y cierra</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="onboarding" aria-labelledby="onboarding-title">
+      <div class="page-shell onboarding-grid">
+        <div class="onboarding-copy" data-reveal>
+          <p class="section-label">Cómo empiezas</p>
+          <h2 id="onboarding-title">Dinos tres cosas.<br /><em>Semilla hace el resto.</em></h2>
+          <p>Conectas tu correo y empiezas de forma supervisada. ZulIA controla volumen, tiempos, validación y límites de seguridad para cuidar tu dominio.</p>
+        </div>
+
+        <ol class="questions">
+          <li data-reveal style="transition-delay: .05s">
+            <span>01</span>
+            <div><strong>¿Quién debería comprarte?</strong><p>Industria, tamaño, región y tipo de empresa.</p></div>
+          </li>
+          <li data-reveal style="transition-delay: .15s">
+            <span>02</span>
+            <div><strong>¿Por qué hablar contigo ahora?</strong><p>El problema que resuelves y el gancho de la conversación.</p></div>
+          </li>
+          <li data-reveal style="transition-delay: .25s">
+            <span>03</span>
+            <div><strong>¿Qué cuenta como una señal real?</strong><p>Una respuesta, una reunión o la intención que tu equipo quiere recibir.</p></div>
+          </li>
+        </ol>
+      </div>
+      <div class="page-shell guardrails" aria-label="Configuración protegida">
+        <strong>Tú decides qué buscar.</strong>
+        <span>Semilla protege cómo hacerlo.</span>
+      </div>
+    </section>
+
+    <SemillaCountdown />
+    <SemillaLeadCapture />
+  </main>
+
+  <footer class="seed-footer">
+    <div class="page-shell seed-footer-top">
+      <a href="/" class="seed-brand">ZulIA<span>®</span></a>
+      <p>Semilla es un producto de ZulIA.<br />Hecho en México para equipos B2B.</p>
+      <nav aria-label="Enlaces de Semilla">
+        <a href="#plataforma">Cómo trabaja</a>
+        <a href={demoUrl} target="_blank" rel="noreferrer">Pedir una demo</a>
+        <a href="/">Volver a ZulIA</a>
+      </nav>
+    </div>
+    <div class="page-shell seed-footer-bottom">
+      <span>© {new Date().getFullYear()} ZulIA</span>
+      <span>Prospección con contexto. Cierre humano.</span>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* Contención de overflow horizontal (evita que algún hijo ensanche el body en móvil) */
+  #contenido { overflow-x: clip; }
+
+  /* Eyebrow estándar de sección (unificado en toda la landing) */
+  .section-label {
+    margin: 0 0 1.2rem;
+    color: var(--blue-dark);
+    font-size: .72rem;
+    font-weight: 720;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* Escala tipográfica estándar de sección: h2 clamp(2.3rem, 4vw, 3.6rem) */
+  .stakes { padding-block: clamp(4rem, 7vw, 6.5rem); background: var(--paper); color: var(--ink); }
+  .stakes h2 {
+    max-width: 20ch;
+    margin: 0;
+    font-size: clamp(2.3rem, 4vw, 3.6rem);
+    font-weight: 620;
+    letter-spacing: -.055em;
+    line-height: .96;
+  }
+  .stakes h2 em { color: var(--blue-dark); font-style: normal; }
+  .stakes p { max-width: 44rem; margin: 2.5rem 0 0; color: var(--text-muted); font-size: 1.15rem; line-height: 1.7; }
+
+  /* Sección "reparto" — usa los tokens de tema (día/noche). Acento: azul de marca. */
+  .handoff { padding-block: clamp(4rem, 7vw, 6.5rem); background: var(--paper); color: var(--ink); }
+  .handoff-head { max-width: 48rem; }
+  .handoff h2 { margin: 0; font-size: clamp(2.3rem, 4vw, 3.6rem); font-weight: 620; letter-spacing: -.055em; line-height: .96; color: var(--ink); }
+  .handoff h2 em { color: var(--blue-dark); font-style: normal; }
+  .handoff-lead { max-width: 42rem; margin: 2rem 0 0; color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+
+  .onboarding h2 { max-width: 15ch; margin: 0; font-size: clamp(2.3rem, 4vw, 3.6rem); font-weight: 620; letter-spacing: -.055em; line-height: .96; }
+  .onboarding h2 em { font-style: normal; }
+
+  .flow-scroll { margin-top: clamp(3.5rem, 6vw, 6rem); overflow-x: auto; padding: .5rem .2rem 1.3rem; }
+  .flow { display: flex; align-items: stretch; gap: .6rem; min-width: 740px; }
+  .node { flex: 1 1 0; min-width: 122px; display: flex; flex-direction: column; position: relative; padding: 1.1rem 1rem 1.2rem; border: 1px solid var(--line); border-top: 2px solid var(--blue-dark); border-radius: 14px; background: var(--white); box-shadow: 0 16px 30px -24px rgb(8 12 28 / .42); transition: transform 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms ease; }
+  .node:hover { transform: translateY(-4px); box-shadow: 0 24px 42px -24px rgb(8 12 28 / .5); }
+  .node-n { font-family: var(--font-mono); font-size: .6rem; color: var(--blue-dark); letter-spacing: .04em; }
+  .node-name { margin: .4rem 0 .35rem; font-weight: 650; font-size: 1rem; letter-spacing: -.02em; color: var(--ink); }
+  .node-job { color: var(--text-muted); font-size: .78rem; line-height: 1.45; }
+  .node.arrow::after { content: "→"; position: absolute; right: -.52rem; top: 50%; transform: translateY(-50%); z-index: 3; color: var(--line-dark); font-size: .82rem; }
+  .pivot { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .55rem; padding: 0 .7rem; }
+  .pivot-badge { padding: .4rem .68rem; border-radius: 999px; background: linear-gradient(100deg, #2f6bff, #5b8cff); color: #fff; font-family: var(--font-mono); font-size: .64rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; box-shadow: 0 10px 20px -10px color-mix(in srgb, #2f6bff 60%, transparent); }
+  .pivot small { max-width: 10ch; color: var(--text-muted); font-size: .64rem; line-height: 1.35; text-align: center; }
+  .node-human { background: color-mix(in srgb, var(--blue-soft) 80%, var(--white)); }
+  .node-human .node-name { color: var(--blue-dark); }
+
+  .onboarding { padding-block: clamp(4rem, 7vw, 6.5rem); background: var(--paper); color: var(--ink); }
+  .onboarding-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(4rem, 10vw, 10rem); }
+  .onboarding-copy { position: sticky; top: 8rem; align-self: start; }
+  .onboarding .section-label { color: var(--blue-dark); }
+  .onboarding h2 em { color: var(--blue-dark); }
+  .onboarding-copy > p:last-child { max-width: 32rem; margin: 2.5rem 0 0; color: var(--text-muted); font-size: 1rem; line-height: 1.75; }
+  .questions { margin: 0; padding: 0; list-style: none; display: grid; gap: 1rem; }
+  .questions li { display: grid; grid-template-columns: 3rem 1fr; align-items: start; gap: 1rem; padding: 1.6rem 1.6rem; border: 1px solid var(--line); border-radius: 16px; background: var(--white); box-shadow: 0 18px 34px -28px rgb(8 12 28 / .4); transition: transform 220ms ease, box-shadow 220ms ease; }
+  .questions li:hover { transform: translateY(-3px); box-shadow: 0 26px 44px -28px rgb(8 12 28 / .48); }
+  .questions > li > span { padding-top: .2rem; color: var(--blue-dark); font-family: var(--font-mono); font-size: .78rem; }
+  .questions strong { display: block; max-width: 22ch; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 640; letter-spacing: -.03em; line-height: 1.1; }
+  .questions p { max-width: 27rem; margin: .6rem 0 0; color: var(--text-muted); font-size: .92rem; line-height: 1.6; }
+  .guardrails { display: flex; align-items: baseline; justify-content: center; gap: .5rem; margin-top: 5rem; color: var(--text-muted); font-size: clamp(1.3rem, 2.4vw, 2.2rem); letter-spacing: -.04em; }
+  .guardrails strong { color: var(--ink); font-weight: 640; }
+
+  .seed-footer { padding: 3.5rem 0 2rem; background: var(--paper); border-top: 1px solid var(--line); color: var(--ink); }
+  .seed-footer-top { display: grid; grid-template-columns: .7fr 1fr .7fr; gap: 3rem; padding-bottom: 5rem; }
+  .seed-brand { align-self: start; color: var(--ink); font-size: 2.5rem; font-weight: 780; letter-spacing: -.08em; text-decoration: none; }
+  .seed-brand span { color: var(--blue-dark); font-size: .65rem; vertical-align: top; }
+  .seed-footer p { margin: .5rem 0 0; color: var(--text-muted); font-size: .85rem; line-height: 1.7; }
+  .seed-footer nav { display: grid; justify-items: start; gap: .8rem; }
+  .seed-footer nav a { color: var(--ink); font-size: .82rem; font-weight: 650; text-decoration-color: var(--line-dark); text-underline-offset: .25rem; }
+  .seed-footer-bottom { display: flex; justify-content: space-between; padding-top: 1.2rem; color: var(--text-muted); font-size: .66rem; text-transform: uppercase; }
+
+  @media (max-width: 800px) {
+    .onboarding-grid { grid-template-columns: 1fr; }
+    .onboarding h2 { font-size: clamp(2.6rem, 11vw, 4.4rem); }
+    .onboarding-copy { position: static; }
+    .questions li { min-height: 13rem; }
+    .seed-footer-top { grid-template-columns: 1fr 1fr; }
+    .seed-footer nav { grid-column: 2; grid-row: 1 / span 2; }
+  }
+  @media (max-width: 560px) {
+    .questions li { min-height: auto; grid-template-columns: 2.5rem 1fr; padding: 2.5rem 1.5rem; }
+    .questions li:nth-child(2) { margin-left: 0; }
+    .guardrails { align-items: flex-start; flex-direction: column; }
+    .seed-footer-top { grid-template-columns: 1fr; }
+    .seed-footer nav { grid-column: auto; grid-row: auto; margin-top: 1rem; }
+    .seed-footer-bottom { align-items: flex-start; flex-direction: column; gap: .7rem; }
+  }
+
+  /* Pipeline en móvil: vertical con flechas hacia abajo (nada de scroll horizontal) */
+  @media (max-width: 700px) {
+    .flow-scroll { overflow-x: visible; padding: .5rem 0; }
+    .flow { flex-direction: column; min-width: 0; gap: 1.7rem; }
+    .node { min-width: 0; }
+    .node.arrow::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -1.35rem; transform: translateX(-50%); }
+    .pivot { flex-direction: row; align-items: center; justify-content: center; gap: .8rem; padding: .2rem 0; }
+    .pivot small { max-width: none; text-align: left; }
+  }
+</style>

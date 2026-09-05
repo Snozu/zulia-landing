@@ -1,0 +1,194 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Semilla from '../components/Semilla.astro';
+import Services from '../components/Services.astro';
+import Work from '../components/Work.astro';
+import Commercial from '../components/Commercial.astro';
+import Faq from '../components/Faq.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { services } from '../data/services';
+import { faqs } from '../data/faqs';
+
+const title = 'ZulIA | Consultoría de software, automatización e IA en México';
+const description = 'Consultoría tecnológica para diseñar y construir software, automatizaciones, agentes de IA y productos digitales que resuelven operaciones complejas. Monterrey, México.';
+
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': 'https://zulia.lat/#website',
+  url: 'https://zulia.lat/',
+  name: 'ZulIA',
+  alternateName: 'Zulia IA',
+  inLanguage: 'es-MX',
+  publisher: { '@id': 'https://zulia.lat/#organization' },
+  about: services.map((service) => service.name),
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': 'https://zulia.lat/#haziel-zul',
+  name: 'Haziel Eduardo Zul Mendez',
+  alternateName: 'Haziel Zul',
+  url: 'https://zulia.lat/',
+  sameAs: ['https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/'],
+  jobTitle: 'AI Growth Lead y Full Stack Developer',
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Universidad Autónoma de Nuevo León',
+  },
+  knowsAbout: ['Desarrollo de software', 'Arquitectura de software', 'Automatización de procesos', 'Inteligencia artificial aplicada', 'Desarrollo web', 'SEO técnico', 'Optimización para búsqueda generativa', 'Búsqueda agéntica'],
+};
+
+const semillaSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  '@id': 'https://zulia.lat/#semilla',
+  name: 'ZulIA Semilla',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://zulia.lat/semilla/',
+  description: 'Producto B2B de ZulIA para encontrar prospectos, preparar contacto, dar seguimiento y entregar conversaciones con interés al equipo comercial humano.',
+  creator: { '@id': 'https://zulia.lat/#organization' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+};
+---
+
+<Layout title={title} description={description} jsonLd={[homeSchema, personSchema, semillaSchema, faqSchema]}>
+  <Navbar />
+  <main id="contenido">
+    <Hero />
+    <Semilla />
+    <Work />
+    <Services />
+    <Commercial />
+    <Faq />
+    <ContactSection />
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-grid">
+      <div>
+        <a class="footer-brand" href="/">ZulIA<span>®</span></a>
+        <p>Producto, software, automatización e inteligencia artificial aplicada.<br />Monterrey, México.</p>
+      </div>
+      <nav aria-label="Servicios en el pie de página">
+        {services.map((service) => <a href={`/servicios/${service.slug}/`}>{service.shortName}</a>)}
+      </nav>
+      <div class="footer-contact">
+        <span>Contacto</span>
+        <a href="https://wa.me/528122509882" target="_blank" rel="noreferrer">WhatsApp</a>
+        <a href="https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </div>
+    <div class="page-shell footer-bottom">
+      <span>© {new Date().getFullYear()} ZulIA · Consultoría tecnológica</span>
+      <span>Monterrey, Nuevo León, México</span>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .site-footer {
+    padding-block: 4rem 1.5rem;
+    background: var(--night);
+    color: var(--night-text);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr 0.45fr;
+    gap: 3rem;
+  }
+
+  .footer-brand {
+    color: var(--night-text);
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 760;
+    letter-spacing: -0.08em;
+    line-height: 0.8;
+    text-decoration: none;
+  }
+
+  .footer-brand span {
+    margin-left: 0.25rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    vertical-align: top;
+  }
+
+  .footer-grid p {
+    max-width: 20rem;
+    margin: 0.75rem 0 0;
+    color: var(--night-subtle);
+    font-size: 0.72rem;
+    line-height: 1.55;
+  }
+
+  .footer-grid nav,
+  .footer-contact {
+    display: grid;
+    align-content: start;
+    gap: 0;
+  }
+
+  .footer-grid nav a,
+  .footer-contact a,
+  .footer-contact span {
+    padding-block: 0.65rem;
+    border-bottom: 0;
+    color: var(--night-text);
+    font-family: var(--font-sans);
+    font-size: 0.57rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .footer-grid a:hover {
+    opacity: 0.58;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 0;
+    color: var(--night-subtle);
+    font-family: var(--font-sans);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 720px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-grid > div:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .footer-bottom {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

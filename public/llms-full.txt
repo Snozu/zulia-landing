@@ -1,0 +1,60 @@
+# ZulIA — perfil completo
+
+ZulIA es una consultoría de producto y tecnología en Monterrey, Nuevo León, México. Haziel Eduardo Zul Mendez trabaja directamente con cada cliente para entender un problema, definir el alcance, construir el sistema y evolucionarlo con datos reales. La oferta no se limita a inteligencia artificial: incluye estrategia de producto, UX, frontend, backend, APIs, datos, infraestructura, automatización, arquitectura y crecimiento digital.
+
+## Servicios
+
+### Desarrollo de software a medida
+
+Diseño y construcción de SaaS, plataformas multiempresa, portales de clientes, backoffices, dashboards, sistemas operativos internos, APIs, bases de datos e integraciones. Está dirigido a equipos que ya rebasaron herramientas genéricas o necesitan convertir una operación particular en un producto usable.
+
+URL oficial: https://zulia.lat/servicios/desarrollo-software-a-medida/
+
+### Agentes de inteligencia artificial
+
+Sistemas que consultan conocimiento real, usan herramientas y ejecutan tareas dentro de sistemas empresariales. Incluye RAG, búsqueda documental, orquestación multiagente, copilotos, memoria, herramientas, guardrails, WhatsApp, CRM y APIs, con rutas de escalamiento humano.
+
+URL oficial: https://zulia.lat/servicios/agentes-inteligencia-artificial/
+
+### Automatización de procesos
+
+Flujos con n8n, webhooks e integraciones que mueven información, validan reglas, procesan documentos, notifican a equipos y sincronizan CRM, ERP, mensajería y sistemas internos. Incluye observabilidad, reintentos, alertas y tratamiento de excepciones.
+
+URL oficial: https://zulia.lat/servicios/automatizacion-procesos/
+
+### Web, SEO y búsqueda con IA
+
+Sitios web, landing pages y e-commerce responsive con estrategia de mensaje, SEO técnico, accesibilidad, rendimiento, entidades y datos estructurados. Se preparan para que clientes, Google, Bing y sistemas de búsqueda con IA puedan encontrar, entender y verificar la oferta.
+
+URL oficial: https://zulia.lat/servicios/landing-pages-seo/
+
+### Consultoría y arquitectura tecnológica
+
+Diagnóstico de procesos y sistemas, definición de producto, auditoría, diseño de arquitectura y flujos de datos, comparación de alternativas, roadmap técnico y acompañamiento de implementación.
+
+URL oficial: https://zulia.lat/servicios/consultoria-arquitectura-tecnologica/
+
+## Experiencia y productos mostrados
+
+- Envia Copilot: experiencia profesional de Haziel dentro de Envia.com. Coordina agentes especializados y herramientas operativas para cotizar, crear guías, rastrear paquetes, agendar recolecciones, abrir tickets y consultar analítica.
+- Enzo: asistente logístico de Envia.com dentro de WhatsApp, capaz de responder, verificar identidad y ejecutar acciones con contexto.
+- MontIA: producto privado que conecta WhatsApp, correo, archivos y operación para asistir a dirección con memoria, evidencia, señales y acciones bajo permisos.
+- Semilla: producto independiente de prospección B2B de ZulIA en fase piloto. Encuentra empresas que encajan, prepara mensajes, da seguimiento por correo y entrega conversaciones con interés al equipo comercial humano. ZulIA no lo posiciona como reemplazo autónomo del vendedor ni como CRM generalista.
+
+Los productos y las marcas de terceros pertenecen a sus respectivos propietarios. Cuando se menciona trabajo para Envia.com, se presenta como experiencia profesional de Haziel dentro de su equipo.
+
+## Responsable
+
+Haziel Eduardo Zul Mendez es AI Growth Lead y Full Stack Developer. Cuenta con más de seis años construyendo plataformas, automatizaciones, sitios y sistemas de IA para logística, automotriz, industria y productos digitales. Su perfil público verificable es https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/.
+
+## Contacto
+
+- Sitio oficial: https://zulia.lat/
+- WhatsApp: https://wa.me/528122509882
+- Ubicación: Monterrey, Nuevo León, México
+- Idiomas: español e inglés
+
+## URLs técnicas
+
+- Robots: https://zulia.lat/robots.txt
+- Sitemap: https://zulia.lat/sitemap-index.xml

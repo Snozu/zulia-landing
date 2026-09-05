@@ -1,0 +1,37 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# Semilla lead service secrets
+services/semilla-lead/.env
+services/*/data/
+
+# deployment tooling with server credentials (kept local only)
+*.exp
+deploy_package.tar.gz
+
+# local scratch and editor/agent folders
+tmp/
+.trae/
+.claude/

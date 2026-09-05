@@ -1,0 +1,47 @@
+services:
+  zulia-landing:
+    build:
+      context: .
+      args:
+        # Se toman del .env del proyecto en el VPS (o del entorno del shell).
+        PUBLIC_GA_ID: ${PUBLIC_GA_ID:-}
+        PUBLIC_GSC_VERIFICATION: ${PUBLIC_GSC_VERIFICATION:-}
+    restart: always
+    container_name: zulia-landing
+    networks:
+      - root_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zulia-landing.rule=Host(`zulia.lat`)"
+      - "traefik.http.routers.zulia-landing.entrypoints=web,websecure"
+      - "traefik.http.routers.zulia-landing.tls=true"
+      - "traefik.http.routers.zulia-landing.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.zulia-landing.loadbalancer.server.port=80"
+
+  # Captura de leads de Semilla: recibe el registro, guarda el lead y manda el correo.
+  semilla-lead:
+    build: ./services/semilla-lead
+    restart: always
+    container_name: semilla-lead
+    env_file:
+      - ./services/semilla-lead/.env
+    volumes:
+      - semilla-lead-data:/data
+    networks:
+      - root_default
+    labels:
+      - "traefik.enable=true"
+      # Ruta bajo el mismo dominio (mismo origen, sin CORS). Prioridad alta para ganarle al catch-all del landing.
+      - "traefik.http.routers.semilla-lead.rule=Host(`zulia.lat`) && PathPrefix(`/api/lead`)"
+      - "traefik.http.routers.semilla-lead.priority=100"
+      - "traefik.http.routers.semilla-lead.entrypoints=web,websecure"
+      - "traefik.http.routers.semilla-lead.tls=true"
+      - "traefik.http.routers.semilla-lead.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.semilla-lead.loadbalancer.server.port=8080"
+
+networks:
+  root_default:
+    external: true
+
+volumes:
+  semilla-lead-data:

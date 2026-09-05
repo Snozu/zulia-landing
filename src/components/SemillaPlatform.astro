@@ -1,0 +1,212 @@
+---
+const agents = [
+  {
+    id: 'cazador',
+    name: 'Cazador',
+    claim: 'Arma la lista, no compra bases.',
+    detail: 'Elige la fuente por geografía, industria y cargo, y arma la lista de empresas que encajan con tu cliente ideal.',
+    example: '142 empresas con encaje · Construcción · Monterrey',
+  },
+  {
+    id: 'enriquecedor',
+    name: 'Enriquecedor',
+    claim: 'Completa datos y valida correos.',
+    detail: 'Encuentra al decisor, infiere tamaño y rol, y valida cada correo para bajar el bounce antes de enviar.',
+    example: 'Grupo Andamex · Dir. de Operaciones · correo validado',
+  },
+  {
+    id: 'calificador',
+    name: 'Calificador',
+    claim: 'Puntúa contra tu ICP.',
+    detail: 'Da un score a cada prospecto según qué tanto encaja, prioriza los mejores y descarta lo que no sirve.',
+    example: 'score 87/100 vs ICP · prioridad alta',
+  },
+  {
+    id: 'redactor',
+    name: 'Redactor',
+    claim: 'Escribe desde el contexto.',
+    detail: 'Cada mensaje conecta una señal real de la cuenta con el problema que tu empresa resuelve, adaptado al canal.',
+    example: '“Vi que abrieron operación en tres estados…” · correo listo',
+  },
+  {
+    id: 'conversador',
+    name: 'Conversador',
+    claim: 'Clasifica, responde y agenda.',
+    detail: 'Lee la intención de cada respuesta en segundos, resuelve dudas permitidas y agenda cuando hay interés real.',
+    example: '“Sí, ¿me pasas horarios?” · intención: interesado',
+  },
+  {
+    id: 'seguimiento',
+    name: 'Seguimiento',
+    soon: true,
+    claim: 'Memoria y reactivación.',
+    detail: 'Recuerda cada cuenta, da el siguiente paso tras la reunión y reactiva la conversación cuando vuelve a haber señal.',
+    example: 'En el roadmap · se suma sin rehacer tu configuración',
+  },
+  {
+    id: 'voz',
+    name: 'Voz',
+    soon: true,
+    claim: 'Llama cuando hace falta.',
+    detail: 'Califica y agenda por teléfono cuando el canal escrito no alcanza, con el mismo contexto de la cuenta.',
+    example: 'En el roadmap · el humano sigue cerrando',
+  },
+  {
+    id: 'multicanal',
+    name: 'Multicanal',
+    soon: true,
+    claim: 'WhatsApp y LinkedIn.',
+    detail: 'Suma más canales al mismo playbook, sin rehacer tu configuración. El sistema crece contigo.',
+    example: 'En el roadmap · mismo playbook, más canales',
+  },
+];
+---
+
+<section id="plataforma" class="platform" aria-labelledby="platform-title">
+  <div class="page-shell">
+    <p class="section-label" data-reveal>La plataforma</p>
+    <h2 id="platform-title" data-reveal style="transition-delay: .06s">Un agente para cada parte <em>del trabajo comercial.</em></h2>
+    <p class="platform-lead" data-reveal style="transition-delay: .12s">Baja para verlos todos — cada uno hace su parte y le pasa el contexto al siguiente. Los marcados como “Pronto” están en el roadmap.</p>
+
+    <div class="agents" data-agents>
+      <div class="agent-rail" role="tablist" aria-label="Agentes de Semilla">
+        {agents.map((agent, i) => (
+          <button class={`rail-item${i === 0 ? ' active' : ''}`} data-rail={i} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>
+            <span class="rail-name">{agent.name}{agent.soon && <span class="rail-soon">Pronto</span>}</span>
+            <span class="rail-claim">{agent.claim}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="agent-view">
+        <div class="agent-dots" aria-hidden="true">
+          {agents.map((_, i) => (<span class={`dot${i === 0 ? ' active' : ''}`} data-dot={i}></span>))}
+        </div>
+        <div class="view-frame">
+          {agents.map((agent, i) => (
+            <article class={`view-panel${i === 0 ? ' active' : ''}`} data-view={i}>
+              <div class="view-head">
+                <span class={agent.soon ? 'view-badge soon' : 'view-badge'}>{`0${i + 1}`}</span>
+                <span class="view-n">{agent.soon ? 'Próximamente' : 'En operación'}</span>
+              </div>
+              <h3>{agent.name}</h3>
+              <p class="view-claim">{agent.claim}</p>
+              <p class="view-detail">{agent.detail}</p>
+              {agent.example && <p class="view-example">{agent.example}</p>}
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-agents]').forEach((root) => {
+    const rails = [...root.querySelectorAll<HTMLElement>('[data-rail]')];
+    const views = [...root.querySelectorAll<HTMLElement>('[data-view]')];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-dot]')];
+    let active = 0;
+
+    const setActive = (i: number) => {
+      if (i === active || i < 0 || i >= views.length) return;
+      active = i;
+      rails.forEach((r, j) => { r.classList.toggle('active', j === i); r.setAttribute('aria-selected', String(j === i)); });
+      views.forEach((v, j) => v.classList.toggle('active', j === i));
+      dots.forEach((d, j) => d.classList.toggle('active', j === i));
+    };
+
+    // Desktop: la lista (rail) manda; se activa por scroll o click.
+    rails.forEach((rail, i) => rail.addEventListener('click', () => setActive(i)));
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.rail));
+        });
+      }, { rootMargin: '-46% 0px -46% 0px', threshold: 0 });
+      rails.forEach((rail) => io.observe(rail));
+    }
+
+    // Móvil: carrusel que avanza solo conforme bajas (la sección es alta y la tarjeta es sticky).
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        if (window.innerWidth > 820) return;
+        const total = root.offsetHeight - window.innerHeight;
+        if (total <= 0) return;
+        const p = Math.max(0, Math.min(0.9999, -root.getBoundingClientRect().top / total));
+        setActive(Math.floor(p * views.length));
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  });
+</script>
+
+<style>
+  .platform { padding-block: clamp(4rem, 7vw, 6.5rem); background: var(--paper); color: var(--ink); }
+  .section-label { margin: 0 0 1.2rem; color: var(--blue-dark); font-size: .72rem; font-weight: 720; letter-spacing: .08em; text-transform: uppercase; }
+
+  .platform h2 { max-width: 22ch; margin: 0; font-size: clamp(2.3rem, 4vw, 3.6rem); font-weight: 640; letter-spacing: -.04em; line-height: 1.02; text-wrap: balance; }
+  .platform h2 em { color: var(--blue-dark); font-style: normal; }
+  .platform-lead { max-width: 42rem; margin: 1.6rem 0 0; color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+
+  .agents { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(2rem, 5vw, 4rem); margin-top: clamp(2.5rem, 5vw, 3.5rem); align-items: start; }
+
+  /* Lista izquierda: items bien espaciados = estaciones de scroll */
+  .agent-rail { display: grid; gap: clamp(2.6rem, 5vw, 4.5rem); padding-block: 1rem; }
+  .rail-item { display: grid; gap: .35rem; padding: 1.2rem 1.3rem; border: 0; border-radius: 14px; background: transparent; color: var(--ink); cursor: pointer; font: inherit; text-align: left; transition: background 220ms ease; }
+  .rail-item:hover { background: color-mix(in srgb, var(--blue-soft) 40%, transparent); }
+  .rail-item.active { background: color-mix(in srgb, var(--blue-soft) 72%, var(--white)); }
+  .rail-name { display: flex; align-items: center; gap: .5rem; font-size: 1.18rem; font-weight: 700; letter-spacing: -.03em; }
+  .rail-item.active .rail-name { color: var(--blue-dark); }
+  .rail-claim { color: var(--text-muted); font-size: .88rem; line-height: 1.4; }
+  .rail-soon { padding: .12rem .48rem; border-radius: 999px; background: color-mix(in srgb, var(--blue-soft) 58%, var(--white)); color: var(--blue-dark); font-family: var(--font-mono); font-size: .52rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* Panel derecho: grande y sticky, centrado — sin hueco */
+  .agent-view { position: sticky; top: 12vh; align-self: start; min-width: 0; height: min(76vh, 34rem); }
+  .view-frame { position: relative; width: 100%; min-width: 0; height: 100%; }
+  .view-panel {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: clamp(1.8rem, 3.2vw, 2.8rem);
+    border: 1px solid var(--line); border-radius: 22px; background: var(--white);
+    background-image: linear-gradient(180deg, rgb(255 255 255 / .04), transparent 42%);
+    box-shadow: 0 26px 54px -32px rgb(8 12 28 / .5), inset 0 1px 0 rgb(255 255 255 / .06);
+    opacity: 0; transform: translateY(14px); pointer-events: none;
+    transition: opacity 420ms cubic-bezier(.2,.8,.2,1), transform 420ms cubic-bezier(.2,.8,.2,1);
+  }
+  .view-panel.active { opacity: 1; transform: none; pointer-events: auto; }
+  .view-head { display: flex; align-items: center; gap: .8rem; }
+  .view-badge { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 14px; background: linear-gradient(135deg, #2f6bff, #5b8cff); color: #fff; font-family: var(--font-mono); font-size: .95rem; font-weight: 700; box-shadow: 0 10px 20px -8px color-mix(in srgb, #2f6bff 55%, transparent); }
+  .view-badge.soon { background: transparent; color: var(--text-muted); border: 1px dashed var(--line-dark); box-shadow: none; }
+  .view-n { color: var(--blue-dark); font-family: var(--font-mono); font-size: .66rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .view-panel h3 { margin: 1.2rem 0 0; font-size: clamp(2rem, 3.4vw, 2.7rem); font-weight: 700; letter-spacing: -.04em; }
+  .view-claim { margin: .45rem 0 0; color: var(--ink); font-size: 1.1rem; font-weight: 620; letter-spacing: -.01em; }
+  .view-detail { margin: .85rem 0 0; color: var(--text-muted); font-size: 1.02rem; line-height: 1.6; max-width: 42ch; }
+  .view-example { margin: auto 0 0; padding-top: 1.5rem; color: var(--ink-soft); font-family: var(--font-mono); font-size: .82rem; line-height: 1.55; }
+
+  .agent-dots { display: none; }
+
+  @media (max-width: 820px) {
+    /* Móvil: carrusel que avanza SOLO conforme bajas — tarjeta sticky, sección alta */
+    .agents { display: block; position: relative; min-height: 220vh; margin-top: 2.2rem; }
+    .agent-rail { display: none; }
+    .agent-view { position: sticky; top: 13vh; height: auto; min-width: 0; }
+    .agent-dots { display: flex; justify-content: center; gap: .45rem; margin-bottom: 1.1rem; }
+    .agent-dots .dot { width: .5rem; height: .5rem; border-radius: 999px; background: var(--line-dark); transition: width .35s ease, background .35s ease; }
+    .agent-dots .dot.active { width: 1.6rem; background: var(--blue-dark); }
+    .view-frame { position: relative; width: 100%; min-width: 0; height: auto; min-height: 66vh; }
+    .view-panel { position: absolute; inset: 0; display: flex; min-height: 0; opacity: 0; transform: translateY(12px); pointer-events: none; }
+    .view-panel.active { opacity: 1; transform: none; pointer-events: auto; }
+    .view-panel h3 { font-size: 1.7rem; }
+    .view-detail { font-size: 1rem; }
+    .platform h2 { font-size: clamp(2.3rem, 9vw, 3.4rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .view-panel { transition: none; }
+  }
+</style>

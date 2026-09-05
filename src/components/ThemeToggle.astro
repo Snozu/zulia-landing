@@ -1,0 +1,57 @@
+---
+import Moon from 'phosphor-astro/MoonBold.astro';
+import Sun from 'phosphor-astro/SunBold.astro';
+---
+
+<button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle aria-label="Cambiar tema de color" title="Cambiar tema de color">
+  <Sun class="theme-sun" width="17" height="17" aria-hidden="true" />
+  <span class="theme-thumb" aria-hidden="true"></span>
+  <Moon class="theme-moon" width="17" height="17" aria-hidden="true" />
+</button>
+
+<script>
+  const themeButtons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+
+  const applyTheme = (theme: 'light' | 'dark', persist = false) => {
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#090a0c' : '#f3f5f6');
+    if (persist) localStorage.setItem('theme', theme);
+  };
+
+  const updateThemeButtons = () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    const label = isDark ? 'Cambiar a modo claro' : 'Cambiar a modo nocturno';
+    themeButtons.forEach((button) => {
+      button.setAttribute('aria-label', label);
+      button.setAttribute('title', label);
+      button.setAttribute('aria-checked', String(isDark));
+      button.dataset.state = isDark ? 'dark' : 'light';
+    });
+  };
+
+  themeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const isDark = !document.documentElement.classList.contains('dark');
+      const theme = isDark ? 'dark' : 'light';
+      applyTheme(theme, true);
+      updateThemeButtons();
+    });
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key !== 'theme' || (event.newValue !== 'light' && event.newValue !== 'dark')) return;
+    applyTheme(event.newValue);
+    updateThemeButtons();
+  });
+
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+  systemTheme.addEventListener('change', (event) => {
+    if (localStorage.getItem('theme')) return;
+    applyTheme(event.matches ? 'dark' : 'light');
+    updateThemeButtons();
+  });
+
+  updateThemeButtons();
+</script>

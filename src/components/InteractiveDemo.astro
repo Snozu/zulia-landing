@@ -1,0 +1,38 @@
+---
+import ChatDemo from "./ChatDemo";
+import StackedCards from "./StackedCards";
+---
+
+<section id="demo-interactiva" class="py-12 lg:py-24 bg-secondary/20 relative overflow-hidden">
+    <div class="absolute inset-0 bg-background/50 backdrop-blur-3xl -z-10"></div>
+    <!-- Decorator circle - hidden on mobile for performance -->
+    <div class="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-20"></div>
+
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-10 lg:mb-16">
+      <h2 class="text-2xl md:text-3xl lg:text-5xl font-bold mb-4 lg:mb-6 text-foreground">
+        Prueba la Experiencia ZulIA
+      </h2>
+      <p class="text-muted-foreground text-base lg:text-lg max-w-2xl mx-auto">
+        Interactúa con tu Agente de Crecimiento. Desde encontrar leads hasta cerrar ventas, mira cómo ZulIA automatiza tu pipeline en segundos.
+      </p>
+    </div>
+
+    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
+        <!-- Chat Demo -->
+        <div class="w-full relative z-10 order-1 lg:order-1">
+            <div class="hidden lg:block absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 blur-2xl rounded-3xl -z-10 opacity-50"></div>
+            <ChatDemo client:visible />
+        </div>
+
+        <!-- Stacked Cards -->
+        <div class="w-full order-2 lg:order-2 flex flex-col items-center">
+            <div class="mb-6 lg:hidden text-center">
+                <h3 class="text-xl font-bold mb-2">Potencia tu Pipeline</h3>
+                <p class="text-sm text-muted-foreground">Descubre los agentes que trabajan por ti 24/7.</p>
+            </div>
+            <StackedCards client:visible />
+        </div>
+    </div>
+  </div>
+</section>

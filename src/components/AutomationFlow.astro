@@ -1,0 +1,116 @@
+---
+
+interface Props { showLink?: boolean; }
+const { showLink = true } = Astro.props;
+---
+
+<div class="automation-showcase" data-reveal>
+  <div class="automation-copy">
+    <p class="automation-kicker"><span></span> Automatización en movimiento · n8n</p>
+    <h3>Tu equipo atiende las excepciones. El flujo mueve lo demás.</h3>
+    <p>Conectamos formularios, correo, CRM, WhatsApp, ERPs y APIs para que la información avance sin copiar, perseguir ni recordar cada paso.</p>
+    {showLink && <a href="/servicios/automatizacion-procesos/">Explorar automatización</a>}
+  </div>
+
+  <div class="flow-canvas" role="img" aria-label="Flujo n8n animado: recibe un prospecto, lo valida, lo registra en CRM y notifica al equipo">
+    <div class="flow-status"><span><i></i> Ejecución activa</span><strong>n8n / lead-to-CRM</strong></div>
+    <svg class="connectors" viewBox="0 0 760 440" aria-hidden="true" preserveAspectRatio="none">
+      <path class="flow-line line-a" d="M155 108 C235 108 218 206 307 206" />
+      <path class="flow-line line-b" d="M412 206 C490 206 470 105 575 105" />
+      <path class="flow-line line-c" d="M412 206 C500 206 473 330 579 330" />
+      <path class="flow-line line-d" d="M670 150 C670 211 670 240 670 287" />
+      <path class="flow-line line-e" d="M579 330 C500 330 505 388 408 388" />
+      <circle class="packet packet-a" r="5"><animateMotion dur="2.2s" repeatCount="indefinite" path="M155 108 C235 108 218 206 307 206" /></circle>
+      <circle class="packet packet-b" r="5"><animateMotion begin=".7s" dur="2.4s" repeatCount="indefinite" path="M412 206 C490 206 470 105 575 105" /></circle>
+      <circle class="packet packet-c" r="5"><animateMotion begin="1.2s" dur="2.6s" repeatCount="indefinite" path="M412 206 C500 206 473 330 579 330" /></circle>
+    </svg>
+
+    <div class="flow-node node-trigger">
+      <span class="node-app app-webhook">W</span>
+      <p><small>Webhook</small><strong>Nuevo prospecto</strong></p>
+      <em>1 item</em>
+    </div>
+    <div class="flow-node node-qualify">
+      <span class="node-app app-ai">AI</span>
+      <p><small>Agente</small><strong>Validar y priorizar</strong></p>
+      <em>94%</em>
+    </div>
+    <div class="flow-node node-crm">
+      <span class="node-app app-crm">CRM</span>
+      <p><small>HubSpot</small><strong>Crear oportunidad</strong></p>
+      <em>Listo</em>
+    </div>
+    <div class="flow-node node-whatsapp">
+      <span class="node-app app-whatsapp">WA</span>
+      <p><small>WhatsApp</small><strong>Notificar al asesor</strong></p>
+      <em>Enviado</em>
+    </div>
+    <div class="flow-node node-followup">
+      <span class="node-app app-clock">24h</span>
+      <p><small>Condición</small><strong>Seguimiento pendiente</strong></p>
+      <em>Espera</em>
+    </div>
+    <span class="canvas-note note-one">califica antes de gastar tiempo</span>
+    <span class="canvas-note note-two">cada paso queda trazable</span>
+  </div>
+</div>
+
+<style>
+  .automation-showcase { display: grid; grid-template-columns: minmax(17rem, .62fr) minmax(32rem, 1.38fr); align-items: center; gap: clamp(3rem, 8vw, 8rem); margin-block: clamp(3rem, 7vw, 6rem); padding: clamp(2rem, 5vw, 4rem); border-radius: 3rem 3rem 7rem 3rem; background: color-mix(in srgb, var(--paper-deep) 72%, var(--white)); }
+  .automation-kicker { display: flex; align-items: center; gap: .6rem; margin: 0 0 1.2rem; color: #dd5937; font-size: .58rem; font-weight: 760; letter-spacing: .06em; text-transform: uppercase; }
+  .automation-kicker span { width: .45rem; height: .45rem; border-radius: 50%; background: currentColor; }
+  .automation-copy h3 { max-width: 13ch; margin: 0; font-size: clamp(2.6rem, 4.7vw, 4.9rem); font-weight: 680; letter-spacing: -.07em; line-height: .92; }
+  .automation-copy > p:not(.automation-kicker) { max-width: 32rem; margin: 1.4rem 0 0; color: var(--text-muted); font-size: .8rem; line-height: 1.72; }
+  .automation-copy a { display: inline-flex; align-items: center; gap: .5rem; margin-top: 1.7rem; color: var(--ink); font-size: .67rem; font-weight: 720; text-decoration: none; }
+  .automation-copy a:hover { color: var(--blue); }
+
+  .flow-canvas { position: relative; min-height: 31rem; overflow: visible; background-image: radial-gradient(#cacac5 .7px, transparent .7px); background-size: 18px 18px; mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent); }
+  .flow-status { position: absolute; top: 0; right: 0; left: 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--text-muted); font-size: .48rem; font-weight: 720; letter-spacing: .05em; text-transform: uppercase; }
+  .flow-status span { display: flex; align-items: center; gap: .4rem; }
+  .flow-status span i { width: .42rem; height: .42rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgb(23 178 106 / .12); }
+  .connectors { position: absolute; inset: 2.5rem 0 0; width: 100%; height: calc(100% - 2.5rem); overflow: visible; }
+  .flow-line { fill: none; stroke: #aaaab0; stroke-dasharray: 5 7; stroke-width: 1.6; vector-effect: non-scaling-stroke; animation: dash-flow 1.1s linear infinite; }
+  .packet { fill: var(--blue); filter: drop-shadow(0 0 5px rgb(47 107 255 / .55)); }
+  .flow-node { position: absolute; z-index: 2; display: grid; width: 12.7rem; min-height: 4.5rem; grid-template-columns: 2.35rem 1fr auto; align-items: center; gap: .65rem; padding: .65rem .7rem; border: 1px solid var(--line-dark); border-radius: .55rem; background: color-mix(in srgb, var(--white) 96%, transparent); box-shadow: 0 9px 24px rgb(9 9 11 / .08); animation: node-breathe 6s infinite; }
+  .flow-node::after { position: absolute; right: -.25rem; width: .48rem; height: .48rem; border: 2px solid var(--white); border-radius: 50%; background: var(--green); content: ""; box-shadow: 0 0 0 1px var(--line-dark); }
+  .flow-node p, .flow-node small, .flow-node strong { display: block; margin: 0; }
+  .flow-node small { color: var(--text-muted); font-size: .43rem; font-weight: 700; text-transform: uppercase; }
+  .flow-node strong { margin-top: .15rem; font-size: .58rem; }
+  .flow-node em { padding: .24rem .3rem; border-radius: .25rem; background: #eff7f2; color: #16804c; font-size: .42rem; font-style: normal; font-weight: 720; }
+  .node-app { display: grid; width: 2.25rem; height: 2.25rem; place-items: center; border-radius: .48rem; color: white; font-size: .52rem; font-weight: 780; letter-spacing: -.02em; }
+  .app-webhook { background: #dd5937; } .app-ai { background: #6e55e8; } .app-crm { background: #ff7a59; } .app-whatsapp { background: #1fab62; } .app-clock { background: #303038; }
+  .node-trigger { top: 4.8rem; left: 0; animation-delay: 0s; }
+  .node-qualify { top: 11rem; left: 40%; transform: translateX(-50%); animation-delay: 1s; }
+  .node-crm { top: 4.6rem; right: 0; animation-delay: 2s; }
+  .node-whatsapp { right: 0; bottom: 4.3rem; animation-delay: 3s; }
+  .node-followup { bottom: 1rem; left: 42%; transform: translateX(-50%); animation-delay: 4s; }
+  .canvas-note { position: absolute; color: #818188; font-size: .46rem; font-weight: 650; letter-spacing: .03em; }
+  .note-one { top: 8.5rem; left: 29%; transform: rotate(-3deg); }
+  .note-two { right: 5%; bottom: 1.1rem; }
+
+  :global(html.dark) .flow-canvas { background-image: radial-gradient(#3f4650 .7px, transparent .7px); }
+  :global(html.dark) .flow-line { stroke: #59616d; }
+  :global(html.dark) .flow-node em { background: #183528; color: #74d9a7; }
+
+  @keyframes dash-flow { to { stroke-dashoffset: -24; } }
+  @keyframes node-breathe { 0%, 12%, 100% { border-color: #bdbdc2; box-shadow: 0 9px 24px rgb(9 9 11 / .08); } 5% { border-color: var(--blue); box-shadow: 0 10px 30px rgb(47 107 255 / .15); } }
+
+  @media (max-width: 980px) {
+    .automation-showcase { grid-template-columns: 1fr; }
+    .automation-copy { max-width: 44rem; }
+  }
+
+  @media (max-width: 620px) {
+    .automation-showcase { padding: 1.25rem; border-radius: 2rem 2rem 4rem 2rem; }
+    .flow-canvas { display: grid; min-height: 0; gap: .75rem; padding-top: 3.5rem; background-size: 16px 16px; }
+    .connectors { display: none; }
+    .flow-node { position: relative; inset: auto; width: 100%; transform: none; }
+    .flow-node::before { display: none; }
+    .canvas-note { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .packet { display: none; }
+    .flow-line, .flow-node { animation: none; }
+  }
+</style>

@@ -1,0 +1,250 @@
+@font-face {
+  font-family: "Onest Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/onest/files/onest-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --font-sans: "Onest Variable", Arial, sans-serif;
+    --font-display: "Onest Variable", Arial, sans-serif;
+    --font-mono: "SFMono-Regular", Consolas, monospace;
+    --ink: #090a0c;
+    --ink-soft: #25282d;
+    --paper: #f3f5f6;
+    --paper-deep: #e7eaed;
+    --white: #ffffff;
+    --blue: #5276b5;
+    --blue-dark: #315487;
+    --blue-soft: #e1e8f2;
+    --accent-surface: #315487;
+    --accent-surface-hover: #274671;
+    --green: #24b879;
+    --text-muted: #636a74;
+    --line: #d6dadd;
+    --line-dark: #a9afb7;
+    /* Theme-aware editorial surfaces. Components must use these tokens instead
+       of assuming that a section is permanently dark. */
+    --night: #f3f5f6;
+    --night-soft: #e7eaed;
+    --night-text: #090a0c;
+    --night-muted: #636a74;
+    /* Texto sutil sobre superficies claras. Ajustado para superar 4.5:1 de
+       contraste sobre --night-soft, que es donde peor se comporta. */
+    --night-subtle: #5f666f;
+    --night-panel: #ffffff;
+    --night-panel-soft: #e7eaed;
+    --night-line: rgb(9 10 12 / .1);
+    --night-glass: rgb(255 255 255 / .58);
+    --night-glass-strong: rgb(255 255 255 / .76);
+    --night-glass-border: rgb(9 10 12 / .08);
+    --night-accent: #5276b5;
+    --night-accent-soft: #315487;
+    --brand-mark-filter: brightness(0);
+    --contact-base: #315487;
+    --contact-glow-one: #6d91d0;
+    --contact-glow-two: #295e62;
+    --contact-text: #ffffff;
+    --contact-muted: #dbe4ff;
+    --glass: rgb(255 255 255 / .58);
+    --glass-strong: rgb(255 255 255 / .76);
+    --glass-border: rgb(255 255 255 / .72);
+    --glass-shadow: 0 18px 55px rgb(27 39 55 / .14), inset 0 1px 0 rgb(255 255 255 / .78);
+    --foreground: var(--ink);
+    --background: var(--paper);
+    --border: var(--line);
+    --ring: var(--blue);
+  }
+
+  :root.dark {
+    color-scheme: dark;
+    --ink: #f2f3f5;
+    --ink-soft: #d1d5da;
+    --paper: #0e1013;
+    --paper-deep: #1a1e23;
+    --white: #15181d;
+    --blue: #7898cf;
+    --blue-dark: #a4b9dc;
+    --blue-soft: #25334a;
+    --accent-surface: #315487;
+    --accent-surface-hover: #42679c;
+    --green: #35cb8b;
+    --text-muted: #9da5b0;
+    --line: #2b3037;
+    --line-dark: #48505a;
+    --night: #090a0c;
+    --night-soft: #0f1114;
+    --night-text: #ffffff;
+    --night-muted: #aeb4bd;
+    /* Mismo criterio en oscuro: el valor anterior (#747b85) quedaba en 4.18:1
+       contra los paneles del hero y reprobaba WCAG AA. */
+    --night-subtle: #8a919b;
+    --night-panel: #111318;
+    --night-panel-soft: #1a1e23;
+    --night-line: rgb(255 255 255 / .1);
+    --night-glass: rgb(255 255 255 / .055);
+    --night-glass-strong: rgb(255 255 255 / .09);
+    --night-glass-border: rgb(255 255 255 / .13);
+    --night-accent: #91a9d0;
+    --night-accent-soft: #7898cf;
+    --brand-mark-filter: brightness(0) invert(1);
+    --contact-base: #111820;
+    --contact-glow-one: #29446d;
+    --contact-glow-two: #173839;
+    --contact-text: #f2f3f5;
+    --contact-muted: #b8c3d3;
+    --glass: rgb(24 28 34 / .58);
+    --glass-strong: rgb(24 28 34 / .78);
+    --glass-border: rgb(255 255 255 / .16);
+    --glass-shadow: 0 20px 60px rgb(0 0 0 / .34), inset 0 1px 0 rgb(255 255 255 / .12);
+    --foreground: var(--ink);
+    --background: var(--paper);
+    --border: var(--line);
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    background: var(--paper);
+  }
+
+body {
+    min-width: 320px;
+    margin: 0;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 220ms ease, color 220ms ease;
+  }
+
+  :where(.hero, .credibility, .semilla, .products, .services, .commercial, .faq, .contact, .site-footer, .service-hero, .change, .service-story, .automation-detail, .related, .mini-footer) {
+    transition: background-color 260ms ease, color 220ms ease;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+  img { max-width: 100%; }
+  a, button, input, select, textarea, summary { outline-color: var(--ring); outline-offset: 4px; }
+  :where(section[id], aside[id], article[id]) { scroll-margin-top: 6.5rem; }
+  :focus-visible { outline: 3px solid var(--ring); }
+  ::selection { background: var(--accent-surface); color: white; }
+}
+
+:where(.semilla, .products, .services, .commercial, .faq, .contact, .site-footer, .change, .service-story, .automation-detail, .related) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+@layer components {
+  .page-shell {
+    width: min(100% - 3rem, 84rem);
+    margin-inline: auto;
+  }
+
+  .section-pad { padding-block: clamp(5.5rem, 10vw, 9rem); }
+
+  .eyebrow,
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0 0 1.3rem;
+    color: var(--blue-dark);
+    font-size: 0.69rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .kicker::before {
+    width: 0.48rem;
+    height: 0.48rem;
+    border-radius: 50%;
+    background: currentColor;
+    content: "";
+  }
+
+  .section-title {
+    max-width: 14ch;
+    margin: 0;
+    font-size: clamp(2.6rem, 5vw, 5rem);
+    font-weight: 590;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  .button-primary,
+  .button-secondary,
+  .button-light {
+    position: relative;
+    display: inline-flex;
+    min-height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    overflow: hidden;
+    padding: 0.9rem 1.15rem;
+    border: 1px solid var(--ink);
+    border-radius: 2rem;
+    font-size: 0.78rem;
+    font-weight: 720;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), 0 9px 24px rgb(9 10 12 / .12);
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .button-primary { border-color: var(--accent-surface); background: var(--accent-surface); color: white; }
+  .button-primary:hover { border-color: var(--accent-surface-hover); background: var(--accent-surface-hover); transform: translateY(-2px); }
+  .button-secondary { background: transparent; color: var(--ink); }
+  .button-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+  .button-light { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+  .button-light:hover { background: transparent; color: var(--ink); transform: translateY(-2px); }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: opacity 650ms cubic-bezier(.2,.8,.2,1), transform 650ms cubic-bezier(.2,.8,.2,1);
+  }
+
+  [data-reveal].reveal-pending { opacity: 0; transform: translateY(22px); }
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.75rem 1rem;
+  transform: translateY(-160%);
+  background: var(--accent-surface);
+  color: white;
+  font-weight: 700;
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+@media (max-width: 640px) {
+  .page-shell { width: min(100% - 2rem, 84rem); }
+  .section-pad { padding-block: 4.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-reveal], [data-reveal].reveal-pending { opacity: 1; transform: none; }
+}
