@@ -7,6 +7,8 @@ year: 2026
 line: "sitios"
 status: "produccion"
 role: "cliente"
+cover: "/projects/proveedora-farid-web.webp"
+coverAlt: "Portada del sitio de Proveedora Farid en staging"
 featured: true
 order: 20
 summary: "Sitio corporativo con catálogo local para una distribuidora industrial, con ambientes de staging y producción."

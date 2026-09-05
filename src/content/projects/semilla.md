@@ -7,6 +7,8 @@ year: 2026
 line: "agentica"
 status: "prelanzamiento"
 role: "propio"
+cover: "/projects/semilla.webp"
+coverAlt: "Portada de Semilla con el pipeline de agentes en vivo"
 featured: true
 order: 7
 summary: "Prospección en frío como servicio, operada por agentes: encuentra, investiga, califica, escribe y da seguimiento hasta entregar conversaciones con interés real a tu equipo."
