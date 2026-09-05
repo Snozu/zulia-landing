@@ -35,3 +35,8 @@ deploy_package.tar.gz
 tmp/
 .trae/
 .claude/
+
+# agent skills installed locally (npx skills)
+.agents/
+skills-lock.json
+refs/
