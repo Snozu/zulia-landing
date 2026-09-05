@@ -11,7 +11,7 @@ const {
 ---
 
 <section class="band" aria-labelledby="cta-title">
-  <div class="shell stage inner">
+  <div class="shell inner">
     <div class="copy">
       <h2 id="cta-title" class="h2">{title}</h2>
       <p>{text}</p>
@@ -29,18 +29,27 @@ const {
 <style>
   .band { padding-block: var(--section); }
   .inner {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: 2.5rem;
     align-items: center;
-    padding: clamp(2rem, 5vw, 4rem);
+    padding: clamp(2.25rem, 5vw, 4rem);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(70% 90% at 85% 20%, rgb(47 107 255 / .35), transparent 60%),
+      linear-gradient(140deg, #1b2b4d, #0f1626 65%);
+    color: #f2f3f5;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
   }
   .copy { display: grid; gap: 1rem; }
-  .copy p { color: var(--stage-muted); max-width: 52ch; font-size: 1.05rem; }
+  .copy .h2 { color: #fff; }
+  .copy p { color: rgb(255 255 255 / .72); max-width: 52ch; font-size: 1.05rem; }
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; justify-content: end; }
   .band .btn { background: var(--brand-blue); border-color: var(--brand-blue); }
   .band .btn:hover { background: #2358e0; border-color: #2358e0; }
-  .wa { color: var(--stage-text); }
+  .wa { color: #fff; }
   @media (max-width: 800px) {
     .inner { grid-template-columns: 1fr; }
     .actions { justify-content: start; }

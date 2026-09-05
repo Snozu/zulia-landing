@@ -7,7 +7,7 @@ year: 2026
 line: "software"
 status: "produccion"
 role: "cliente"
-featured: true
+featured: false
 order: 10
 summary: "Control de inventario de tubería en patio con catálogo público conectado: lo que entra al sistema se puede cotizar por WhatsApp al instante."
 problem: "El inventario de tubería recuperada se llevaba en hojas y fotos. El catálogo público no reflejaba lo que realmente había en patio."

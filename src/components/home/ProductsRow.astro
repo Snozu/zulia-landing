@@ -2,32 +2,52 @@
 ---
 
 <section class="products section-tight" aria-label="Producto propio y capacitación">
-  <div class="shell hairline-grid two">
-    <article class="cell">
-      <span class="badge badge-soft">Producto propio · Pre-lanzamiento</span>
-      <h2 class="h3">Semilla</h2>
-      <p>Prospección B2B operada por agentes. Encuentra, investiga, califica, escribe y da seguimiento hasta entregar conversaciones con interés real a tu equipo.</p>
-      <a class="link" href="/semilla/">
-        Conocer Semilla
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
-      </a>
+  <div class="shell two">
+    <article class="card cell">
+      <div class="copy">
+        <span class="badge badge-soft">Producto propio · Pre-lanzamiento</span>
+        <h2 class="h3">Semilla</h2>
+        <p>Prospección B2B operada por agentes. Encuentra, investiga, califica, escribe y da seguimiento hasta entregar conversaciones con interés real a tu equipo.</p>
+        <a class="link" href="/semilla/">
+          Conocer Semilla
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+        </a>
+      </div>
+      <figure class="shot">
+        <img src="/projects/semilla.webp" alt="Portada de Semilla con el pipeline de agentes" loading="lazy" decoding="async" width="1473" height="752" />
+      </figure>
     </article>
-    <article class="cell">
-      <span class="badge badge-soft">Capacitación · Monterrey e in company</span>
-      <h2 class="h3">Cursos de IA para equipos</h2>
-      <p>Para profesionistas y dueños de negocio que quieren usar IA en su trabajo real: correos, reportes, análisis y automatizaciones. Sin código.</p>
-      <a class="link" href="/cursos/">
-        Ver programas
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
-      </a>
+    <article class="card cell cursos">
+      <div class="copy">
+        <span class="badge badge-soft">Capacitación · Monterrey e in company</span>
+        <h2 class="h3">Cursos de IA para equipos</h2>
+        <p>Para profesionistas y dueños de negocio que quieren usar IA en su trabajo real: correos, reportes, análisis y automatizaciones. Sin código.</p>
+        <a class="link" href="/cursos/">
+          Ver programas
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+        </a>
+      </div>
+      <div class="agenda" aria-hidden="true">
+        <div class="day"><span>Sesión 1</span><strong>Escribir y resumir con IA</strong></div>
+        <div class="day"><span>Sesión 2</span><strong>Datos, reportes y análisis</strong></div>
+        <div class="day"><span>Sesión 3</span><strong>Automatizar lo repetitivo</strong></div>
+        <div class="day"><span>Cierre</span><strong>Diagnóstico de tu operación</strong></div>
+      </div>
     </article>
   </div>
 </section>
 
 <style>
-  .two { grid-template-columns: 1fr 1fr; }
-  .cell { display: grid; gap: 1rem; align-content: start; padding: 2rem; }
-  .cell .badge { justify-self: start; }
-  .cell p { color: var(--text-muted); max-width: 48ch; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .cell { display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+  .copy { display: grid; gap: .9rem; align-content: start; padding: 2rem 2rem 1.5rem; }
+  .copy .badge { justify-self: start; }
+  .copy p { color: var(--text-muted); max-width: 48ch; }
+  .shot { position: relative; margin: 0; min-height: 13rem; background: var(--paper-deep); overflow: hidden; }
+  .shot img { position: absolute; left: 2rem; top: 1.5rem; width: 100%; height: auto; border-radius: var(--radius-sm) 0 0 0; border: 1px solid var(--line); box-shadow: var(--shadow-lg); }
+  .agenda { display: grid; gap: .5rem; align-content: start; padding: 0 2rem 2rem; }
+  .day { display: grid; grid-template-columns: 5.5rem 1fr; align-items: center; gap: 1rem; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); }
+  .day span { color: var(--blue-dark); font-size: .78rem; font-weight: 650; }
+  .day strong { font-weight: 550; font-size: .92rem; }
   @media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
 </style>

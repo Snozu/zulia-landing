@@ -89,11 +89,12 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href);
     gap: .35rem;
     height: 2.5rem;
     padding: 0 .55rem;
-    border: 1px solid var(--line-dark);
-    border-radius: var(--radius);
-    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
     color: var(--text-muted);
     cursor: pointer;
+    box-shadow: var(--shadow-sm);
   }
   :global(.theme-toggle svg) { width: .95rem; height: .95rem; }
   :global(.theme-toggle .theme-thumb) { display: none; }
@@ -106,9 +107,9 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href);
     position: relative;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid var(--line-dark);
-    border-radius: var(--radius);
-    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--white);
     cursor: pointer;
   }
   .menu-btn i {

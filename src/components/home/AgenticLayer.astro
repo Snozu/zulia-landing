@@ -1,7 +1,7 @@
 ---
 const sources = ['ERP', 'CRM', 'Correo', 'WhatsApp', 'Archivos', 'Base de datos'];
 const rules = [
-  { k: 'Lectura', v: 'Consulta pedidos, saldos, inventario, documentos. Solo desde fuentes autorizadas.' },
+  { k: 'Lectura', v: 'Consulta pedidos, saldos, inventario y documentos, solo desde fuentes autorizadas.' },
   { k: 'Escritura', v: 'Crea, actualiza o envía. Cada herramienta declara qué puede tocar.' },
   { k: 'Aprobación', v: 'Dinero, contratos o cambios sensibles se detienen hasta que una persona diga sí.' },
   { k: 'Trazabilidad', v: 'Cada llamada queda registrada con parámetros, latencia y costo.' },
@@ -9,93 +9,71 @@ const rules = [
 ---
 
 <section class="layer section" id="capa-agentica" aria-labelledby="layer-title">
-  <div class="shell">
-    <p class="label">Capa agéntica</p>
-    <h2 id="layer-title" class="h2">Una capa entre tus sistemas y tu equipo, que hace el trabajo mecánico.</h2>
-    <p class="lead">No cambias de ERP ni de CRM. Conectamos lo que ya tienes a un asistente con herramientas, permisos y memoria, disponible en el canal donde ya trabaja tu gente.</p>
+  <div class="shell grid">
+    <div class="copy">
+      <p class="label">Capa agéntica</p>
+      <h2 id="layer-title" class="h2">Una capa entre tus sistemas y tu equipo, que hace el trabajo mecánico.</h2>
+      <p class="lead">No cambias de ERP ni de CRM. Conectamos lo que ya tienes a un asistente con herramientas, permisos y memoria, disponible en el canal donde ya trabaja tu gente.</p>
+      <ul class="sources" aria-label="Sistemas que se conectan">
+        {sources.map((s) => <li>{s}</li>)}
+      </ul>
+      <a class="link" href="/servicios/capa-agentica/">
+        Cómo funciona
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+      </a>
+    </div>
 
-    <div class="diagram" role="img" aria-label="Diagrama: tus sistemas se conectan a la capa agéntica de ZulIA, y tu equipo la usa desde un chat">
-      <div class="col">
-        <p class="mono">Tus sistemas</p>
-        <ul>
-          {sources.map((s) => <li>{s}</li>)}
-        </ul>
-      </div>
-      <div class="arrow" aria-hidden="true"><i></i></div>
-      <div class="col core">
-        <p class="mono">Capa agéntica</p>
-        <dl>
-          {rules.map((r) => (<><dt>{r.k}</dt><dd>{r.v}</dd></>))}
-        </dl>
-      </div>
-      <div class="arrow" aria-hidden="true"><i></i></div>
-      <div class="col">
-        <p class="mono">Tu equipo</p>
-        <ul>
-          <li>WhatsApp</li>
-          <li>Chat web</li>
-          <li>Claude, ChatGPT o Cursor vía MCP</li>
-        </ul>
-        <a class="link" href="/servicios/capa-agentica/">
-          Cómo funciona
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
-        </a>
-      </div>
+    <div class="visual">
+      <figure class="stage shot">
+        <img src="/projects/montia.webp" alt="MontIA mostrando la actividad autónoma del día y una decisión pendiente" width="1600" height="1000" loading="lazy" decoding="async" />
+      </figure>
+      <ol class="rules">
+        {rules.map((r) => (
+          <li class="card">
+            <strong>{r.k}</strong>
+            <span>{r.v}</span>
+          </li>
+        ))}
+      </ol>
     </div>
   </div>
 </section>
 
 <style>
-  .layer .h2 { margin-top: 1rem; }
-  .layer .lead { margin-top: 1.25rem; }
-  .diagram {
+  .grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 3rem minmax(0, 1.6fr) 3rem minmax(0, 1fr);
-    align-items: stretch;
-    margin-top: 3rem;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
   }
-  .col {
-    display: grid;
-    gap: 1rem;
-    align-content: start;
-    padding: 1.5rem;
+  .copy { display: grid; gap: 1.25rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .sources { display: flex; flex-wrap: wrap; gap: .5rem; margin: .5rem 0 0; padding: 0; list-style: none; }
+  .sources li {
+    padding: .45rem .8rem;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: 999px;
     background: var(--white);
-  }
-  .col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .35rem; }
-  .col li {
-    padding: .55rem .7rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    font-size: .92rem;
+    font-size: .875rem;
     font-weight: 500;
+    box-shadow: var(--shadow-sm);
   }
-  .core { background: var(--stage); border-color: var(--stage-line); color: var(--stage-text); }
-  .core .mono { color: var(--stage-muted); }
-  .core dl { margin: 0; display: grid; gap: .9rem; }
-  .core dt { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--brand-blue); }
-  .core dd { margin: .2rem 0 0; font-size: .92rem; line-height: 1.5; color: var(--stage-text); }
-  .arrow { position: relative; }
-  .arrow i {
-    position: absolute;
-    top: 50%; left: 0; right: 0;
-    height: 1px;
-    background: var(--line-dark);
+  .visual { display: grid; gap: 1.25rem; }
+  .shot { margin: 0; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .arrow i::after {
-    content: "";
-    position: absolute;
-    right: -1px; top: -4px;
-    width: 8px; height: 8px;
-    border-top: 1px solid var(--line-dark);
-    border-right: 1px solid var(--line-dark);
-    transform: rotate(45deg);
-  }
+  .rules li { display: grid; gap: .4rem; padding: 1.25rem 1.35rem; }
+  .rules strong { font-size: 1rem; font-weight: 650; color: var(--blue-dark); }
+  .rules span { color: var(--text-muted); font-size: .92rem; line-height: 1.5; }
   @media (max-width: 900px) {
-    .diagram { grid-template-columns: 1fr; }
-    .arrow { height: 2.5rem; }
-    .arrow i { top: 0; bottom: 0; left: 50%; right: auto; width: 1px; height: auto; }
-    .arrow i::after { right: -4px; top: auto; bottom: -1px; transform: rotate(135deg); }
+    .grid { grid-template-columns: 1fr; }
+    .copy { position: static; }
   }
+  @media (max-width: 560px) { .rules { grid-template-columns: 1fr; } }
 </style>

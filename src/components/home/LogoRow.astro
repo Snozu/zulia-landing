@@ -21,19 +21,20 @@ import { BRANDS } from '../../data/site';
   .row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
-    gap: 1px;
+    gap: .75rem;
     margin: 1.25rem 0 0;
     padding: 0;
     list-style: none;
-    background: var(--line);
-    border: 1px solid var(--line);
   }
   .row li {
     display: grid;
     place-items: center;
-    min-height: 5.5rem;
+    min-height: 5.25rem;
     padding: 1rem 1.25rem;
-    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
   }
   .row img {
     max-height: 2rem;

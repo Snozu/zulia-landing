@@ -94,8 +94,8 @@ const notFor = [
   .cell { display: grid; gap: .75rem; align-content: start; padding: 1.75rem; }
   .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
   .cols .prose { margin-top: .75rem; }
-  .plain { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-  .plain li { padding: .9rem 0; border-bottom: 1px solid var(--line); }
+  .plain { margin: 0; padding: 0; list-style: none; display: grid; gap: .6rem; }
+  .plain li { padding: .9rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); }
   .panel { display: grid; gap: 1rem; padding: 1.75rem; }
   .panel .mono { color: var(--stage-muted); }
   .route { margin: 0; padding: 0; list-style: none; counter-reset: r; display: grid; gap: 0; }

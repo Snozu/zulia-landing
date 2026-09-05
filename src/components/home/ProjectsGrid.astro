@@ -17,18 +17,15 @@ const sizes: Array<'wide' | 'normal' | 'tall'> = ['wide', 'normal', 'normal', 'n
     </a>
   </div>
 
-  <div class="shell body">
-    <aside class="rail" aria-hidden="true">
-      <span class="mono">Logística · Industria · Fintech · Retail · Acero</span>
-      <span class="mono">Monterrey · Lima · 2025 a 2026</span>
-    </aside>
-    <div class="hairline-grid bento">
+  <div class="shell">
+    <div class="card-grid bento">
       {projects.map((p, i) => <ProjectTile project={p} size={sizes[i] ?? 'normal'} loading={i < 2 ? 'eager' : 'lazy'} />)}
     </div>
   </div>
 </section>
 
 <style>
+  .projects { background: linear-gradient(180deg, transparent, var(--paper-deep) 30%, var(--paper-deep) 70%, transparent); }
   .head {
     display: flex;
     align-items: end;
@@ -37,30 +34,10 @@ const sizes: Array<'wide' | 'normal' | 'tall'> = ['wide', 'normal', 'normal', 'n
     margin-bottom: 2.5rem;
   }
   .head .h2 { margin-top: 1rem; }
-  .body {
-    display: grid;
-    grid-template-columns: 2.25rem 1fr;
-    gap: 1.25rem;
-  }
-  .rail {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    border-right: 1px solid var(--line);
-  }
-  .rail .mono {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    white-space: nowrap;
-    font-size: .66rem;
-  }
   .bento { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .bento > :global(.ptile-wide) { grid-column: span 2; }
   @media (max-width: 900px) {
     .head { flex-direction: column; align-items: start; }
-    .body { grid-template-columns: 1fr; }
-    .rail { display: none; }
     .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 600px) {
