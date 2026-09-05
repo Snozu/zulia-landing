@@ -1,30 +1,29 @@
 # ZulIA
 
-> Consultoría de producto y tecnología dirigida por Haziel Eduardo Zul Mendez desde Monterrey, México. Diseña y construye software a medida, automatizaciones, agentes de inteligencia artificial, sitios web y arquitectura tecnológica.
+> Consultoría de software, automatización e inteligencia artificial en Monterrey, México. Conectamos el ERP, el CRM, el correo y WhatsApp que una empresa ya usa a una capa de IA que consulta, ejecuta y pide aprobación humana cuando toca.
 
-## Sitio oficial
+## Servicios
 
-- [Inicio](https://zulia.lat/): propuesta, experiencia, productos y contacto.
-- [Software a medida](https://zulia.lat/servicios/desarrollo-software-a-medida/): SaaS, portales, backoffices, APIs y sistemas internos.
-- [Agentes de inteligencia artificial](https://zulia.lat/servicios/agentes-inteligencia-artificial/): RAG, multiagentes, copilotos, memoria, herramientas y guardrails.
-- [Automatización de procesos](https://zulia.lat/servicios/automatizacion-procesos/): n8n, webhooks, CRM, ERP, WhatsApp, documentos y sincronización.
-- [Web, SEO y búsqueda con IA](https://zulia.lat/servicios/landing-pages-seo/): sitios rápidos y accesibles preparados para búsqueda clásica, generativa y agéntica.
-- [Consultoría y arquitectura](https://zulia.lat/servicios/consultoria-arquitectura-tecnologica/): diagnóstico, alternativas técnicas, arquitectura y roadmap.
+- [Capa agéntica sobre tus sistemas](https://zulia.lat/servicios/capa-agentica/): asistentes de IA con herramientas, permisos, memoria y aprobación humana, conectados a sistemas reales. También como servidor MCP.
+- [Software operativo a medida](https://zulia.lat/servicios/software-a-medida/): inventarios, portales, plataformas internas y SaaS.
+- [Sitios y catálogos que venden](https://zulia.lat/servicios/sitios-y-catalogos/): sitios corporativos y catálogos rápidos, indexables y administrables.
+- [Ingeniería asistida por IA para tu equipo](https://zulia.lat/servicios/ingenieria-con-ia/): metodología, contexto para agentes de código, MCP internos y compuertas de revisión.
+- [Capacitación en IA para empresas](https://zulia.lat/servicios/cursos/): cursos prácticos en Monterrey e in company. Plataforma: https://cursos.zulia.lat
 
-## Identidad y contacto
+## Proyectos
 
-- Nombre comercial: ZulIA (también Zulia IA).
-- Responsable: Haziel Eduardo Zul Mendez, AI Growth Lead y Full Stack Developer.
-- Ubicación: Monterrey, Nuevo León, México.
-- Idiomas: español e inglés.
-- [LinkedIn de Haziel Zul](https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/)
-- [Contacto por WhatsApp](https://wa.me/528122509882)
+- [Todos los proyectos](https://zulia.lat/proyectos/): veinte casos reales con cliente, sector, año, stack, estado y resultado.
+- Capa agéntica: MontIA (Grupo Mont), Relay (iKom), MCP Factory y agente de gestión de la demanda (Kashio), Envia Copilot y Enzo (Envia.com), Semilla (producto propio).
+- Software: inventario y catálogo VIGA, portal vehicular por QR y plan logístico (Grupo Mont), plataforma PDLC (Kashio), cotizador multiempresa, Agenda.
+- Sitios: Proveedora Farid, red de sitios VIGA, Mueblería Juárez, Zulia Links.
+- Ingeniería: KFoundation (Kashio).
 
-## Evidencia pública y productos
+## Producto propio
 
-- Envia Copilot: sistema multiagente para la operación logística de Envia.com.
-- Enzo: asistente conversacional de Envia.com que cotiza, rastrea y gestiona envíos.
-- MontIA: asistente ejecutivo privado con memoria, señales y acciones bajo aprobación.
-- Semilla: producto de prospección B2B de ZulIA en fase piloto. Encuentra prospectos, prepara el contacto, da seguimiento y entrega conversaciones con interés al equipo comercial humano.
+- [Semilla](https://zulia.lat/semilla/): prospección B2B operada por agentes (Cazador, Enriquecedor, Calificador, Redactor, Conversador). Pre-lanzamiento.
 
-Para más contexto legible por sistemas, consulta [llms-full.txt](https://zulia.lat/llms-full.txt).
+## Empresa
+
+- [Nosotros](https://zulia.lat/nosotros/): principios, fundador y preguntas frecuentes.
+- [Cotizar](https://zulia.lat/cotizar/): formulario de cuatro pasos. Respuesta con propuesta de primera fase en menos de dos días hábiles.
+- Contacto: hola@zulia.lat

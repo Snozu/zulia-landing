@@ -1,60 +1,29 @@
-# ZulIA — perfil completo
+# ZulIA
 
-ZulIA es una consultoría de producto y tecnología en Monterrey, Nuevo León, México. Haziel Eduardo Zul Mendez trabaja directamente con cada cliente para entender un problema, definir el alcance, construir el sistema y evolucionarlo con datos reales. La oferta no se limita a inteligencia artificial: incluye estrategia de producto, UX, frontend, backend, APIs, datos, infraestructura, automatización, arquitectura y crecimiento digital.
+> Consultoría de software, automatización e inteligencia artificial en Monterrey, México. Conectamos el ERP, el CRM, el correo y WhatsApp que una empresa ya usa a una capa de IA que consulta, ejecuta y pide aprobación humana cuando toca.
 
 ## Servicios
 
-### Desarrollo de software a medida
+- [Capa agéntica sobre tus sistemas](https://zulia.lat/servicios/capa-agentica/): asistentes de IA con herramientas, permisos, memoria y aprobación humana, conectados a sistemas reales. También como servidor MCP.
+- [Software operativo a medida](https://zulia.lat/servicios/software-a-medida/): inventarios, portales, plataformas internas y SaaS.
+- [Sitios y catálogos que venden](https://zulia.lat/servicios/sitios-y-catalogos/): sitios corporativos y catálogos rápidos, indexables y administrables.
+- [Ingeniería asistida por IA para tu equipo](https://zulia.lat/servicios/ingenieria-con-ia/): metodología, contexto para agentes de código, MCP internos y compuertas de revisión.
+- [Capacitación en IA para empresas](https://zulia.lat/servicios/cursos/): cursos prácticos en Monterrey e in company. Plataforma: https://cursos.zulia.lat
 
-Diseño y construcción de SaaS, plataformas multiempresa, portales de clientes, backoffices, dashboards, sistemas operativos internos, APIs, bases de datos e integraciones. Está dirigido a equipos que ya rebasaron herramientas genéricas o necesitan convertir una operación particular en un producto usable.
+## Proyectos
 
-URL oficial: https://zulia.lat/servicios/desarrollo-software-a-medida/
+- [Todos los proyectos](https://zulia.lat/proyectos/): veinte casos reales con cliente, sector, año, stack, estado y resultado.
+- Capa agéntica: MontIA (Grupo Mont), Relay (iKom), MCP Factory y agente de gestión de la demanda (Kashio), Envia Copilot y Enzo (Envia.com), Semilla (producto propio).
+- Software: inventario y catálogo VIGA, portal vehicular por QR y plan logístico (Grupo Mont), plataforma PDLC (Kashio), cotizador multiempresa, Agenda.
+- Sitios: Proveedora Farid, red de sitios VIGA, Mueblería Juárez, Zulia Links.
+- Ingeniería: KFoundation (Kashio).
 
-### Agentes de inteligencia artificial
+## Producto propio
 
-Sistemas que consultan conocimiento real, usan herramientas y ejecutan tareas dentro de sistemas empresariales. Incluye RAG, búsqueda documental, orquestación multiagente, copilotos, memoria, herramientas, guardrails, WhatsApp, CRM y APIs, con rutas de escalamiento humano.
+- [Semilla](https://zulia.lat/semilla/): prospección B2B operada por agentes (Cazador, Enriquecedor, Calificador, Redactor, Conversador). Pre-lanzamiento.
 
-URL oficial: https://zulia.lat/servicios/agentes-inteligencia-artificial/
+## Empresa
 
-### Automatización de procesos
-
-Flujos con n8n, webhooks e integraciones que mueven información, validan reglas, procesan documentos, notifican a equipos y sincronizan CRM, ERP, mensajería y sistemas internos. Incluye observabilidad, reintentos, alertas y tratamiento de excepciones.
-
-URL oficial: https://zulia.lat/servicios/automatizacion-procesos/
-
-### Web, SEO y búsqueda con IA
-
-Sitios web, landing pages y e-commerce responsive con estrategia de mensaje, SEO técnico, accesibilidad, rendimiento, entidades y datos estructurados. Se preparan para que clientes, Google, Bing y sistemas de búsqueda con IA puedan encontrar, entender y verificar la oferta.
-
-URL oficial: https://zulia.lat/servicios/landing-pages-seo/
-
-### Consultoría y arquitectura tecnológica
-
-Diagnóstico de procesos y sistemas, definición de producto, auditoría, diseño de arquitectura y flujos de datos, comparación de alternativas, roadmap técnico y acompañamiento de implementación.
-
-URL oficial: https://zulia.lat/servicios/consultoria-arquitectura-tecnologica/
-
-## Experiencia y productos mostrados
-
-- Envia Copilot: experiencia profesional de Haziel dentro de Envia.com. Coordina agentes especializados y herramientas operativas para cotizar, crear guías, rastrear paquetes, agendar recolecciones, abrir tickets y consultar analítica.
-- Enzo: asistente logístico de Envia.com dentro de WhatsApp, capaz de responder, verificar identidad y ejecutar acciones con contexto.
-- MontIA: producto privado que conecta WhatsApp, correo, archivos y operación para asistir a dirección con memoria, evidencia, señales y acciones bajo permisos.
-- Semilla: producto independiente de prospección B2B de ZulIA en fase piloto. Encuentra empresas que encajan, prepara mensajes, da seguimiento por correo y entrega conversaciones con interés al equipo comercial humano. ZulIA no lo posiciona como reemplazo autónomo del vendedor ni como CRM generalista.
-
-Los productos y las marcas de terceros pertenecen a sus respectivos propietarios. Cuando se menciona trabajo para Envia.com, se presenta como experiencia profesional de Haziel dentro de su equipo.
-
-## Responsable
-
-Haziel Eduardo Zul Mendez es AI Growth Lead y Full Stack Developer. Cuenta con más de seis años construyendo plataformas, automatizaciones, sitios y sistemas de IA para logística, automotriz, industria y productos digitales. Su perfil público verificable es https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/.
-
-## Contacto
-
-- Sitio oficial: https://zulia.lat/
-- WhatsApp: https://wa.me/528122509882
-- Ubicación: Monterrey, Nuevo León, México
-- Idiomas: español e inglés
-
-## URLs técnicas
-
-- Robots: https://zulia.lat/robots.txt
-- Sitemap: https://zulia.lat/sitemap-index.xml
+- [Nosotros](https://zulia.lat/nosotros/): principios, fundador y preguntas frecuentes.
+- [Cotizar](https://zulia.lat/cotizar/): formulario de cuatro pasos. Respuesta con propuesta de primera fase en menos de dos días hábiles.
+- Contacto: hola@zulia.lat
