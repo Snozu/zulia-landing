@@ -3,7 +3,6 @@ import { CTA } from '../../data/site';
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="glow" aria-hidden="true"></div>
   <div class="shell grid">
     <div class="copy">
       <h1 id="hero-title" class="display">Tus sistemas, operados desde un chat de IA.</h1>
@@ -20,11 +19,11 @@ import { CTA } from '../../data/site';
     <div class="stack" aria-hidden="true">
       <figure class="frame frame-back">
         <div class="chrome"><i></i><i></i><i></i><span>envia.com</span></div>
-        <img src="/projects/envia-copilot.webp" alt="" width="1600" height="882" loading="eager" decoding="async" />
+        <div class="shot"><img src="/projects/envia-copilot.webp" alt="" width="1600" height="882" loading="eager" decoding="async" /></div>
       </figure>
       <figure class="frame frame-front">
         <div class="chrome dark"><i></i><i></i><i></i><span>MontIA · Grupo Mont</span></div>
-        <img src="/projects/montia.webp" alt="" width="1600" height="1000" loading="eager" decoding="async" fetchpriority="high" />
+        <div class="shot"><img src="/projects/montia.webp" alt="" width="1600" height="1000" loading="eager" decoding="async" fetchpriority="high" /></div>
       </figure>
       <div class="approval">
         <span class="tag">Aprobación requerida</span>
@@ -36,14 +35,14 @@ import { CTA } from '../../data/site';
 </section>
 
 <style>
-  .hero { position: relative; padding-top: clamp(3.5rem, 7vw, 6rem); overflow: hidden; }
-  .glow {
-    position: absolute;
-    inset: -20% -10% auto auto;
-    width: 60%;
-    height: 90%;
-    background: var(--glow);
-    pointer-events: none;
+  .hero {
+    position: relative;
+    padding-top: clamp(3.5rem, 7vw, 6rem);
+    overflow: hidden;
+    background-image: var(--glow);
+    background-repeat: no-repeat;
+    background-size: 70% 110%;
+    background-position: right -12% top -30%;
   }
   .grid {
     position: relative;
@@ -67,7 +66,9 @@ import { CTA } from '../../data/site';
     background: var(--white);
     box-shadow: var(--shadow-lg);
   }
-  .frame img { display: block; width: 100%; height: auto; }
+  .frame .shot { position: relative; aspect-ratio: 16 / 9; background: var(--paper-deep); }
+  .frame-front .shot { aspect-ratio: 16 / 10; background: #0e1013; }
+  .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
   .chrome {
     display: flex;
     align-items: center;
@@ -83,7 +84,6 @@ import { CTA } from '../../data/site';
   .chrome span { margin-left: .5rem; }
   .chrome.dark { background: #15181d; border-color: rgb(255 255 255 / .1); color: #9da5b0; }
   .chrome.dark i { background: #3a4048; }
-  .frame-front .chrome.dark ~ img { background: #0e1013; }
   .frame-back { right: 0; top: 0; width: 82%; opacity: .95; }
   .frame-front { left: 0; bottom: 0; width: 84%; }
   .approval {
