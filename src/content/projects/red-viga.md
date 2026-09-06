@@ -32,3 +32,5 @@ url: "https://metalesyrecicladosviga.com"
 ---
 
 La arquitectura separa quién administra (WordPress) de quién sirve (Astro estático). El equipo publica en el panel que conoce y el visitante recibe páginas rápidas e indexables.
+
+El sitio satélite de tubería casing, tubocasingdesegunda.com, se midió el mismo día: 98 en rendimiento móvil, 100 en escritorio, 100 en accesibilidad, recomendaciones y SEO, y 3 de 3 en navegación con agentes ([informe](https://pagespeed.web.dev/analysis/https-tubocasingdesegunda-com/h8sfqtspza)).
