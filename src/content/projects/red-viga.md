@@ -7,6 +7,11 @@ year: 2025
 line: "sitios"
 status: "produccion"
 role: "cliente"
+pagespeed:
+  mobile: [100, 97, 100, 100]
+  desktop: [100, 97, 100, 100]
+  date: "2026-09-06"
+  report: "https://pagespeed.web.dev/analysis/https-metalesyrecicladosviga-com/8i4a6bbyjf"
 cover: "/projects/red-viga.webp"
 coverAlt: "Portada de metalesyrecicladosviga.com con inventario y cotización inmediata"
 order: 21
