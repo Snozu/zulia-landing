@@ -1,6 +1,6 @@
 ---
-title: "KFoundation"
-client: "Kashio"
+title: "Método de ingeniería con agentes de IA"
+client: "Fintech de pagos (nombre reservado)"
 sector: "Fintech"
 city: "Lima"
 year: 2026
@@ -22,7 +22,7 @@ stack:
   - "OpenSpec"
   - "MCP"
   - "Git hooks"
-outcome: "Versión 2.0 en uso por ingeniería. Es el método con el que se construyen MCP Factory, el agente de demanda y la plataforma PDLC."
+outcome: "Versión 2.0 en uso por ingeniería. Es el método con el que se construyen la fábrica de MCP, el agente de demanda y la plataforma de ciclo de vida de producto."
 ---
 
-KFoundation es la respuesta a una pregunta que toda empresa con desarrolladores se está haciendo: cómo dejar que los agentes escriban código sin que rompan producción. La respuesta no es una política, es contexto instalado en cada repositorio.
+Este método es la respuesta a una pregunta que toda empresa con desarrolladores se está haciendo: cómo dejar que los agentes escriban código sin que rompan producción. La respuesta no es una política, es contexto instalado en cada repositorio.

@@ -1,6 +1,6 @@
 ---
 title: "Agente de gestión de la demanda"
-client: "Kashio"
+client: "Fintech de pagos (nombre reservado)"
 sector: "Fintech"
 city: "Lima"
 year: 2026
@@ -22,4 +22,4 @@ stack:
 outcome: "Release 1 en construcción dentro de la iniciativa de IA 2026 de la empresa."
 ---
 
-Proyecto construido con el método de ingeniería de Kashio: especificación primero, evaluaciones desde el inicio y operación documentada antes del despliegue.
+Proyecto construido con el método de ingeniería de la empresa: especificación primero, evaluaciones desde el inicio y operación documentada antes del despliegue.

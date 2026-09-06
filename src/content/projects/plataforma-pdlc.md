@@ -1,6 +1,6 @@
 ---
-title: "Plataforma PDLC"
-client: "Kashio"
+title: "Plataforma de ciclo de vida de producto"
+client: "Fintech de pagos (nombre reservado)"
 sector: "Fintech"
 city: "Lima"
 year: 2026

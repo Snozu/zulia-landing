@@ -2,6 +2,7 @@
 import type { Project } from '../lib/projects';
 import { projectUrl } from '../lib/projects';
 import { LINE_LABEL, STATUS_LABEL } from '../data/site';
+import PageSpeed from './PageSpeed.astro';
 
 interface Props {
   project: Project;
@@ -30,7 +31,10 @@ const d = project.data;
       <span class="client">{d.client}</span>
     </div>
     <p class="summary">{d.summary}</p>
-    <p class="facts">{d.sector} · {d.city} · {d.year}</p>
+    <div class="facts-row">
+      <p class="facts">{d.sector} · {d.city} · {d.year}</p>
+      {d.pagespeed && <PageSpeed {...d.pagespeed} compact />}
+    </div>
   </div>
 </a>
 
@@ -73,6 +77,7 @@ const d = project.data;
   .row .h3 { transition: color 140ms ease; }
   .client { flex: 0 0 auto; color: var(--text-muted); font-size: .82rem; font-weight: 500; }
   .summary { color: var(--text-muted); font-size: .92rem; line-height: 1.5; }
+  .facts-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
   .facts { color: var(--text-muted); font-size: .78rem; }
   @media (prefers-reduced-motion: reduce) { .ptile, .media img { transition: none; } .ptile:hover { transform: none; } }
 </style>

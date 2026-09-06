@@ -1,6 +1,6 @@
 ---
-title: "MCP Factory"
-client: "Kashio"
+title: "Fábrica de servidores MCP"
+client: "Fintech de pagos (nombre reservado)"
 sector: "Fintech"
 city: "Lima"
 year: 2026
@@ -9,7 +9,7 @@ status: "desarrollo"
 role: "cliente"
 order: 3
 summary: "Convierte cualquier API documentada en OpenAPI en un servidor MCP seguro, versionado y publicado, sin escribir código."
-problem: "Kashio tiene decenas de APIs internas y quiere que sus agentes de IA las usen con las credenciales y permisos de cada sistema, sin escribir un conector a mano por cada una."
+problem: "La empresa tiene decenas de APIs internas y quiere que sus agentes de IA las usen con las credenciales y permisos de cada sistema, sin escribir un conector a mano por cada una."
 built:
   - "Importar una especificación OpenAPI y generar herramientas MCP automáticamente"
   - "Curación: renombrar, ocultar y documentar herramientas antes de publicar"

@@ -1,0 +1,93 @@
+---
+interface Props {
+  mobile: [number, number, number, number];
+  desktop: [number, number, number, number];
+  date: string;
+  report?: string;
+  compact?: boolean;
+}
+const { mobile, desktop, date, report, compact = false } = Astro.props;
+const labels = ['Rendimiento', 'Accesibilidad', 'Recomendaciones', 'SEO'];
+const tone = (n: number) => (n >= 90 ? 'good' : n >= 50 ? 'mid' : 'low');
+const fmtDate = new Date(date + 'T12:00:00').toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+{compact ? (
+  <span class="ps-compact" title={`PageSpeed Insights, móvil, ${fmtDate}`}>
+    <i></i> PageSpeed {mobile[0]} · {desktop[0]}
+  </span>
+) : (
+  <section class="ps card" aria-label="Resultados de PageSpeed Insights">
+    <div class="ps-head">
+      <div>
+        <p class="label">PageSpeed Insights</p>
+        <p class="muted small">Medición de Google del {fmtDate}. Móvil y escritorio, escala 0 a 100.</p>
+      </div>
+      {report && (
+        <a class="link" href={report} target="_blank" rel="noopener">
+          Ver informe
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+        </a>
+      )}
+    </div>
+    {[['Móvil', mobile], ['Escritorio', desktop]].map(([name, scores]) => (
+      <div class="row">
+        <span class="device">{name}</span>
+        <ul class="gauges">
+          {(scores as number[]).map((n, i) => (
+            <li class={`g g-${tone(n)}`}>
+              <span class="ring" style={`--p:${n}`}><b>{n}</b></span>
+              <span class="lbl">{labels[i]}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+)}
+
+<style>
+  .ps { display: grid; gap: 1.25rem; padding: 1.5rem; }
+  .ps-head { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+  .small { font-size: .85rem; margin-top: .35rem; }
+  .row { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .device { font-weight: 600; }
+  .gauges { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; margin: 0; padding: 0; list-style: none; }
+  .g { display: grid; justify-items: center; gap: .4rem; text-align: center; }
+  .ring {
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--track) 0);
+    color: var(--c);
+  }
+  .ring b { display: grid; place-items: center; width: 2.7rem; height: 2.7rem; border-radius: 50%; background: var(--white); font-family: var(--font-mono); font-size: .95rem; font-weight: 700; }
+  .lbl { font-size: .72rem; color: var(--text-muted); }
+  .g-good { --c: #0c8a4b; --track: #d7efe2; }
+  .g-mid { --c: #b7791f; --track: #f4e5c8; }
+  .g-low { --c: #b3261e; --track: #f6d5d2; }
+  :global(html.dark) .g-good { --track: #143d2a; }
+  :global(html.dark) .g-mid { --track: #43331a; }
+  :global(html.dark) .g-low { --track: #4a1f1c; }
+
+  .ps-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .3rem .6rem;
+    border-radius: 999px;
+    background: #e4f5ea;
+    color: #0c6b3b;
+    font-size: .74rem;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .ps-compact i { width: .5rem; height: .5rem; border-radius: 50%; background: #0c8a4b; }
+  :global(html.dark) .ps-compact { background: #143d2a; color: #8fe0b5; }
+  @media (max-width: 600px) {
+    .row { grid-template-columns: 1fr; }
+    .gauges { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

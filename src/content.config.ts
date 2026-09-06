@@ -26,6 +26,14 @@ const projects = defineCollection({
     url: z.string().url().optional(),
     cover: z.string().optional(),
     coverAlt: z.string().optional(),
+    pagespeed: z
+      .object({
+        mobile: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+        desktop: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+        date: z.string(),
+        report: z.string().url().optional(),
+      })
+      .optional(),
     featured: z.boolean().default(false),
     order: z.number().default(100),
     draft: z.boolean().default(false),
