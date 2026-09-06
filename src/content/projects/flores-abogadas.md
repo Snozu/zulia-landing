@@ -7,6 +7,11 @@ year: 2026
 line: "sitios"
 status: "produccion"
 role: "cliente"
+pagespeed:
+  mobile: [98, 100, 100, 100]
+  desktop: [100, 100, 100, 100]
+  date: "2026-09-06"
+  report: "https://pagespeed.web.dev/analysis/https-floresabogadas-com-mx/kt3gcxulx6"
 summary: "Sitio bilingüe para un despacho de derecho familiar: catálogo de servicios y áreas, guías, agenda de asesorías supervisada y formularios que llegan por correo sin exponer credenciales."
 problem: "El despacho necesitaba una presencia que convirtiera en citas de asesoría, con un catálogo de servicios claro, una versión en inglés para mexicanos que viven en Estados Unidos y necesitan trámites en México, y un modelo de mantenimiento continuo."
 built:
