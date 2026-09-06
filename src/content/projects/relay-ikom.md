@@ -7,6 +7,8 @@ year: 2026
 line: "agentica"
 status: "piloto"
 role: "cliente"
+cover: "/projects/relay-ikom.webp"
+coverAlt: "Consola de operaciones de Relay con el panel de actividad de agentes y la base de conocimiento"
 featured: true
 order: 2
 summary: "Agente de operaciones que responde desde la base de datos y las políticas propias de la empresa, y se detiene ante una persona antes de gastar un centavo."
