@@ -14,7 +14,7 @@
 ## Proyectos
 
 - [Todos los proyectos](https://zulia.lat/proyectos/): más de veinte casos reales con cliente, sector, año, stack, estado y resultado.
-- Capa agéntica: MontIA (Grupo Mont), Relay (iKom), fábrica de servidores MCP y agente de gestión de la demanda (fintech, nombre reservado), Envia Copilot y Enzo (Envia.com), Semilla (producto propio).
+- Capa agéntica: MontIA (Grupo Mont), Relay (iKom), fábrica de servidores MCP y agente de gestión de la demanda (fintech, nombre reservado), Semilla (producto propio).
 - Software: inventario y catálogo VIGA, portal vehicular por QR y plan logístico (Grupo Mont), plataforma de ciclo de vida de producto (fintech, nombre reservado), cotizador multiempresa, Agenda.
 - Sitios: Proveedora Farid, Flores Abogadas, red de sitios VIGA, Mueblería Juárez, Zulia Links.
 - Campañas: Google Ads para racks industriales usados (VIGA).

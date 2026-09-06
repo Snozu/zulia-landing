@@ -47,11 +47,10 @@ export const STATUS_LABEL = {
 export const ROLE_LABEL = {
   cliente: 'Proyecto para cliente',
   propio: 'Producto propio',
-  equipo: 'Experiencia profesional en el equipo del cliente',
+  equipo: 'Trabajo dentro del equipo del cliente',
 } as const;
 
 export const BRANDS: ReadonlyArray<{ name: string; file: string; dark?: string }> = [
-  { name: 'Envia.com', file: '/brands/envia.svg' },
   { name: 'Proveedora Farid', file: '/brands/farid.png' },
   { name: 'Grupo Motomex', file: '/brands/grupo-motomex.png' },
   { name: 'iKom', file: '/brands/ikom.png', dark: '/brands/ikom-blanco.png' },
