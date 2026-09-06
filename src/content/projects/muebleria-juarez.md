@@ -7,6 +7,8 @@ year: 2026
 line: "sitios"
 status: "desarrollo"
 role: "cliente"
+cover: "/projects/muebleria-juarez.webp"
+coverAlt: "Portada de muebleriajuarez.com tras la migración al VPS"
 order: 22
 summary: "Migración del sitio WordPress a un VPS propio con Docker y construcción de un catálogo rápido administrado desde WordPress."
 problem: "El sitio vivía en un hosting compartido lento y el catálogo dependía del tema de WordPress para todo."

@@ -7,6 +7,8 @@ year: 2025
 line: "software"
 status: "produccion"
 role: "cliente"
+cover: "/projects/cotizador-barreta.webp"
+coverAlt: "Cotizador multiempresa con datos de cliente, materiales y totales"
 order: 15
 summary: "Generador de cotizaciones en PDF para un grupo con varias razones sociales y marcas, con datos fiscales y sitios de cada una."
 problem: "Cada cotización se armaba a mano en un procesador de textos, con errores en datos fiscales y formatos distintos por empresa."

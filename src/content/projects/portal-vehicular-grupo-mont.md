@@ -7,6 +7,8 @@ year: 2026
 line: "software"
 status: "produccion"
 role: "cliente"
+cover: "/projects/portal-vehicular-grupo-mont.webp"
+coverAlt: "Portal vehicular de Grupo Mont con la flotilla registrada y acceso por QR"
 order: 11
 summary: "Cada vehículo de la flotilla lleva un QR en su marbete. Al escanearlo se abre su expediente; el personal externo ve solo el reglamento."
 problem: "La información de cada vehículo (documentos, seguros, verificaciones) estaba repartida en carpetas y personas. En una revisión nadie la tenía a la mano."

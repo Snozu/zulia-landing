@@ -22,7 +22,7 @@ stack:
 outcome: "En desarrollo. La plataforma del negocio y el punto de venta se construyen sobre repositorios separados con guía de instalación compartida."
 featured: false
 order: 18
-draft: true
+draft: false
 ---
 
-Proyecto en curso dentro de una colaboración con otra consultoría. Se publicará cuando el cliente confirme el alcance que puede mostrarse.
+Proyecto en curso dentro de una colaboración con otra consultoría. La separación en repositorios por servicio permite que cada equipo despliegue su parte sin bloquear a los demás.

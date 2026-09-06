@@ -7,6 +7,8 @@ year: 2026
 line: "marketing"
 status: "produccion"
 role: "cliente"
+cover: "/projects/campana-viga-racks.webp"
+coverAlt: "Landing de racks industriales usados de VIGA con WhatsApp en un toque"
 featured: true
 order: 8
 summary: "Campaña de búsqueda para un nicho industrial de ticket alto, operada con un agente y reglas duras: $4.56 millones MXN en ventas atribuidas con $1,370 MXN de pauta real."

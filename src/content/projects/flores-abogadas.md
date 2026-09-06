@@ -23,6 +23,8 @@ stack:
   - "Node"
 outcome: "Sitio en producción en floresabogadas.com.mx con mantenimiento mensual contratado."
 url: "https://floresabogadas.com.mx"
+cover: "/projects/flores-abogadas.webp"
+coverAlt: "Portada de floresabogadas.com.mx"
 featured: false
 order: 21
 ---

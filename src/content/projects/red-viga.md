@@ -7,6 +7,8 @@ year: 2025
 line: "sitios"
 status: "produccion"
 role: "cliente"
+cover: "/projects/red-viga.webp"
+coverAlt: "Portada de metalesyrecicladosviga.com con inventario y cotización inmediata"
 order: 21
 summary: "Sitio corporativo con WordPress como administrador y render estático, un sitio satélite por línea de producto y un hub instalable para el equipo."
 problem: "Un grupo con varias marcas y dominios necesitaba publicar inventario y contenido desde un solo lugar sin sacrificar velocidad ni posicionamiento."
