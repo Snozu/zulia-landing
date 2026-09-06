@@ -7,7 +7,7 @@
 - [Capa agéntica sobre tus sistemas](https://zulia.lat/servicios/capa-agentica/): asistentes de IA con herramientas, permisos, memoria y aprobación humana, conectados a sistemas reales. También como servidor MCP.
 - [Software operativo a medida](https://zulia.lat/servicios/software-a-medida/): inventarios, portales, plataformas internas y SaaS.
 - [Sitios y catálogos que venden](https://zulia.lat/servicios/sitios-y-catalogos/): sitios corporativos y catálogos rápidos, indexables y administrables.
-- [Campañas de marketing con agentes de IA](https://zulia.lat/servicios/campanas-con-agentes/): lanzamientos por fases con contenido, anuncios segmentados y seguimiento por WhatsApp operados por agentes.
+- [Campañas de Google Ads operadas por agentes](https://zulia.lat/servicios/campanas-con-agentes/): método de siete fases para mercados B2B de ticket alto, con medición antes de gastar, atribución de ventas reales y operación semanal. Caso VIGA: $4.56 M MXN en ventas con $1,370 MXN de pauta.
 - [Ingeniería asistida por IA para tu equipo](https://zulia.lat/servicios/ingenieria-con-ia/): metodología, contexto para agentes de código, MCP internos y compuertas de revisión.
 - [Capacitación en IA para empresas](https://zulia.lat/servicios/cursos/): cursos prácticos en Monterrey e in company. Plataforma: https://cursos.zulia.lat
 
@@ -17,6 +17,7 @@
 - Capa agéntica: MontIA (Grupo Mont), Relay (iKom), fábrica de servidores MCP y agente de gestión de la demanda (fintech, nombre reservado), Envia Copilot y Enzo (Envia.com), Semilla (producto propio).
 - Software: inventario y catálogo VIGA, portal vehicular por QR y plan logístico (Grupo Mont), plataforma de ciclo de vida de producto (fintech, nombre reservado), cotizador multiempresa, Agenda.
 - Sitios: Proveedora Farid, Flores Abogadas, red de sitios VIGA, Mueblería Juárez, Zulia Links.
+- Campañas: Google Ads para racks industriales usados (VIGA).
 - Ingeniería: método de ingeniería con agentes de IA (fintech, nombre reservado).
 
 ## Producto propio

@@ -80,6 +80,11 @@ it is committed.
 - Client names appear only with permission. Otherwise sector and city.
 - Role `equipo` (work done inside the client's team, such as Envia.com) always
   renders the disclaimer on the case page.
+- PageSpeed proof (`pagespeed` field) is added only when every category scores
+  90 or more on both mobile and desktop in PageSpeed Insights. Record the date
+  and the public report URL. A site below 90 gets no badge until it is optimized.
+- Confidential clients are named by sector and city only (for example
+  "Fintech de pagos (nombre reservado)"); project titles must not reveal them.
 - No em dash or en dash in visible text. Use a period, comma or colon.
 - Eyebrow labels (`.label`) at most one per three sections on a page.
 
