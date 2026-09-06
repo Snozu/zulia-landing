@@ -1,7 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-export const LINES = ['agentica', 'software', 'sitios', 'ingenieria', 'cursos'] as const;
+export const LINES = ['agentica', 'software', 'sitios', 'marketing', 'ingenieria', 'cursos'] as const;
 export type Line = (typeof LINES)[number];
 
 export const STATUSES = ['produccion', 'piloto', 'desarrollo', 'interno', 'prelanzamiento'] as const;

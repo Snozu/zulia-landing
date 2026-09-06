@@ -111,6 +111,38 @@ export const services: Service[] = [
       'Sitios corporativos, catálogos y e-commerce rápidos e indexables, listos para buscadores y respuestas de IA. Administración simple y hosting a tu nombre.',
   },
   {
+    slug: 'campanas-con-agentes',
+    line: 'marketing',
+    name: 'Campañas de marketing con agentes de IA',
+    shortName: 'Campañas con agentes',
+    promise: 'Un lanzamiento con calendario, anuncios y seguimiento operado por agentes, no por buena voluntad.',
+    summary:
+      'Diseñamos y operamos campañas de captación por fases: expectativa, autoridad, resolución de dudas y cierre. Los agentes producen el contenido, segmentan los anuncios y dan seguimiento por WhatsApp a cada persona interesada.',
+    idealFor:
+      'Despachos, consultorios, escuelas y negocios de servicios que lanzan un curso, un evento o una oferta y necesitan llenar cupo o agenda en pocas semanas.',
+    deliverables: [
+      'Plan de campaña por semanas con fases y objetivos de cada una',
+      'Copys, carruseles, historias y guiones de video producidos con agentes y revisados por una persona',
+      'Segmentación y presupuesto de anuncios en Meta y Google, con precios por fase (preventa, regular, premium)',
+      'Lista de espera y registro con formulario propio, sin depender de la bandeja del cliente',
+      'Seguimiento automático por WhatsApp: recordatorios, cierre de preventa y mensajes a quienes reaccionaron',
+      'Reporte al cierre: inscritos, costo por registro y qué repetir la próxima vez',
+    ],
+    process: [
+      { step: 'Definimos oferta y público', detail: 'Qué se vende, a quién, a qué precio y con qué fecha límite.' },
+      { step: 'Armamos el calendario por fases', detail: 'Expectativa, autoridad, dudas y cierre. Cada semana tiene su contenido y su llamado.' },
+      { step: 'Los agentes producen y publican', detail: 'Contenido, anuncios y mensajes salen con revisión humana antes de cada fase.' },
+      { step: 'Seguimos y cerramos', detail: 'Cada registro recibe seguimiento por WhatsApp hasta que paga o dice que no.' },
+    ],
+    faq: [
+      { q: '¿Manejan la pauta?', a: 'Sí. Configuramos y optimizamos anuncios en Meta y Google con el presupuesto del cliente, en su propia cuenta publicitaria.' },
+      { q: '¿Qué hacen los agentes exactamente?', a: 'Producen borradores de contenido, adaptan el mensaje por fase y por canal, y operan el seguimiento por WhatsApp. Una persona aprueba antes de publicar y antes de cualquier gasto.' },
+    ],
+    searchTitle: 'Campañas de marketing con agentes de IA para negocios de servicios | ZulIA',
+    metaDescription:
+      'Campañas de lanzamiento por fases operadas con agentes de IA: contenido, anuncios segmentados y seguimiento por WhatsApp. Para cursos, eventos y ofertas de negocios de servicios en México.',
+  },
+  {
     slug: 'ingenieria-con-ia',
     line: 'ingenieria',
     name: 'Ingeniería asistida por IA para tu equipo',

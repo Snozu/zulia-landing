@@ -31,6 +31,7 @@ export const LINE_LABEL: Record<Line, string> = {
   agentica: 'Capa agéntica',
   software: 'Software a medida',
   sitios: 'Sitios y catálogos',
+  marketing: 'Campañas con agentes',
   ingenieria: 'Ingeniería con IA',
   cursos: 'Cursos',
 };
