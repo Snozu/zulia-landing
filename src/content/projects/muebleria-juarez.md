@@ -7,6 +7,11 @@ year: 2026
 line: "sitios"
 status: "desarrollo"
 role: "cliente"
+pagespeed:
+  mobile: [94, 97, 100, 100]
+  desktop: [100, 97, 100, 100]
+  date: "2026-09-06"
+  report: "https://pagespeed.web.dev/analysis/https-muebleriajuarez-com/4qiaqd696t"
 cover: "/projects/muebleria-juarez.webp"
 coverAlt: "Portada de muebleriajuarez.com tras la migración al VPS"
 order: 22
