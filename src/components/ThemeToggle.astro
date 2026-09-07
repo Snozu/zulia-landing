@@ -4,9 +4,12 @@ import Sun from 'phosphor-astro/SunBold.astro';
 ---
 
 <button class="theme-toggle" type="button" role="switch" aria-checked="false" data-theme-toggle aria-label="Cambiar tema de color" title="Cambiar tema de color">
-  <Sun class="theme-sun" width="17" height="17" aria-hidden="true" />
+  {/* La pastilla va primero y por debajo: es el fondo que se desliza, no un
+      elemento más de la fila. Cada icono vive en su celda para que el recorrido
+      sea exactamente el ancho de una. */}
   <span class="theme-thumb" aria-hidden="true"></span>
-  <Moon class="theme-moon" width="17" height="17" aria-hidden="true" />
+  <span class="theme-cell"><Sun class="theme-sun" width="17" height="17" aria-hidden="true" /></span>
+  <span class="theme-cell"><Moon class="theme-moon" width="17" height="17" aria-hidden="true" /></span>
 </button>
 
 <script>

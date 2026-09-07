@@ -324,25 +324,93 @@ const isActive = (href: string) => href !== '/' && path.startsWith(href);
 
   .actions { display: flex; align-items: center; gap: .75rem; }
   .cta { min-height: 2.5rem; padding: .6rem 1rem; font-size: .875rem; }
+  /* Interruptor de tema al estilo de un control segmentado de iOS: la pastilla
+     blanca se desliza detrás del icono activo. Tres detalles hacen que se
+     sienta físico y no como un cambio de clase:
+       1. La curva remata con un rebote corto, no frena en seco.
+       2. Al presionar, la pastilla se estira a lo ancho y el control entero se
+          hunde un poco. Ese estiramiento es lo que se lee como «líquido».
+       3. El icono que entra crece desde un poco menos de su tamaño.
+     Todo se anima con transform y opacity, así que no dispara relayout. */
   :global(.theme-toggle) {
+    --thumb: 1.9rem;
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: .35rem;
+    gap: 0;
     height: 2.5rem;
-    padding: 0 .55rem;
+    padding: 0 .3rem;
     border: 1px solid var(--line);
     border-radius: 999px;
-    background: var(--white);
+    background: var(--paper-deep);
     color: var(--text-muted);
     cursor: pointer;
     box-shadow: var(--shadow-sm);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 260ms cubic-bezier(.32, .72, 0, 1), border-color 160ms ease;
   }
-  :global(.theme-toggle svg) { width: .95rem; height: .95rem; }
-  :global(.theme-toggle .theme-thumb) { display: none; }
-  :global(.theme-toggle[data-state="light"] .theme-sun) { color: var(--ink); }
+  :global(.theme-toggle .theme-cell) {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: var(--thumb);
+    height: var(--thumb);
+  }
+  :global(.theme-toggle svg) {
+    width: .95rem;
+    height: .95rem;
+    transition: color 240ms ease, transform 460ms cubic-bezier(.34, 1.38, .5, 1);
+  }
+
+  :global(.theme-toggle .theme-thumb) {
+    position: absolute;
+    top: 50%;
+    left: .3rem;
+    width: var(--thumb);
+    height: var(--thumb);
+    margin-top: calc(var(--thumb) / -2);
+    border-radius: 999px;
+    background: var(--white);
+    box-shadow: 0 1px 3px rgb(0 0 0 / .16), 0 0 0 .5px rgb(0 0 0 / .04);
+    /* El rebote vive aquí: la curva pasa de 1 y regresa. */
+    transition: transform 520ms cubic-bezier(.34, 1.42, .5, 1);
+  }
+  :global(.theme-toggle[data-state="dark"] .theme-thumb) { transform: translateX(var(--thumb)); }
+  /* En oscuro, `--white` es más oscuro que `--paper-deep`: la pastilla se
+     hundía en la pista en vez de levantarse. Aquí se invierte a mano. */
+  :global(.dark) :global(.theme-toggle) { background: rgb(255 255 255 / .06); }
+  :global(.dark) :global(.theme-toggle .theme-thumb) {
+    background: #333a44;
+    box-shadow: 0 1px 3px rgb(0 0 0 / .5), 0 0 0 .5px rgb(255 255 255 / .07);
+  }
+
+  /* Estirar la pastilla en el eje del recorrido y hundir el control. */
+  :global(.theme-toggle:active) { transform: scale(.94); }
+  :global(.theme-toggle:active .theme-thumb) { transform: scaleX(1.22); }
+  :global(.theme-toggle[data-state="dark"]:active .theme-thumb) { transform: translateX(var(--thumb)) scaleX(1.22); }
+
+  :global(.theme-toggle[data-state="light"] .theme-sun),
   :global(.theme-toggle[data-state="dark"] .theme-moon) { color: var(--ink); }
-  :global(.theme-toggle:hover) { border-color: var(--ink); }
+  :global(.theme-toggle[data-state="light"] .theme-moon),
+  :global(.theme-toggle[data-state="dark"] .theme-sun) { color: var(--text-muted); opacity: .55; }
+  /* El icono que queda activo entra creciendo desde un poco menos. */
+  :global(.theme-toggle[data-state="light"] .theme-sun),
+  :global(.theme-toggle[data-state="dark"] .theme-moon) { transform: scale(1); }
+  :global(.theme-toggle[data-state="light"] .theme-moon),
+  :global(.theme-toggle[data-state="dark"] .theme-sun) { transform: scale(.86); }
+
+  :global(.theme-toggle:hover) { border-color: var(--line-dark); }
+  :global(.theme-toggle:focus-visible) { outline: 2px solid var(--accent-surface); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.theme-toggle),
+    :global(.theme-toggle svg),
+    :global(.theme-toggle .theme-thumb) { transition: none; }
+    :global(.theme-toggle:active) { transform: none; }
+    :global(.theme-toggle:active .theme-thumb) { transform: none; }
+    :global(.theme-toggle[data-state="dark"]:active .theme-thumb) { transform: translateX(var(--thumb)); }
+  }
 
   /* Same garment as the theme toggle so the two controls read as a pair. */
   .menu-btn {
