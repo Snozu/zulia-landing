@@ -83,6 +83,16 @@ const breadcrumbSchema = {
       </div>
     </section>
 
+    <section class="postura escenario">
+      <div class="shell-narrow">
+        <p class="esc-eyebrow">Dónde estamos nosotros</p>
+        <h2 class="h2">{d.position.claim}</h2>
+        <ul class="postura-lista">
+          {d.position.points.map((pt) => <li>{pt}</li>)}
+        </ul>
+      </div>
+    </section>
+
     <section class="faq section-tight">
       <div class="shell-narrow">
         <h2 class="h2">Preguntas frecuentes</h2>
@@ -174,6 +184,45 @@ const breadcrumbSchema = {
   summary::after { content: "+"; color: var(--blue-dark); font-weight: 500; }
   details[open] summary::after { content: "−"; }
   details p { padding: 0 0 1.25rem; max-width: 65ch; line-height: 1.7; }
+
+  /* Banda oscura, igual que en las páginas de servicio: rompe el reporte de
+     mercado y marca dónde termina la información neutral y empieza la postura. */
+  .escenario {
+    padding-block: clamp(3rem, 6vw, 4.5rem);
+    background:
+      radial-gradient(70rem 36rem at 15% -10%, rgb(45 106 245 / .22), transparent 60%),
+      var(--stage);
+    border-block: 1px solid var(--stage-line);
+    color: var(--stage-text);
+  }
+  .esc-eyebrow {
+    color: var(--brand-blue);
+    font-family: var(--font-mono);
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .postura .h2 { margin-top: .7rem; color: #fff; max-width: 30ch; }
+  .postura-lista { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; }
+  .postura-lista li {
+    position: relative;
+    padding: 1.05rem 0 1.05rem 1.75rem;
+    border-top: 1px solid var(--stage-line);
+    color: var(--stage-text);
+    line-height: 1.6;
+  }
+  .postura-lista li:last-child { border-bottom: 1px solid var(--stage-line); }
+  .postura-lista li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.6rem;
+    width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
+    background: var(--brand-blue);
+  }
 
   .salida-caja { padding: clamp(1.5rem, 4vw, 2.25rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
   .salida-caja .h3 { margin-top: .8rem; }

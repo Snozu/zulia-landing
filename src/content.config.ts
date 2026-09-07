@@ -69,6 +69,10 @@ const guias = defineCollection({
     updated: z.string(),
     readingMinutes: z.number(),
     line: z.enum(LINES).optional(),
+    // Sin esto la guía es un reporte de mercado y nos deja como un proveedor
+    // más del montón. Aquí va la postura: en qué parte del rango estamos y por
+    // qué, sin publicar precio y sin pelear por ser los más baratos.
+    position: z.object({ claim: z.string(), points: z.array(z.string()).min(3) }),
     faq: z.array(z.object({ q: z.string(), a: z.string() })).min(3),
     order: z.number().default(100),
     draft: z.boolean().default(false),

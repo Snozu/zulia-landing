@@ -205,6 +205,14 @@
   .section,
   .section-pad { padding-block: var(--section); }
   .section-tight { padding-block: calc(var(--section) * .6); }
+  /* Dos secciones seguidas suman su padding y abren un hueco del doble de lo
+     que nadie pidió. Se colapsa solo entre secciones sin fondo propio: cuando
+     la siguiente es una banda, ese aire sí separa el bloque de color y se
+     queda. */
+  :where(.section, .section-pad, .section-tight):not(.banda):not(.escenario)
+    + :where(.section, .section-pad, .section-tight):not(.banda):not(.escenario) {
+    padding-top: 0;
+  }
   .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
   /* Components toggle visibility with the hidden attribute; any element given
      a display value (fieldset, .nav, .done, tiles) would otherwise ignore it. */

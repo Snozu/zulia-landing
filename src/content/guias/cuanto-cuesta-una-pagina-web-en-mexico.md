@@ -6,6 +6,13 @@ metaDescription: "Rangos reales de precio para landing, sitio corporativo, catá
 updated: "2026-09-07"
 readingMinutes: 6
 line: "sitios"
+position:
+  claim: "Entregamos con PageSpeed arriba de 90 en móvil como criterio de entrega, no como promesa."
+  points:
+    - "La calificación se mide en la URL final y se publica: en los casos de este sitio está la captura de cada una, con fecha."
+    - "Diseño propio. Ni plantillas ni páginas que se notan hechas en automático, que es de lo que está lleno el rango bajo."
+    - "Dominio, hosting y correo a nombre de tu empresa desde el primer día, con los accesos entregados."
+    - "El sitio sale preparado para que los asistentes de IA lo puedan leer y citar, no solo Google. En México casi nadie lo está haciendo todavía."
 faq:
   - q: "¿Por qué una agencia cobra 8,000 y otra 80,000 por lo que parece lo mismo?"
     a: "Casi siempre porque una está montando una plantilla y la otra está diseñando. Una plantilla se instala en horas y se nota: el visitante ya vio ese diseño en otros diez sitios. Un sitio diseñado parte de tu negocio, tu catálogo y cómo compran tus clientes. También cambia el precio si el sitio se puede administrar solo o si cada cambio depende de quien lo hizo."

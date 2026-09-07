@@ -6,6 +6,13 @@ metaDescription: "Precios reales de un chatbot de WhatsApp en México: implement
 updated: "2026-09-07"
 readingMinutes: 6
 line: "chatbots"
+position:
+  claim: "Nosotros trabajamos del segundo nivel para arriba, y no somos la opción más barata."
+  points:
+    - "El número queda verificado a nombre de tu empresa, no rentado por nosotros. Si un día te vas, te llevas el número y las conversaciones."
+    - "Se conecta a tus sistemas para responder con el dato real. Un bot que solo recita un guion cuesta menos y también sirve menos."
+    - "Se prueba con tus conversaciones reales antes de publicarlo, y te entregamos el registro de esas pruebas para que veas qué contestó."
+    - "El cálculo de lo que le vas a pagar a Meta va por escrito antes de empezar, con el modelo vigente y con el cambio de octubre incluido."
 faq:
   - q: "¿Por qué hay tanta diferencia entre 8,000 y 36,000 pesos?"
     a: "Porque no se está comprando lo mismo. Abajo del rango hay un bot que responde preguntas frecuentes con un guion. Arriba hay uno conectado a tu inventario o a tu CRM, que responde con el dato real y deja el prospecto calificado. La diferencia de precio es la diferencia de trabajo: conectar un sistema, mapear permisos y probar con conversaciones reales."

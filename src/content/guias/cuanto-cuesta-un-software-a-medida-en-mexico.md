@@ -6,6 +6,13 @@ metaDescription: "Qué determina el precio de un software a medida en México, p
 updated: "2026-09-07"
 readingMinutes: 5
 line: "software"
+position:
+  claim: "Cotizamos por fases con alcance cerrado, y la primera termina en algo que tu equipo ya pueda usar."
+  points:
+    - "Quien te cotiza es quien dirige la construcción. No hay un ejecutivo de cuenta traduciendo entre tú y quien escribe el código."
+    - "Código, repositorios, servidores y accesos a nombre de tu empresa desde el primer día, por escrito."
+    - "Hay veintiún proyectos publicados con cliente, ciudad y año para que revises el trabajo antes de firmar nada."
+    - "Si tu problema se resuelve sin software a medida, te lo decimos en la asesoría. Es más barato para ti y menos incómodo para todos."
 faq:
   - q: "¿Por qué nadie me da un precio cerrado?"
     a: "Porque al principio de un proyecto a medida nadie sabe todavía lo suficiente para darlo con honestidad. Un precio cerrado dado antes de entender la operación se cumple de una de dos maneras: recortando alcance sin avisar, o con costos adicionales después. Lo que sí se puede cerrar es la primera fase, con un alcance concreto y un entregable que se pueda usar."
