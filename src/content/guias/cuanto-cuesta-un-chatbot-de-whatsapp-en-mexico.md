@@ -18,8 +18,8 @@ faq:
     a: "Porque no se está comprando lo mismo. Abajo del rango hay un bot que responde preguntas frecuentes con un guion. Arriba hay uno conectado a tu inventario o a tu CRM, que responde con el dato real y deja el prospecto calificado. La diferencia de precio es la diferencia de trabajo: conectar un sistema, mapear permisos y probar con conversaciones reales."
   - q: "¿Qué se le paga a Meta y qué a quien lo implementa?"
     a: "Desde el 1 de julio de 2025 Meta cobra por mensaje, no por conversación: el modelo viejo de conversaciones de 24 horas se descontinuó. Hoy pagas por cada plantilla que llega a su destino, con tarifa según la categoría y el país de quien la recibe, y ese consumo se paga directo a Meta. Lo que le pagas a quien implementa es el montaje y la operación, y va aparte. Si una propuesta todavía te habla de precio por conversación, está usando información vieja."
-  - q: "¿Es cierto que la ventana gratuita de 24 horas desaparece?"
-    a: "Sí. A partir del 1 de octubre de 2026 se empieza a cobrar por los mensajes que envías dentro de la ventana de servicio, que hasta ahora eran gratuitos. Si estás cotizando en estas semanas, pide que te calculen el costo con el modelo nuevo y no con el actual: para un negocio con volumen alto de atención, es un gasto que hoy no existe y en unas semanas sí."
+  - q: "¿Es cierto que la ventana gratuita de 24 horas deja de ser gratis?"
+    a: "Sí, a partir del 1 de octubre de 2026. Los mensajes de servicio que hoy respondes sin costo dentro de esa ventana pasan a cobrarse por mensaje entregado, y las plantillas de utility pierden su exención. Solo sobrevive la ventana de 72 horas, que se abre desde un anuncio de Click-to-WhatsApp o un botón de Facebook. Afecta únicamente a la API: la app de WhatsApp Business sigue igual."
   - q: "¿Sirve el número de WhatsApp que ya uso?"
     a: "Se puede migrar a la API oficial, pero deja de funcionar en la aplicación de WhatsApp Business. Casi siempre conviene dar de alta un número nuevo a nombre de la empresa y dejar el actual como está, para no quedarte sin el canal mientras se hace el cambio."
   - q: "¿Cuánto tarda en estar funcionando?"
@@ -60,11 +60,15 @@ Este es el costo que más sorprende, porque no aparece en la cotización. Y es d
 | Categoría | Para qué se usa | Tarifa de referencia en México |
 |---|---|---|
 | Marketing | Promociones, campañas, bienvenida | 0.030 – 0.044 USD por mensaje |
-| Utility | Confirmación de pedido, aviso de envío, recordatorio | alrededor de 0.008 USD |
+| Utility | Confirmación de pedido, aviso de envío, recordatorio | ~0.008 USD; gratis en la ventana **solo hasta el 1 de octubre de 2026** |
 | Authentication | Códigos de verificación | alrededor de 0.021 USD |
-| Service | Respuestas dentro de la ventana de servicio | gratis hasta el 1 de octubre de 2026 |
+| Service | Respuestas dentro de la ventana de servicio | gratis **solo hasta el 1 de octubre de 2026** |
 
-**El cambio que entra el 1 de octubre de 2026:** desaparece la ventana de 24 horas gratuita. Cada mensaje que mandes dentro de ella pasa a cobrarse según su categoría. Para un negocio de atención con volumen alto esto no es menor, y es un costo que hoy simplemente no existe. Si estás cotizando en estas semanas, pide el cálculo con el modelo nuevo.
+**Ojo con lo que entra el 1 de octubre de 2026.** Ese día Meta empieza a cobrar los mensajes de servicio —las respuestas dentro de la ventana de 24 horas, que hoy son gratuitas— y las plantillas de utility pierden su exención dentro de la ventana. Se cobran por mensaje entregado y sin descuentos por volumen.
+
+La única puerta que sigue gratis es la **ventana de 72 horas**, y solo se abre desde un anuncio de Click-to-WhatsApp o desde un botón de tu página de Facebook. Que el cliente te escriba por su cuenta, desde tu sitio o desde tu ficha de Google, no la activa.
+
+Si estás cotizando en estas semanas, pide el cálculo con el modelo de octubre y no con el de hoy. Está a detalle en [la guía del cambio](/guias/como-cobra-meta-whatsapp-2026/).
 
 Dos advertencias sobre estas cifras. **Las tarifas cambian y varían por país**, así que la fuente buena es la tabla oficial de Meta para desarrolladores, no el blog de una agencia; México recibió tarifas de marketing más bajas en octubre de 2025. Y casi todos los proveedores **le suman su propio margen**, del orden de 0.003 a 0.010 USD por mensaje, que sí debería estar en la cotización.
 

@@ -68,6 +68,9 @@ const guias = defineCollection({
     metaDescription: z.string().max(165),
     updated: z.string(),
     readingMinutes: z.number(),
+    /** Imagen propia para cuando la guía se comparte. Sin esto todas usan la
+     *  tarjeta genérica del sitio y en un chat se ven idénticas entre sí. */
+    image: z.string().optional(),
     line: z.enum(LINES).optional(),
     // Sin esto la guía es un reporte de mercado y nos deja como un proveedor
     // más del montón. Aquí va la postura: en qué parte del rango estamos y por
