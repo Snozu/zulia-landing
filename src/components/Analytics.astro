@@ -8,11 +8,11 @@ const gaId = import.meta.env.PUBLIC_GA_ID;
 {
   gaId && (
     <>
-      <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-      {/* Los hits salen a este segundo origen; sin preconnect el handshake se
-          paga completo en la primera medición. */}
-      <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
-      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+      {/* La cola de dataLayer se arma de inmediato y no cuesta red: gtag.js la
+          drena cuando llega. El script de Google son 71 KiB que en un celular
+          compiten por el hilo principal justo cuando se esta pintando, asi que
+          se carga en el primer gesto del visitante o cuando el navegador esta
+          ocioso, lo que ocurra antes. No se pierde ni un page_view. */}
       <script is:inline define:vars={{ gaId }}>
         window.dataLayer = window.dataLayer || [];
         function gtag() {
@@ -25,6 +25,37 @@ const gaId = import.meta.env.PUBLIC_GA_ID;
           // document load, so GA's automatic page_view is already correct.
           anonymize_ip: true,
         });
+
+        (() => {
+          let pedido = false;
+          const cargar = () => {
+            if (pedido) return;
+            pedido = true;
+            for (const href of ['https://www.googletagmanager.com', 'https://www.google-analytics.com']) {
+              const pre = document.createElement('link');
+              pre.rel = 'preconnect';
+              pre.href = href;
+              pre.crossOrigin = '';
+              document.head.appendChild(pre);
+            }
+            const s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+            document.head.appendChild(s);
+          };
+
+          const gestos = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+          const alGesto = () => {
+            gestos.forEach((g) => window.removeEventListener(g, alGesto));
+            cargar();
+          };
+          gestos.forEach((g) => window.addEventListener(g, alGesto, { passive: true, once: true }));
+
+          // Red de seguridad: si nadie toca nada, se carga igual al quedar
+          // ocioso, para no perder la visita de quien solo lee y se va.
+          if ('requestIdleCallback' in window) requestIdleCallback(cargar, { timeout: 5000 });
+          else setTimeout(cargar, 3000);
+        })();
       </script>
       <script is:inline>
         // Delegated on document so it also covers links rendered later by the
