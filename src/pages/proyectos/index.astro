@@ -10,9 +10,9 @@ import { LINE_LABEL } from '../../data/site';
 
 const projects = await getProjects();
 const counts = Object.fromEntries(LINES.map((l) => [l, projects.filter((p) => p.data.line === l).length]));
-const title = 'Proyectos | ZulIA';
+const title = 'Proyectos de software, IA y automatización en México | ZulIA';
 const description =
-  'Veinte proyectos reales: capas agénticas sobre ERP y WhatsApp, software operativo a medida, sitios y catálogos, y método de ingeniería con IA. Con cliente, año, stack y resultado.';
+  `${projects.length} proyectos reales de capa agéntica, software a medida, sitios y catálogos, campañas e ingeniería con IA. Cada caso explica cómo funciona y qué haría falta para replicarlo.`;
 ---
 
 <Layout title={title} description={description}>
@@ -22,7 +22,8 @@ const description =
       <div class="shell">
         <p class="label">Proyectos</p>
         <h1 class="display">Lo que hemos construido, con nombre, año y resultado.</h1>
-        <p class="lead">Cada caso dice qué problema había, qué se construyó, con qué stack y en qué estado está. Sin métricas inventadas: si algo está en piloto o en desarrollo, lo dice.</p>
+        <p class="lead">Cada caso está escrito para entenderse sin ser técnico: qué problema había, cómo funciona la solución paso a paso, qué quedó en manos del cliente y en qué estado está hoy. Al final de cada uno decimos a qué empresas les aplica y por dónde se empieza, para que puedas cotizar algo equivalente.</p>
+        <p class="lead disclaimer">Sin métricas inventadas: si algo está en piloto o en desarrollo, lo dice. Las cifras que aparecen son medibles o las reporta el cliente, y decimos cuál es cuál.</p>
       </div>
     </section>
 
@@ -69,6 +70,7 @@ const description =
 <style>
   .head .display { margin-top: 1rem; max-width: 22ch; }
   .head .lead { margin-top: 1.25rem; }
+  .head .disclaimer { font-size: 1rem; }
   .filters { display: flex; flex-wrap: wrap; gap: .5rem; padding-bottom: 1.5rem; }
   .filters .mono { margin-left: .4rem; font-size: .66rem; }
   .chip[aria-pressed="true"] .mono { color: rgb(255 255 255 / .75); }

@@ -7,14 +7,16 @@ import LogoRow from '../components/home/LogoRow.astro';
 import AgenticLayer from '../components/home/AgenticLayer.astro';
 import ProjectsGrid from '../components/home/ProjectsGrid.astro';
 import ServicesList from '../components/home/ServicesList.astro';
+import ForWho from '../components/home/ForWho.astro';
 import ProductsRow from '../components/home/ProductsRow.astro';
 import Method from '../components/home/Method.astro';
+import HowToStart from '../components/home/HowToStart.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { SITE } from '../data/site';
 
 const title = 'ZulIA | Consultoría de software, automatización e IA en Monterrey';
 const description =
-  'Conectamos el ERP, el CRM, el correo y WhatsApp que tu empresa ya usa a una capa de IA que consulta, ejecuta y pide aprobación cuando toca. Software a medida, sitios, ingeniería con IA y cursos.';
+  'Consultoría en Monterrey. Construimos plataformas internas, sitios, catálogos y tiendas en línea, y conectamos el ERP, el CRM y WhatsApp a asistentes de IA con permisos.';
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -32,11 +34,13 @@ const personSchema = {
   <main id="contenido">
     <Hero />
     <LogoRow />
+    <ServicesList />
+    <ForWho />
     <AgenticLayer />
     <ProjectsGrid />
-    <ServicesList />
-    <ProductsRow />
     <Method />
+    <HowToStart />
+    <ProductsRow />
     <CtaBand />
   </main>
   <Footer />

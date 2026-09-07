@@ -59,10 +59,20 @@ const organizationSchema = {
   slogan: 'Tus sistemas, operados desde un chat de IA.',
   founder: { '@id': 'https://zulia.lat/#haziel-zul' },
   telephone: '+52 81 2250 9882',
-  areaServed: {
-    '@type': 'Country',
-    name: 'México',
-  },
+  email: 'haziel@zulia.lat',
+  sameAs: ['https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/'],
+  priceRange: '$$',
+  // Base en Monterrey y trabajo remoto en el resto del país: declararlo evita
+  // que el negocio quede leído como local de una sola ciudad.
+  geo: { '@type': 'GeoCoordinates', latitude: 25.6866, longitude: -100.3161 },
+  areaServed: [
+    { '@type': 'Country', name: 'México' },
+    { '@type': 'City', name: 'Monterrey' },
+    { '@type': 'City', name: 'Ciudad de México' },
+    { '@type': 'City', name: 'Guadalajara' },
+    { '@type': 'City', name: 'Querétaro' },
+    { '@type': 'City', name: 'Saltillo' },
+  ],
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Monterrey',

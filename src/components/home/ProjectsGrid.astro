@@ -1,7 +1,8 @@
 ---
 import ProjectTile from '../ProjectTile.astro';
-import { getFeaturedProjects } from '../../lib/projects';
+import { getFeaturedProjects, getProjects } from '../../lib/projects';
 const projects = await getFeaturedProjects(6);
+const total = (await getProjects()).length;
 const sizes: Array<'wide' | 'normal' | 'tall'> = ['wide', 'normal', 'normal', 'normal', 'wide', 'normal'];
 ---
 
@@ -9,11 +10,10 @@ const sizes: Array<'wide' | 'normal' | 'tall'> = ['wide', 'normal', 'normal', 'n
   <div class="shell head">
     <div>
       <p class="label">Proyectos</p>
-      <h2 id="projects-title" class="h2">Producto real, en producción, con nombre y apellido.</h2>
+      <h2 id="projects-title" class="h2">Trabajo entregado, con cliente, año y resultado.</h2>
     </div>
     <a class="link" href="/proyectos/">
-      Ver los 20 proyectos
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
+      Ver los {total} proyectos
     </a>
   </div>
 

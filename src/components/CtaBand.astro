@@ -6,7 +6,7 @@ interface Props {
 }
 const {
   title = 'Cuéntanos qué te está costando tiempo.',
-  text = 'En una llamada de treinta minutos te decimos si tiene sentido, por dónde empezar y cuánto cuesta la primera fase.',
+  text = 'La primera asesoría es de treinta minutos y no tiene costo. En esa llamada te decimos si tiene sentido, por dónde empezar, cuánto cuesta y para cuándo lo tendrías.',
 } = Astro.props;
 ---
 
@@ -18,9 +18,9 @@ const {
     </div>
     <div class="actions">
       <a class="btn" href={CTA.primaryHref}>{CTA.primary}</a>
+      <a class="link agenda" href="https://agenda.zulia.lat" target="_blank" rel="noopener">Agendar asesoría sin costo</a>
       <a class="link wa" href={whatsappUrl('Hola ZulIA, quiero platicar sobre un proyecto.')} target="_blank" rel="noopener">
         Escribir por WhatsApp
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
       </a>
     </div>
   </div>
@@ -49,7 +49,7 @@ const {
   .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; justify-content: end; }
   .band .btn { background: var(--brand-blue); border-color: var(--brand-blue); }
   .band .btn:hover { background: #2358e0; border-color: #2358e0; }
-  .wa { color: #fff; }
+  .wa, .agenda { color: #fff; }
   @media (max-width: 800px) {
     .inner { grid-template-columns: 1fr; }
     .actions { justify-content: start; }

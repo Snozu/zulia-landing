@@ -81,6 +81,11 @@
     --ring: var(--blue);
 
     /* Shape and depth */
+    /* Icon glyphs: solid Phosphor Bold shapes, never hairline strokes.
+       Painted with mask + background-color so they follow currentColor. */
+    --icon-close: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z'/%3E%3C/svg%3E");
+    --icon-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+
     --radius: 10px;
     --radius-sm: 6px;
     --radius-lg: 16px;
@@ -201,6 +206,9 @@
   .section-pad { padding-block: var(--section); }
   .section-tight { padding-block: calc(var(--section) * .6); }
   .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+  /* Components toggle visibility with the hidden attribute; any element given
+     a display value (fieldset, .nav, .done, tiles) would otherwise ignore it. */
+  [hidden] { display: none !important; }
 
   /* Type */
   .display {
@@ -275,25 +283,48 @@
   .btn:active { transform: translateY(1px); }
   .btn-ghost,
   .button-secondary,
-  .button-light { background: transparent; border-color: var(--line-dark); color: var(--ink); }
+  .button-light { background: var(--paper-deep); border-color: var(--paper-deep); color: var(--ink); }
   .btn-ghost:hover,
   .button-secondary:hover,
-  .button-light:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .button-light:hover { background: var(--line); border-color: var(--line); color: var(--ink); }
   .link {
-    display: inline-flex;
-    align-items: center;
-    gap: .45rem;
-    padding: .85rem 0;
+    display: inline;
+    padding-block: .35rem;
     color: var(--blue-dark);
     font-size: .92rem;
     font-weight: 600;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 160ms ease;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: .32em;
+    text-decoration-color: color-mix(in srgb, currentColor 28%, transparent);
+    transition: text-decoration-color 160ms ease, color 160ms ease;
   }
-  .link:hover { border-bottom-color: currentColor; }
-  .link svg { width: .9rem; height: .9rem; transition: transform 160ms ease; }
-  .link:hover svg { transform: translate(2px, -2px); }
+  .link:hover { text-decoration-color: currentColor; }
+
+  /* Check lists: a solid disc with the check punched on top, no outline icons.
+     Set --check-chip to recolour the disc (dark stages use --brand-blue). */
+  .check-list { --check-chip: var(--accent-surface); }
+  .check-list li::before,
+  .check-list li::after {
+    content: "";
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+  }
+  .check-list li::before {
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 50%;
+    background-color: var(--check-chip);
+  }
+  .check-list li::after {
+    width: .8rem;
+    height: .8rem;
+    margin: .325rem;
+    background-color: #fff;
+    -webkit-mask: var(--icon-check) center / contain no-repeat;
+    mask: var(--icon-check) center / contain no-repeat;
+  }
 
   /* Tiles and hairline grids */
   .tile,
@@ -317,6 +348,61 @@
     overflow: hidden;
   }
 
+  /* Columnas separadas por línea, sin caja.
+     Regla del sistema: una tarjeta se reserva para un objeto autónomo y
+     clickeable —un proyecto, un servicio, una captura—. El contenido que solo
+     se lee (razones, reglas, pasos, entregables) se resuelve con tipografía,
+     aire y una línea fina, como en Stripe y Linear. */
+  .cols-linea {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .cols-linea > * { padding-top: 1.6rem; }
+  .cols-linea.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cols-linea.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cols-linea.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cols-linea.c2 > * + *,
+  .cols-linea.c3 > * + *,
+  .cols-linea.c4 > * + * { padding-left: 2rem; border-left: 1px solid var(--line); }
+  .cols-linea.c2 > :nth-child(2n + 1),
+  .cols-linea.c2 > :nth-child(n + 3) { padding-left: 0; border-left: 0; }
+  .cols-linea.c2 > :nth-child(n + 3) { border-top: 1px solid var(--line); margin-top: 1.6rem; }
+  .cols-linea.c2 > :nth-child(2n) { padding-left: 2rem; border-left: 1px solid var(--line); }
+  /* Cuando hay mas elementos que columnas, la segunda fila necesita su propia
+     linea arriba y perder el borde izquierdo en el primer elemento de la fila;
+     si no, la reja abre una linea vertical suelta contra el margen. */
+  .cols-linea.c3 > :nth-child(n + 4),
+  .cols-linea.c4 > :nth-child(n + 5) { border-top: 1px solid var(--line); margin-top: 1.6rem; }
+  .cols-linea.c3 > :nth-child(3n + 1),
+  .cols-linea.c4 > :nth-child(4n + 1) { padding-left: 0; border-left: 0; }
+
+  /* Lista vertical separada por línea: para pasos y entregables. */
+  .filas-linea { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .filas-linea > li { padding: 1.35rem 0; border-top: 1px solid var(--line); }
+  .filas-linea > li:last-child { border-bottom: 1px solid var(--line); }
+
+  @media (max-width: 900px) {
+    .cols-linea.c2,
+    .cols-linea.c3,
+    .cols-linea.c4 { grid-template-columns: 1fr; }
+    /* La especificidad importa: `.cols-linea.c3 > * + *` pinta el borde
+       izquierdo con 0-2-0, asi que el reset movil tiene que igualarla o los
+       elementos apilados se quedan con la linea y la sangria de columna. */
+    .cols-linea.c2 > * + *,
+    .cols-linea.c3 > * + *,
+    .cols-linea.c4 > * + * {
+      padding-left: 0;
+      padding-top: 1.6rem;
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+    .cols-linea.c2 > :nth-child(n + 3),
+    .cols-linea.c3 > :nth-child(n + 4),
+    .cols-linea.c4 > :nth-child(n + 5) { margin-top: 0; }
+    .cols-linea.c2 > :nth-child(2n) { padding-left: 0; border-left: 0; }
+  }
+
   /* Badges */
   .badge {
     display: inline-flex;
@@ -336,6 +422,35 @@
   }
   .badge-accent { border-color: var(--accent-surface); background: var(--accent-surface); color: #fff; }
   .badge-soft { border-color: transparent; background: var(--blue-soft); color: var(--blue-dark); }
+
+  /* Una tarjeta que no responde al cursor es un rectángulo pintado. Las que
+     sobreviven son objetos clickeables, así que se comportan como tales:
+     se levantan, la sombra crece y el borde se marca. */
+  a.card,
+  a.tile,
+  .card-grid > a,
+  .hairline-grid > a {
+    transition: transform 220ms cubic-bezier(.22, 1, .36, 1),
+                box-shadow 220ms ease,
+                border-color 220ms ease;
+  }
+  a.card:hover,
+  a.tile:hover,
+  .card-grid > a:hover,
+  .hairline-grid > a:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--line-dark);
+  }
+  a.card:active,
+  a.tile:active,
+  .card-grid > a:active,
+  .hairline-grid > a:active { transform: translateY(-1px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.card, a.tile, .card-grid > a, .hairline-grid > a { transition: none; }
+    a.card:hover, a.tile:hover, .card-grid > a:hover, .hairline-grid > a:hover { transform: none; }
+  }
 
   /* Chips (filters) */
   .chip {

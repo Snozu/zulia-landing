@@ -1,8 +1,8 @@
 ---
 const steps = [
-  { t: 'Traes el problema, no el documento técnico', d: 'Una operación lenta, una idea, un cuello de botella. Nosotros hacemos las preguntas.' },
-  { t: 'Definimos alcance, fases y precio', d: 'Una fase uno que se puede usar en semanas. Lo que sigue se cotiza con lo aprendido.' },
-  { t: 'Construimos por entregables demostrables', d: 'Ves avances funcionando, no reportes de avance. El código y la infraestructura son tuyos.' },
+  { t: 'Nos traes el problema, no una especificación técnica', d: 'Una operación lenta, una idea o un cuello de botella. Las preguntas técnicas las hacemos nosotros.' },
+  { t: 'Definimos alcance, fases, precio y fecha', d: 'Una primera fase corta que puedes usar al terminarla. La fecha la acordamos ahí, con el alcance ya sobre la mesa. Lo que sigue se cotiza con lo aprendido.' },
+  { t: 'Construimos por entregables demostrables', d: 'Cada entrega es algo que puedes usar, no un reporte de avance. El código y la infraestructura quedan a tu nombre.' },
   { t: 'Desplegamos, medimos y seguimos', d: 'Servidor a tu nombre, métricas de uso y un canal directo con quien lo construyó.' },
 ];
 ---
@@ -11,11 +11,11 @@ const steps = [
   <div class="shell grid">
     <div class="intro">
       <h2 id="method-title" class="h2">Primero claridad. Después código.</h2>
-      <p class="lead">La estrategia, el diseño y la ingeniería hablan con la misma persona. No vendes el reto a alguien para explicárselo después a otros tres.</p>
+      <p class="lead">La estrategia, el diseño y la ingeniería las lleva el mismo equipo. No le explicas tu operación a un vendedor para volver a explicársela después a tres personas más.</p>
     </div>
-    <ol class="steps">
+    <ol class="filas-linea steps">
       {steps.map((s, i) => (
-        <li class="card">
+        <li>
           <span class="num">{i + 1}</span>
           <div>
             <h3 class="h3">{s.t}</h3>
@@ -30,8 +30,8 @@ const steps = [
 <style>
   .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4rem; align-items: start; }
   .intro { display: grid; gap: 1.25rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
-  .steps li { display: grid; grid-template-columns: 3rem 1fr; gap: 1.25rem; align-items: start; padding: 1.5rem 1.75rem; }
+  .steps { margin: 0; }
+  .steps li { display: grid; grid-template-columns: 2.4rem 1fr; gap: 1rem; align-items: start; }
   .num {
     display: grid;
     place-items: center;

@@ -10,7 +10,6 @@
         <p>Prospección B2B operada por agentes. Encuentra, investiga, califica, escribe y da seguimiento hasta entregar conversaciones con interés real a tu equipo.</p>
         <a class="link" href="/semilla/">
           Conocer Semilla
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
         </a>
       </div>
       <figure class="shot">
@@ -24,7 +23,6 @@
         <p>Para profesionistas y dueños de negocio que quieren usar IA en su trabajo real: correos, reportes, análisis y automatizaciones. Sin código.</p>
         <a class="link" href="/cursos/">
           Ver programas
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
         </a>
       </div>
       <div class="agenda" aria-hidden="true">
@@ -49,5 +47,8 @@
   .day { display: grid; grid-template-columns: 5.5rem 1fr; align-items: center; gap: 1rem; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); }
   .day span { color: var(--blue-dark); font-size: .78rem; font-weight: 650; }
   .day strong { font-weight: 550; font-size: .92rem; }
-  @media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) {
+    .two { grid-template-columns: 1fr; }
+    .shot img { left: 1rem; top: 1.25rem; }
+  }
 </style>

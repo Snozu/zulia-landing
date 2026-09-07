@@ -1,0 +1,77 @@
+---
+// Reads the same positioning the service pages already state in `idealFor`,
+// condensed so a cold visitor can place themselves in one screen.
+const profiles = [
+  {
+    t: 'Ya tienes sistemas, pero nadie tiene tiempo de usarlos',
+    d: 'Hay ERP, CRM y correo, y aun así la información que necesita dirección vive repartida en WhatsApp, archivos y la cabeza de tres personas.',
+  },
+  {
+    t: 'Tu operación ya rebasó las hojas de cálculo',
+    d: 'Inventarios, rutas, cotizaciones o expedientes que se llevan a mano, se desincronizan y dependen de que alguien se acuerde.',
+  },
+  {
+    t: 'Te escriben todo el día y no alcanzas a contestar',
+    d: 'Las mismas preguntas por WhatsApp, redes y el formulario del sitio: precio, existencia, horario y si envían. Y lo que llega en la noche se contesta hasta el lunes.',
+  },
+  {
+    t: 'Vendes en línea o quieres que te encuentren',
+    d: 'Un sitio corporativo, una landing, un catálogo o una tienda en línea que cargue rápido, se indexe y termine en una conversación o en una compra.',
+  },
+];
+
+const notFor = [
+  'Buscas el proveedor más barato y la entrega más rápida posible, sin importar qué pase después.',
+  'Quieres inteligencia artificial sin un proceso concreto que mejorar.',
+];
+---
+
+<section class="forwho section" id="para-quien" aria-labelledby="forwho-title">
+  <div class="shell">
+    <p class="label">Para quién trabajamos</p>
+    <h2 id="forwho-title" class="h2">Si tu empresa se parece a esto, podemos ayudarte.</h2>
+
+    <div class="cols-linea c2 three">
+      {profiles.map((p, i) => (
+        <article>
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="h3">{p.t}</h3>
+          <p class="muted">{p.d}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="not">
+      <div>
+        <p class="label">Cuándo no somos la opción correcta</p>
+        <p class="muted">Preferimos decirlo antes de una llamada que después de una propuesta.</p>
+      </div>
+      <ul>
+        {notFor.map((n) => <li>{n}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .three { margin-top: 2.25rem; }
+  .three article { display: grid; gap: .7rem; align-content: start; }
+  .num { color: var(--blue-dark); font-family: var(--font-mono); font-size: .78rem; font-weight: 700; }
+
+  .not { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 2.5rem; margin-top: 2.75rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+  .not ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .6rem; align-content: center; }
+  .not li { display: grid; grid-template-columns: 1.35rem 1fr; gap: .7rem; align-items: start; color: var(--text-muted); line-height: 1.5; }
+  .not li::before,
+  .not li::after { content: ""; grid-column: 1; grid-row: 1; align-self: start; }
+  .not li::before { width: 1.35rem; height: 1.35rem; border-radius: 50%; background-color: var(--paper-deep); }
+  .not li::after {
+    width: .62rem;
+    height: .62rem;
+    margin: .365rem;
+    background-color: var(--text-muted);
+    -webkit-mask: var(--icon-close) center / contain no-repeat;
+    mask: var(--icon-close) center / contain no-repeat;
+  }
+
+  @media (max-width: 800px) { .not { grid-template-columns: 1fr; gap: 1.25rem; } }
+</style>

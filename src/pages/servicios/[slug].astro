@@ -14,7 +14,7 @@ export function getStaticPaths() {
 
 interface Props { service: Service }
 const { service } = Astro.props;
-const projects = (await getProjectsByLine(service.line)).slice(0, 4);
+const projects = (await getProjectsByLine(service.line)).slice(0, 3);
 const others = services.filter((s) => s.slug !== service.slug);
 const quoteHref = `${CTA.primaryHref}?linea=${service.slug}`;
 
@@ -27,6 +27,17 @@ const serviceSchema = {
   areaServed: { '@type': 'Country', name: 'México' },
   url: `https://zulia.lat/servicios/${service.slug}/`,
 };
+// Migas en datos estructurados: Google las pinta en el resultado y los
+// asistentes las usan para saber que esta pagina cuelga de /servicios/.
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://zulia.lat/' },
+    { '@type': 'ListItem', position: 2, name: 'Servicios', item: 'https://zulia.lat/servicios/' },
+    { '@type': 'ListItem', position: 3, name: service.shortName, item: `https://zulia.lat/servicios/${service.slug}/` },
+  ],
+};
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -38,7 +49,7 @@ const faqSchema = {
 };
 ---
 
-<Layout title={service.searchTitle} description={service.metaDescription} jsonLd={[serviceSchema, faqSchema]}>
+<Layout title={service.searchTitle} description={service.metaDescription} jsonLd={[serviceSchema, breadcrumbSchema, faqSchema]}>
   <Navbar />
   <main id="contenido" class="service">
     <section class="hero">
@@ -47,13 +58,12 @@ const faqSchema = {
           <nav class="crumbs" aria-label="Ruta"><a href="/servicios/">Servicios</a><span>/</span><span>{service.shortName}</span></nav>
           <h1 class="display">{service.name}</h1>
           <p class="promise">{service.promise}</p>
-          <p class="lead">{service.summary}</p>
+          <p class="lead">{service.plain}</p>
           <div class="ctas">
             <a class="btn" href={quoteHref}>{CTA.primary}</a>
-            <a class="link" href="#empezar">Ver por dónde empezar
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
-            </a>
+            <a class="link" href="#empezar">Ver por dónde empezar</a>
           </div>
+          <p class="para-quien"><strong>Para quién es.</strong> {service.idealFor}</p>
         </div>
 
         <div class="visual">
@@ -84,91 +94,220 @@ const faqSchema = {
       </div>
     </section>
 
-    <section class="outcomes section">
+    {/* La escena, sobre fondo oscuro y a ancho completo. Cinco secciones de
+        texto sobre el mismo gris no se distinguen entre si; esta es la que
+        rompe la pagina a la mitad y la unica que se ve antes de leerla. */}
+    <section class="ejemplo escenario">
+      <div class="shell esc-grid">
+        <div class="esc-head" data-reveal>
+          <p class="esc-eyebrow">Así se ve</p>
+          <h2 class="h2">{service.example.label}</h2>
+          <p class="esc-cierre">{service.example.outcome}</p>
+        </div>
+
+        {service.example.kind === 'consola' ? (
+          <div class="consola" data-reveal>
+            <div class="chat-marco">
+              <div class="chat-barra">
+                <span class="chat-punto"></span>
+                <span class="chat-quien">Asistente</span>
+                <span class="chat-estado">operando con permisos</span>
+              </div>
+
+              <p class="con-peticion">{service.example.peticion}</p>
+
+              <ol class="con-pasos">
+                {service.example.lines.map((l, i) => (
+                  <li style={`animation-delay: ${0.15 + i * 0.16}s`}>
+                    <span class="con-fuente">{l.from}</span>
+                    <p>{l.text}</p>
+                    <span class:list={['con-estado', l.estado === 'detenido' && 'alto']}>{l.estado}</span>
+                  </li>
+                ))}
+              </ol>
+
+              {service.example.aprobacion && (
+                <div class="con-gate" style="animation-delay: .85s">
+                  <p class="con-gate-label">Aprobación requerida</p>
+                  <p class="con-gate-titulo">{service.example.aprobacion.titulo}</p>
+                  <p class="con-gate-detalle">{service.example.aprobacion.detalle}</p>
+                  <div class="con-gate-botones" aria-hidden="true">
+                    <span class="con-si">Aprobar</span>
+                    <span class="con-no">Cancelar</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : service.example.kind === 'chat' ? (
+          <div class="chat" data-reveal>
+            <div class="chat-marco">
+              <div class="chat-barra">
+                <span class="chat-punto"></span>
+                <span class="chat-quien">{service.shortName}</span>
+                <span class="chat-estado">respondiendo</span>
+              </div>
+              <div class="chat-cuerpo">
+                {service.example.lines.map((l, i) => (
+                  <div class:list={['burbuja-fila', l.side === 'der' && 'der']} style={`animation-delay: ${0.12 + i * 0.14}s`}>
+                    <div class="burbuja">
+                      <span class="burbuja-quien">{l.from}</span>
+                      <p>{l.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <ol class="tl" data-reveal>
+            {service.example.lines.map((l) => (
+              <li>
+                <span class="tl-momento">{l.from}</span>
+                <p>{l.text}</p>
+              </li>
+            ))}
+          </ol>
+        )}
+
+      </div>
+    </section>
+
+    {/* El bloque que hace que el visitante se reconozca. Va antes que cualquier
+        detalle técnico: primero el problema con sus palabras, luego la solución. */}
+    <section class="contraste section-tight">
       <div class="shell">
-        <h2 class="h2">Qué cambia en tu operación</h2>
-        <div class="three">
+        <div class="bloque-head" data-reveal>
+          <h2 class="h2">Antes y después</h2>
+          <p class="muted">Si te reconoces en la izquierda, esto es para ti.</p>
+        </div>
+        <div class="antes-despues">
+          <div class="ad ad-antes" data-reveal>
+            <p class="ad-titulo">Hoy, sin esto</p>
+            <ul>
+              {service.contrast.before.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+          <div class="ad ad-despues" data-reveal style="transition-delay: .08s">
+            <p class="ad-titulo">Con {service.shortName.toLowerCase()}</p>
+            <ul>
+              {service.contrast.after.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="outcomes section banda">
+      <div class="shell">
+        <div class="bloque-head" data-reveal>
+          <h2 class="h2">Lo que te llevas</h2>
+          <p class="muted">Efectos concretos, medibles en el trabajo de todos los días.</p>
+        </div>
+        <div class="cols-linea c3 three">
           {service.outcomes.map((o, i) => (
-            <article class="card cell">
-              <span class="num">{i + 1}</span>
+            <article data-reveal style={`transition-delay: ${i * 0.07}s`}>
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
               <h3 class="h3">{o.t}</h3>
               <p class="muted">{o.d}</p>
             </article>
           ))}
         </div>
-        <p class="ideal"><strong>Para quién es.</strong> {service.idealFor}</p>
       </div>
     </section>
 
     <section class="how section-tight">
-      <div class="shell cols">
-        <div class="side">
+      <div class="shell">
+        <div class="bloque-head" data-reveal>
           <h2 class="h2">Cómo trabajamos</h2>
-          <p class="muted">Por fases cortas, con algo usable al final de cada una. Sin meses de silencio.</p>
+          <p class="muted">Fases cortas, con algo usable al final de cada una. Sin meses de silencio.</p>
         </div>
-        <ol class="steps">
+        <ol class="pasos">
           {service.process.map((p, i) => (
-            <li class="card">
-              <span class="num">{i + 1}</span>
-              <div>
-                <h3 class="h3">{p.step}</h3>
-                <p class="muted">{p.detail}</p>
-              </div>
+            <li data-reveal style={`transition-delay: ${i * 0.07}s`}>
+              <span class="paso-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="h3">{p.step}</h3>
+              <p class="muted">{p.detail}</p>
             </li>
           ))}
         </ol>
       </div>
     </section>
 
-    <section class="deliver section-tight">
-      <div class="shell cols">
-        <div class="side">
+    <section class="deliver section-tight banda">
+      <div class="shell">
+        <div class="bloque-head" data-reveal>
           <h2 class="h2">Qué entregamos</h2>
-          <p class="muted">Todo queda a tu nombre: código, cuentas, dominios y accesos.</p>
+          <p class="muted">Todo a tu nombre: código, cuentas, dominios y accesos.</p>
         </div>
-        <ul class="checks">
+        <ul class="checks check-list" data-reveal>
           {service.deliverables.map((d) => (
             <li>
-              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 10.5 4 4 8-9"/></svg>
-              <span>{d}</span>
+              <span><strong>{d.t}.</strong> {d.d}</span>
             </li>
           ))}
         </ul>
       </div>
     </section>
 
-    {projects.length > 0 && (
-      <section class="proof section" id="proyectos">
+    {service.spotlight && (
+      <section class="spotlight section-tight">
         <div class="shell">
-          <div class="head">
-            <h2 class="h2">Hecho, no prometido</h2>
-            <a class="link" href={`/proyectos/#${service.line}`}>Todos los proyectos de esta línea
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
-            </a>
-          </div>
-          <div class="card-grid grid">
-            {projects.map((p) => <ProjectTile project={p} />)}
+          <div class="spot">
+            <div class="spot-head" data-reveal>
+              <p class="label">{service.spotlight.label}</p>
+              <h2 class="h2">{service.spotlight.title}</h2>
+              <p class="lead">{service.spotlight.body}</p>
+            </div>
+            <ol class:list={['spot-list', `sn${service.spotlight.items.length}`]}>
+              {service.spotlight.items.map((it, i) => (
+                <li data-reveal style={`transition-delay: ${i * 0.06}s`}>
+                  <span class="num">{i + 1}</span>
+                  <div>
+                    <h3 class="h3">{it.t}</h3>
+                    <p class="muted">{it.d}</p>
+                    {it.href && <a class="link spot-link" href={it.href}>Ver este servicio</a>}
+                  </div>
+                </li>
+              ))}
+            </ol>
+            {service.spotlight.note && <p class="spot-note muted">{service.spotlight.note}</p>}
           </div>
         </div>
       </section>
     )}
 
-    <section class="offer section" id="empezar">
+    {projects.length > 0 && (
+      <section class="proof section banda" id="proyectos">
+        <div class="shell">
+          <div class="head" data-reveal>
+            <h2 class="h2">Hecho, no prometido</h2>
+            <a class="link" href={`/proyectos/#${service.line}`}>Todos los proyectos de esta línea</a>
+          </div>
+          <div class="card-grid grid">
+            {projects.map((p, i) => (
+              <div data-reveal style={`transition-delay: ${i * 0.07}s`}><ProjectTile project={p} /></div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="offer section-tight" id="empezar">
       <div class="shell">
-        <div class="offer-card stage">
+        <div class="offer-card stage" data-reveal>
           <div class="offer-copy">
             <p class="cap">Por dónde empezar</p>
             <h2 class="h2">{service.offer.name}</h2>
-            <p class="dur">{service.offer.duration}</p>
             <p class="result">{service.offer.result}</p>
             <div class="ctas">
               <a class="btn" href={quoteHref}>Cotizar esta fase</a>
+              <a class="link" href="https://agenda.zulia.lat" target="_blank" rel="noopener">Agendar 30 minutos sin costo</a>
             </div>
           </div>
-          <ul class="offer-list">
+          <ul class="offer-list check-list">
             {service.offer.includes.map((it) => (
               <li>
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 10.5 4 4 8-9"/></svg>
                 <span>{it}</span>
               </li>
             ))}
@@ -178,12 +317,12 @@ const faqSchema = {
     </section>
 
     {service.faq.length > 0 && (
-      <section class="faq section-tight">
+      <section class="faq section-tight banda">
         <div class="shell-narrow">
-          <h2 class="h2">Preguntas frecuentes</h2>
-          <div class="qa">
+          <h2 class="h2" data-reveal>Preguntas frecuentes</h2>
+          <div class="qa" data-reveal>
             {service.faq.map((f) => (
-              <details class="card">
+              <details>
                 <summary>{f.q}</summary>
                 <p class="muted">{f.a}</p>
               </details>
@@ -208,7 +347,11 @@ const faqSchema = {
 </Layout>
 
 <style>
-  .hero { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(2rem, 4vw, 3rem); }
+  /* Bandas alternas. Sin ellas la página es una sola superficie de arriba a
+     abajo y todas las secciones se leen igual de importantes. */
+  .banda { background: var(--white); border-block: 1px solid var(--line); }
+
+  .hero { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(2.5rem, 5vw, 4rem); }
   .grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
   .crumbs { display: flex; gap: .6rem; color: var(--text-muted); font-size: .85rem; }
   .crumbs a { color: var(--text-muted); text-decoration: none; }
@@ -216,6 +359,8 @@ const faqSchema = {
   .copy .display { max-width: 16ch; margin-top: .5rem; }
   .promise { font-size: 1.25rem; font-weight: 550; line-height: 1.4; max-width: 34ch; color: var(--ink); }
   .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: .5rem; }
+  .para-quien { max-width: 52ch; margin-top: .75rem; padding-top: 1.1rem; border-top: 1px solid var(--line); color: var(--text-muted); font-size: .95rem; line-height: 1.6; }
+  .para-quien strong { color: var(--ink); }
 
   .shot { margin: 0; overflow: hidden; }
   .chrome { display: flex; gap: .4rem; height: 1.9rem; align-items: center; padding: 0 .75rem; border-bottom: 1px solid var(--line); background: var(--paper-deep); }
@@ -235,37 +380,295 @@ const faqSchema = {
   .listing li { counter-increment: n; display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; padding: .8rem 0; border-top: 1px solid var(--stage-line); color: #fff; }
   .listing li::before { content: counter(n, decimal-leading-zero); font-family: var(--font-mono); font-size: .75rem; color: var(--brand-blue); padding-top: .2rem; }
 
-  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
-  .cell { display: grid; gap: .75rem; align-content: start; padding: 1.75rem; }
-  .num { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--blue-soft); color: var(--blue-dark); font-weight: 650; font-size: .9rem; }
-  .ideal { margin-top: 1.5rem; max-width: 70ch; color: var(--text-muted); }
-  .ideal strong { color: var(--ink); }
+  /* Encabezado de bloque a lo ancho: el título y su bajada en una sola línea
+     de lectura, y el contenido debajo. La versión en dos columnas dejaba la
+     izquierda vacía y abría un hueco de varios cientos de píxeles. */
+  .service { counter-reset: sec; }
+  .bloque-head .h2::before,
+  .esc-head .h2::before {
+    counter-increment: sec;
+    content: counter(sec, decimal-leading-zero);
+    display: block;
+    margin-bottom: .5rem;
+    color: var(--line-dark);
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .esc-head .h2::before { color: rgb(255 255 255 / .28); }
 
-  .cols { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 3rem; align-items: start; }
-  .side { display: grid; gap: .75rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
-  .steps li { display: grid; grid-template-columns: 2.4rem 1fr; gap: 1rem; align-items: start; padding: 1.25rem 1.5rem; }
-  .steps p { margin-top: .3rem; }
-  .checks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-  .checks li { display: grid; grid-template-columns: 1.4rem 1fr; gap: .6rem; align-items: start; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); box-shadow: var(--shadow-sm); line-height: 1.45; }
-  .checks svg { width: 1.2rem; height: 1.2rem; color: var(--blue-dark); margin-top: .1rem; }
+  .bloque-head {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 2.25rem;
+  }
+  .bloque-head .h2 { max-width: 14ch; }
+  .bloque-head p { max-width: 48ch; font-size: 1.02rem; line-height: 1.6; }
+
+  /* Escenario oscuro a ancho completo. Es el corte visual de la página: sin
+     él son cinco secciones de texto sobre el mismo gris, una tras otra. */
+  .escenario {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    background:
+      radial-gradient(80rem 40rem at 20% -10%, rgb(45 106 245 / .22), transparent 60%),
+      var(--stage);
+    border-block: 1px solid var(--stage-line);
+    color: var(--stage-text);
+  }
+  .esc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .esc-head { align-self: center; }
+  .esc-head .h2 { margin-top: .9rem; }
+  .esc-eyebrow {
+    color: var(--brand-blue);
+    font-family: var(--font-mono);
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .escenario .h2 { margin-top: .6rem; color: #fff; max-width: 20ch; }
+  .esc-cierre {
+    max-width: 46ch;
+    margin-top: 1.5rem;
+    color: var(--stage-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  /* Conversación. Marco de chat de verdad, no una tabla con dos columnas. */
+  .chat { max-width: none; }
+  .chat-marco {
+    border: 1px solid var(--stage-line);
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / .04);
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgb(0 0 0 / .45);
+  }
+  .chat-barra {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .8rem 1.1rem;
+    border-bottom: 1px solid var(--stage-line);
+    background: rgb(255 255 255 / .03);
+  }
+  .chat-punto { width: .5rem; height: .5rem; border-radius: 50%; background: #35d07f; }
+  .chat-quien { color: #fff; font-size: .9rem; font-weight: 620; }
+  .chat-estado { color: var(--stage-muted); font-size: .78rem; }
+  .chat-cuerpo { display: grid; gap: .9rem; padding: 1.4rem 1.1rem 1.6rem; }
+  .burbuja-fila { display: flex; animation: burbujaEntra 520ms cubic-bezier(.22, 1, .36, 1) backwards; }
+  .burbuja-fila.der { justify-content: flex-end; }
+  .burbuja {
+    max-width: 82%;
+    padding: .8rem 1rem;
+    border-radius: 1.05rem;
+    background: rgb(255 255 255 / .07);
+    border-bottom-left-radius: .3rem;
+  }
+  .burbuja-fila.der .burbuja {
+    background: var(--brand-blue);
+    border-bottom-left-radius: 1.05rem;
+    border-bottom-right-radius: .3rem;
+  }
+  .burbuja-quien {
+    display: block;
+    margin-bottom: .2rem;
+    color: var(--stage-muted);
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .burbuja-fila.der .burbuja-quien { color: rgb(255 255 255 / .72); }
+  .burbuja p { color: #fff; font-size: 1rem; line-height: 1.5; }
+
+  @keyframes burbujaEntra {
+    from { opacity: 0; transform: translateY(10px) scale(.98); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Consola de operación. La capa agéntica no es una conversación de servicio:
+     es un agente que consulta fuentes, arma algo y se detiene en la compuerta
+     humana. Con burbujas de chat se veía igual que el nivel de abajo. */
+  .consola { max-width: none; }
+  .con-peticion {
+    margin: 1.1rem 1.1rem 0;
+    padding: .9rem 1rem;
+    border: 1px solid var(--stage-line);
+    border-radius: var(--radius-sm);
+    background: rgb(255 255 255 / .05);
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .con-pasos { list-style: none; margin: 1.1rem 0 0; padding: 0; display: grid; }
+  .con-pasos li {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: .85rem 1.1rem;
+    border-top: 1px solid var(--stage-line);
+    animation: burbujaEntra 520ms cubic-bezier(.22, 1, .36, 1) backwards;
+  }
+  .con-fuente {
+    color: var(--brand-blue);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .con-pasos p { color: #fff; font-size: .98rem; line-height: 1.5; }
+  .con-estado {
+    justify-self: start;
+    padding: .18rem .5rem;
+    border: 1px solid var(--stage-line);
+    border-radius: 999px;
+    color: var(--stage-muted);
+    font-family: var(--font-mono);
+    font-size: .66rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .con-estado.alto { border-color: rgb(245 166 45 / .45); background: rgb(245 166 45 / .12); color: #f5c168; }
+
+  .con-gate {
+    margin: 1.1rem;
+    padding: 1.1rem 1.2rem 1.2rem;
+    border: 1px solid rgb(45 106 245 / .5);
+    border-radius: var(--radius-sm);
+    background: rgb(45 106 245 / .1);
+    animation: burbujaEntra 520ms cubic-bezier(.22, 1, .36, 1) backwards;
+  }
+  .con-gate-label {
+    color: var(--brand-blue);
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .con-gate-titulo { margin-top: .5rem; color: #fff; font-size: 1.05rem; font-weight: 620; }
+  .con-gate-detalle { margin-top: .3rem; color: var(--stage-muted); font-size: .88rem; line-height: 1.5; }
+  .con-gate-botones { display: flex; gap: .6rem; margin-top: 1rem; }
+  .con-si, .con-no {
+    padding: .5rem 1.1rem;
+    border-radius: var(--radius-sm);
+    font-size: .88rem;
+    font-weight: 600;
+  }
+  .con-si { background: var(--brand-blue); color: #fff; }
+  .con-no { border: 1px solid var(--stage-line); color: var(--stage-muted); }
+
+  /* Línea de tiempo, para los servicios que no son una conversación. */
+  .tl { list-style: none; margin: 0; padding: 0; display: grid; }
+  .tl li { position: relative; padding: 0 0 1.6rem 2.25rem; border-left: 1px solid var(--stage-line); }
+  .tl li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .tl li::before {
+    content: '';
+    position: absolute;
+    left: -4.5px;
+    top: .45rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    box-shadow: 0 0 0 5px rgb(45 106 245 / .18);
+  }
+  .tl-momento {
+    display: block;
+    margin-bottom: .3rem;
+    color: var(--brand-blue);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .tl p { color: #fff; font-size: 1.05rem; line-height: 1.55; }
+
+  @media (prefers-reduced-motion: reduce) { .burbuja-fila, .con-pasos li, .con-gate { animation: none; } }
+
+  /* Antes y después. Dos columnas de texto separadas por una línea, sin cajas:
+     lo que se lee no necesita marco. La marca de viñeta es lo único que
+     distingue una columna de la otra, y eso basta. */
+  /* Las dos columnas tienen que verse distintas, no solo decir cosas distintas:
+     la de hoy queda apagada y la de después sobre un panel con el color de
+     marca. Separadas solo por una línea, las dos pesaban igual. */
+  .antes-despues { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2.5vw, 2rem); align-items: start; }
+  .ad { padding: clamp(1.4rem, 2.5vw, 2rem) clamp(1.4rem, 2.5vw, 2rem) clamp(1.6rem, 3vw, 2.2rem); border-radius: var(--radius); }
+  .ad-antes { border: 1px solid var(--line); }
+  .ad-despues {
+    border: 1px solid var(--accent-line, var(--line));
+    background: var(--blue-soft);
+    box-shadow: var(--shadow-sm);
+  }
+  .ad-titulo { font-family: var(--font-mono); font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .ad-antes .ad-titulo { color: var(--text-muted); }
+  .ad-despues .ad-titulo { color: var(--blue-dark); }
+  .ad-despues li { color: var(--ink); }
+  .ad ul { margin: 1.1rem 0 0; padding: 0; list-style: none; display: grid; gap: .9rem; }
+  .ad li { display: grid; grid-template-columns: 1.15rem 1fr; gap: .7rem; align-items: start; line-height: 1.55; }
+  .ad li::before { margin-top: .62em; content: ''; display: block; }
+  .ad-antes li { color: var(--text-muted); }
+  .ad-antes li::before { width: .7rem; height: 1px; background: var(--line-dark); }
+  .ad-despues li::before { width: .55rem; height: .55rem; margin-top: .45em; border-radius: 50%; background: var(--blue-dark); }
+
+  .three { margin-top: 0; }
+  .three article { display: grid; gap: .7rem; align-content: start; }
+  .num { color: var(--blue-dark); font-family: var(--font-mono); font-size: .78rem; font-weight: 700; letter-spacing: .06em; }
+
+  /* Los pasos como una línea de tiempo horizontal: se lee de un vistazo cuántas
+     fases son y en cuál se entrega algo. Apilados en pantalla chica. */
+  .pasos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0; }
+  .pasos li { position: relative; display: grid; gap: .55rem; align-content: start; padding: 1.9rem 2rem 0 0; border-top: 1px solid var(--line); }
+  .pasos li::before { content: ''; position: absolute; top: -4.5px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--blue-dark); }
+  .paso-num { color: var(--text-muted); font-family: var(--font-mono); font-size: .74rem; font-weight: 700; letter-spacing: .08em; }
+  .pasos .h3 { font-size: 1.05rem; }
+  .pasos p { line-height: 1.55; }
+
+  .checks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; }
+  .checks li { display: grid; grid-template-columns: 1.45rem 1fr; gap: .7rem; align-items: start; padding: .7rem 0; line-height: 1.55; color: var(--text-muted); }
+  .checks strong { color: var(--ink); font-weight: 620; }
+
+  .spot { display: grid; gap: 2rem; }
+  .spot-head { display: grid; gap: 1rem; }
+  .spot-head .h2 { max-width: 24ch; }
+  .spot-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; }
+  /* Una escalera de tres pasos se lee de izquierda a derecha; en dos columnas
+     el tercero queda solo abajo y deja de parecer un nivel. */
+  .spot-list.sn3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .spot-link { margin-top: .7rem; display: inline-block; font-size: .9rem; }
+  .spot-list li { display: grid; grid-template-columns: 2.4rem 1fr; gap: 1rem; align-items: start; }
+  .spot-list p { margin-top: .35rem; line-height: 1.55; }
+  .spot-note { padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: .92rem; line-height: 1.6; }
 
   .proof .head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
-  .proof .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .proof .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
   .offer-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; padding: clamp(2rem, 4vw, 3rem); }
   .offer-copy { display: grid; gap: .9rem; align-content: start; }
   .offer-copy .h2 { color: #fff; }
-  .dur { color: var(--brand-blue); font-weight: 650; }
+
   .result { color: var(--stage-muted); line-height: 1.55; }
   .offer .btn { background: var(--brand-blue); border-color: var(--brand-blue); }
   .offer .btn:hover { background: #2358e0; border-color: #2358e0; }
-  .offer-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; align-content: start; }
-  .offer-list li { display: grid; grid-template-columns: 1.3rem 1fr; gap: .6rem; padding: .85rem 1rem; border: 1px solid var(--stage-line); border-radius: var(--radius-sm); background: rgb(255 255 255 / .04); color: #f2f3f5; line-height: 1.45; }
-  .offer-list svg { width: 1.15rem; height: 1.15rem; color: var(--brand-blue); margin-top: .1rem; }
+  .offer-list { --check-chip: var(--brand-blue); list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; align-content: start; }
+  .offer-list li { display: grid; grid-template-columns: 1.45rem 1fr; gap: .7rem; padding: .85rem 1rem; border: 1px solid var(--stage-line); border-radius: var(--radius-sm); background: rgb(255 255 255 / .04); color: #f2f3f5; line-height: 1.45; }
 
-  .qa { margin-top: 1.5rem; display: grid; gap: .75rem; }
-  details { padding: 0 1.25rem; }
+  .qa { margin-top: 1.5rem; display: grid; gap: 0; border-bottom: 1px solid var(--line); }
+  details { border-top: 1px solid var(--line); }
   summary { padding: 1rem 0; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
   summary::after { content: "+"; color: var(--blue-dark); font-weight: 500; }
   details[open] summary::after { content: "−"; }
@@ -274,12 +677,28 @@ const faqSchema = {
   .other-list a { display: inline-block; padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: var(--white); box-shadow: var(--shadow-sm); color: var(--ink); font-size: .9rem; text-decoration: none; }
   .other-list a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
-  @media (max-width: 1000px) { .three { grid-template-columns: 1fr; } }
   @media (max-width: 900px) {
     .grid { grid-template-columns: 1fr; }
-    .cols { grid-template-columns: 1fr; gap: 1.5rem; }
-    .side { position: static; }
+    .bloque-head { grid-template-columns: 1fr; gap: .85rem; align-items: start; margin-bottom: 1.75rem; }
+    .bloque-head .h2 { max-width: none; }
+    .esc-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .burbuja { max-width: 92%; }
+    .con-pasos li { grid-template-columns: 1fr auto; gap: .35rem .8rem; }
+    .con-fuente { grid-column: 1; }
+    .con-pasos p { grid-column: 1 / -1; }
+    .tl p { font-size: 1rem; }
+    .antes-despues { grid-template-columns: 1fr; }
+    .antes-despues { grid-template-columns: 1fr; }
+    /* Apilados, la tira de pasos necesita cerrar abajo: si no, la ultima fase
+       se queda colgando sin linea y parece cortada. */
+    .pasos li { padding-right: 0; padding-bottom: .2rem; }
+    .pasos li:last-child { padding-bottom: 1.9rem; border-bottom: 1px solid var(--line); }
     .checks { grid-template-columns: 1fr; }
+    .spot-list,
+    .spot-list.sn3 { grid-template-columns: 1fr; }
+    /* Titulo y enlace uno debajo del otro: lado a lado en 390px los dos se
+       parten en dos lineas y se leen como un solo bloque revuelto. */
+    .proof .head { flex-direction: column; align-items: start; gap: .6rem; }
     .proof .grid { grid-template-columns: 1fr; }
     .offer-card { grid-template-columns: 1fr; }
   }

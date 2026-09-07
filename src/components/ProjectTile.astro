@@ -40,6 +40,7 @@ const d = project.data;
 
 <style>
   .ptile {
+    container-type: inline-size;
     display: grid;
     grid-template-rows: auto 1fr;
     color: inherit;
@@ -75,6 +76,10 @@ const d = project.data;
   .status { position: absolute; top: .75rem; left: .75rem; box-shadow: var(--shadow-sm); }
   .meta { display: grid; gap: .5rem; align-content: start; padding: 1.1rem 1.25rem 1.3rem; }
   .row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  @container (max-width: 26rem) {
+    .row { flex-direction: column; align-items: start; gap: .15rem; }
+    .client { align-self: start; }
+  }
   .row .h3 { transition: color 140ms ease; }
   .client { flex: 0 0 auto; color: var(--text-muted); font-size: .82rem; font-weight: 500; }
   .summary { color: var(--text-muted); font-size: .92rem; line-height: 1.5; }

@@ -1,0 +1,88 @@
+---
+import { services } from '../../data/services';
+import { CTA } from '../../data/site';
+
+// Every phase name and duration below comes from the service definitions, so the
+// home page can never drift from what each service page promises.
+const facts = [
+  { t: 'La primera asesoría es gratis', d: 'Treinta minutos, sin costo y sin compromiso. Salimos de ahí con el problema entendido y una idea clara de por dónde empezar.' },
+  { t: 'Alcance cerrado', d: 'Sabes qué entra, qué no entra y cuánto cuesta antes de firmar. Lo que salga de ahí se cotiza aparte.' },
+  { t: 'Algo usable al final', d: 'La primera fase termina con tu equipo operando algo real, no con una presentación de avance.' },
+  { t: 'Todo a tu nombre', d: 'Código, repositorio, servidor, dominio y cuentas quedan de tu empresa desde el primer día.' },
+];
+---
+
+<section class="start section" id="empezar" aria-labelledby="start-title">
+  <div class="shell">
+    <div class="head">
+      <div>
+        <p class="label">Por dónde se empieza</p>
+        <h2 id="start-title" class="h2">Ningún proyecto empieza siendo grande.</h2>
+        <p class="lead">Empieza con una asesoría de treinta minutos sin costo. De ahí sale una primera fase corta y de alcance cerrado; con ella funcionando decidimos, juntos, si hay una segunda.</p>
+      </div>
+      <div class="head-ctas">
+        <a class="btn" href={CTA.primaryHref}>{CTA.primary}</a>
+        <a class="link" href="https://agenda.zulia.lat" target="_blank" rel="noopener">Agendar los 30 minutos</a>
+      </div>
+    </div>
+
+    <div class="cols-linea c4 three">
+      {facts.map((f) => (
+        <article>
+          <h3 class="h3">{f.t}</h3>
+          <p class="muted">{f.d}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="table">
+      <p class="label">Primera fase por línea de servicio</p>
+      <p class="muted note">No trabajamos con un calendario estándar. La fecha de entrega se acuerda contigo en la asesoría inicial, cuando ya conocemos el alcance, y queda por escrito en la propuesta. Entregamos por fases cortas, así que empiezas a ver el sistema funcionando desde la primera.</p>
+      <ul>
+        {services.map((s) => (
+          <li>
+            <a href={`/servicios/${s.slug}/`}>
+              <span class="line">{s.shortName}</span>
+              <span class="phase">{s.offer.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+  .head .lead { margin-top: 1.25rem; }
+  .head .h2 { margin-top: 1rem; max-width: 18ch; }
+  .head-ctas { flex: 0 0 auto; display: grid; justify-items: start; gap: .75rem; }
+  .note { margin-top: .75rem; max-width: 78ch; font-size: .92rem; line-height: 1.6; }
+
+  .three { margin-top: 2.25rem; }
+  .three article { display: grid; gap: .55rem; align-content: start; }
+
+  .table { margin-top: 2.75rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+  .table ul { margin: 1.5rem 0 0; padding: 0; list-style: none; display: grid; }
+  .table li + li { border-top: 1px solid var(--line); }
+  .table a {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    align-items: center;
+    gap: 1.5rem;
+    padding: .95rem 0;
+    color: inherit;
+    text-decoration: none;
+  }
+  .table a:hover .phase { color: var(--blue-dark); }
+  .line { font-weight: 600; }
+  .phase { color: var(--text-muted); transition: color 140ms ease; }
+
+  @media (max-width: 1150px) { .three { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) {
+    .head { flex-direction: column; align-items: start; gap: 1.5rem; }
+    .three { grid-template-columns: 1fr; }
+    .table a { grid-template-columns: 1fr; gap: .3rem; }
+    .phase { font-size: .92rem; }
+  }
+</style>

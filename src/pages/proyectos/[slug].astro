@@ -8,7 +8,7 @@ import ProjectTile from '../../components/ProjectTile.astro';
 import PageSpeed from '../../components/PageSpeed.astro';
 import { getProjects, type Project } from '../../lib/projects';
 import { getServiceByLine } from '../../data/services';
-import { LINE_LABEL, STATUS_LABEL, ROLE_LABEL } from '../../data/site';
+import { LINE_LABEL, STATUS_LABEL, ROLE_LABEL, CTA } from '../../data/site';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -22,7 +22,9 @@ const { Content } = await render(project);
 const service = getServiceByLine(d.line);
 const related = all.filter((p) => p.id !== project.id && p.data.line === d.line).slice(0, 3);
 
-const title = `${d.title} · ${d.client} | Proyectos ZulIA`;
+const quoteHref = `${CTA.primaryHref}?linea=${service?.slug ?? ''}&caso=${encodeURIComponent(d.title)}`;
+
+const title = `${d.title} · ${d.client} | ZulIA`;
 const meta = [
   ['Cliente', d.client],
   ['Sector', d.sector],
@@ -32,15 +34,32 @@ const meta = [
   ['Línea', LINE_LABEL[d.line]],
 ];
 
-const schema = {
+const caseSchema = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
   name: d.title,
   description: d.summary,
   dateCreated: String(d.year),
+  // Los buscadores generativos pesan mucho la frescura. Sin una fecha explicita
+  // el caso se lee como material sin edad y pierde contra uno fechado.
+  datePublished: `${d.year}-01-01`,
+  inLanguage: 'es-MX',
   creator: { '@id': 'https://zulia.lat/#organization' },
+  about: { '@type': 'Thing', name: LINE_LABEL[d.line] },
   ...(d.url ? { url: d.url } : {}),
 };
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://zulia.lat/' },
+    { '@type': 'ListItem', position: 2, name: 'Proyectos', item: 'https://zulia.lat/proyectos/' },
+    { '@type': 'ListItem', position: 3, name: d.title, item: `https://zulia.lat/proyectos/${project.id}/` },
+  ],
+};
+
+const schema = [caseSchema, breadcrumbSchema];
 ---
 
 <Layout title={title} description={d.summary} jsonLd={schema} pageType="article">
@@ -53,8 +72,17 @@ const schema = {
         </nav>
         <h1 class="display">{d.title}</h1>
         <p class="lead">{d.summary}</p>
+        <div class="ctas">
+          <a class="btn" href={quoteHref}>Cotizar algo así</a>
+          {service && (
+            <a class="link" href={`/servicios/${service.slug}/`}>
+              Ver el servicio: {service.shortName}
+            </a>
+          )}
+        </div>
         <dl class="meta">
           {meta.map(([k, v]) => (<div><dt class="mono">{k}</dt><dd>{v}</dd></div>))}
+          {d.duration && (<div><dt class="mono">Periodo medido</dt><dd>{d.duration}</dd></div>)}
           {d.url && (<div><dt class="mono">Sitio</dt><dd><a href={d.url} target="_blank" rel="noopener">{new URL(d.url).host}</a></dd></div>)}
         </dl>
       </div>
@@ -70,6 +98,17 @@ const schema = {
       </section>
     )}
 
+    {d.impact && (
+      <section class="impact section-tight">
+        <div class="shell">
+          <p class="label">En números</p>
+          <ul class="cols-linea c4 stats">
+            {d.impact.map((it) => (<li><strong>{it.v}</strong><span class="muted">{it.l}</span></li>))}
+          </ul>
+        </div>
+      </section>
+    )}
+
     {d.pagespeed && (
       <section class="pagespeed section-tight">
         <div class="shell">
@@ -81,26 +120,68 @@ const schema = {
     <section class="body section">
       <div class="shell cols">
         <div class="main">
-          <h2 class="h3">El problema</h2>
-          <p class="prose">{d.problem}</p>
+          <div class="chapter">
+            <h2 class="h2">El punto de partida</h2>
+            <div class="prose">
+              <p>{d.problem}</p>
+              {d.context && <p>{d.context}</p>}
+            </div>
+          </div>
 
-          <h2 class="h3">Qué construimos</h2>
-          <ul class="built">
-            {d.built.map((b) => <li>{b}</li>)}
-          </ul>
+          {d.howItWorks && (
+            <div class="chapter">
+              <h2 class="h2">Cómo funciona</h2>
+              <p class="muted intro">Explicado como lo vive quien lo usa, sin tecnicismos.</p>
+              <ol class="filas-linea steps">
+                {d.howItWorks.map((s, i) => (
+                  <li>
+                    <span class="num">{i + 1}</span>
+                    <div>
+                      <h3 class="h3">{s.step}</h3>
+                      <p class="muted">{s.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
 
-          <h2 class="h3">Resultado</h2>
-          <p class="prose">{d.outcome}</p>
+          <div class="chapter">
+            <h2 class="h2">Qué construimos</h2>
+            <ul class="built">
+              {d.built.map((b) => <li>{b}</li>)}
+            </ul>
+          </div>
 
-          <div class="prose extra"><Content /></div>
+          {d.delivered && (
+            <div class="chapter">
+              <h2 class="h2">{d.role === 'propio' ? 'Qué incluye hoy' : 'Qué quedó en manos del cliente'}</h2>
+              <ul class="checks check-list">
+                {d.delivered.map((it) => (
+                  <li>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div class="chapter">
+            <h2 class="h2">Resultado</h2>
+            <div class="prose">
+              <p>{d.outcome}</p>
+            </div>
+            <div class="prose extra"><Content /></div>
+          </div>
 
           {d.role === 'equipo' && (
             <p class="note mono">Producto construido como parte del equipo del cliente. Se muestra como experiencia profesional; las marcas pertenecen a sus propietarios.</p>
           )}
         </div>
+
         <aside class="side">
           <div class="block">
-            <p class="mono">Stack</p>
+            <p class="mono">Con qué está construido</p>
             <ul class="stack">
               {d.stack.map((s) => <li class="badge">{s}</li>)}
             </ul>
@@ -114,13 +195,58 @@ const schema = {
               <p class="mono">Servicio relacionado</p>
               <a class="link" href={`/servicios/${service.slug}/`}>
                 {service.name}
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
               </a>
             </div>
           )}
+          <div class="block cta-block">
+            <p class="mono">¿Algo parecido?</p>
+            <p class="muted">Treinta minutos sin costo. Te decimos si aplica a tu caso, cuánto cuesta la primera fase y para cuándo la tendrías.</p>
+            <a class="btn" href={quoteHref}>Cotizar algo así</a>
+          </div>
         </aside>
       </div>
     </section>
+
+    {(d.pitch || d.fits || service) && (
+      <section class="apply section" id="para-ti">
+        <div class="shell">
+          <div class="apply-card stage">
+            <div class="apply-copy">
+              <p class="cap">¿Esto aplica a tu empresa?</p>
+              {d.pitch && <p class="pitch">{d.pitch}</p>}
+              {d.fits && (
+                <ul class="fits check-list">
+                  {d.fits.map((f) => (
+                    <li>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div class="ctas">
+                <a class="btn" href={quoteHref}>Cotizar algo así</a>
+              </div>
+            </div>
+
+            {service && (
+              <div class="offer">
+                <p class="cap">Por dónde se empieza</p>
+                <h2 class="h3">{service.offer.name}</h2>
+
+                <ul class="offer-list check-list">
+                  {service.offer.includes.map((it) => (
+                    <li>
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p class="result">{service.offer.result}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
 
     {related.length > 0 && (
       <section class="related section-tight">
@@ -144,31 +270,67 @@ const schema = {
   .crumbs a:hover { color: var(--ink); }
   .head .display { margin-top: 1.25rem; max-width: 20ch; }
   .head .lead { margin-top: 1.25rem; }
+  .head .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 1.75rem; }
   .meta {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
     gap: .75rem;
     margin: 2.5rem 0 0;
   }
-  .meta div { display: grid; gap: .3rem; padding: .9rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); box-shadow: var(--shadow-sm); }
-  .meta dd { margin: 0; font-weight: 500; }
+  .meta div { display: grid; gap: .3rem; min-width: 0; padding: .9rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); box-shadow: var(--shadow-sm); }
+  .meta dd { margin: 0; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
   .meta a { color: var(--blue-dark); }
   .frame { margin: 0; aspect-ratio: 16 / 10; } .frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+  .impact .stats { margin: 1.25rem 0 0; padding: 0; list-style: none; }
+  .impact .stats li { display: grid; gap: .35rem; align-content: start; }
+  .impact .stats strong { font-size: 1.85rem; font-weight: 650; letter-spacing: -.03em; line-height: 1; color: var(--blue-dark); }
+  .impact .stats span { font-size: .85rem; line-height: 1.45; }
+
   .cols { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 4rem; align-items: start; }
-  .main { display: grid; gap: 1rem; }
-  .main .h3 { margin-top: 1.5rem; }
-  .main .h3:first-child { margin-top: 0; }
-  .built { margin: 0; padding: 0; list-style: none; display: grid; gap: .6rem; max-width: 65ch; }
-  .built li { padding: .9rem 1.1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--white); line-height: 1.5; }
+  .main { display: grid; gap: 3rem; }
+  .chapter { display: grid; gap: 1rem; }
+  .chapter .intro { margin-top: -.5rem; font-size: .95rem; }
+  .built { margin: 0; padding: 0; list-style: none; display: grid; max-width: 65ch; border-bottom: 1px solid var(--line); }
+  .built li { padding: .8rem 0; border-top: 1px solid var(--line); line-height: 1.5; }
+
+  .steps { margin: 0; }
+  .steps li { display: grid; grid-template-columns: 2.4rem 1fr; gap: 1rem; align-items: start; }
+  .steps p { margin-top: .3rem; line-height: 1.55; }
+  .num { display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--blue-soft); color: var(--blue-dark); font-weight: 650; font-size: .9rem; }
+
+  .checks { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
+  .checks li { display: grid; grid-template-columns: 1.45rem 1fr; gap: .7rem; align-items: start; padding: .55rem 0; line-height: 1.45; }
+
   .extra { color: var(--text-muted); }
   .note { margin-top: 1rem; color: var(--text-muted); text-transform: none; letter-spacing: 0; font-size: .78rem; }
-  .side { display: grid; gap: 1.5rem; position: sticky; top: calc(var(--nav-h) + 2rem); }
-  .block { display: grid; gap: .75rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-sm); }
+
+  .side { display: grid; gap: 1.35rem; align-content: start; position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .block { display: grid; gap: .75rem; padding-top: 1.35rem; border-top: 1px solid var(--line); }
   .stack { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .cta-block .btn { justify-self: start; }
+
+  .apply-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.5rem; padding: clamp(2rem, 4vw, 3rem); }
+  .apply-copy { display: grid; gap: 1.1rem; align-content: start; }
+  .cap { color: var(--stage-muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 650; }
+  .pitch { color: #f2f3f5; font-size: 1.15rem; line-height: 1.55; }
+  .fits { --check-chip: var(--brand-blue); list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .fits li { display: grid; grid-template-columns: 1.45rem 1fr; gap: .7rem; color: var(--stage-muted); line-height: 1.5; }
+  .apply .ctas { margin-top: .5rem; }
+  .apply .btn { background: var(--brand-blue); border-color: var(--brand-blue); justify-self: start; }
+  .apply .btn:hover { background: #2358e0; border-color: #2358e0; }
+  .offer { display: grid; gap: .75rem; align-content: start; padding: 1.5rem; border: 1px solid var(--stage-line); border-radius: var(--radius); background: rgb(255 255 255 / .04); }
+  .offer .h3 { color: #fff; }
+
+  .offer-list { --check-chip: var(--brand-blue); list-style: none; margin: .25rem 0 0; padding: 0; display: grid; gap: .55rem; }
+  .offer-list li { display: grid; grid-template-columns: 1.45rem 1fr; gap: .7rem; color: #f2f3f5; font-size: .92rem; line-height: 1.45; }
+  .result { margin-top: .5rem; padding-top: .9rem; border-top: 1px solid var(--stage-line); color: var(--stage-muted); font-size: .9rem; line-height: 1.55; }
+
   .related .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1.5rem; }
   @media (max-width: 900px) {
     .cols { grid-template-columns: 1fr; gap: 2.5rem; }
     .side { position: static; }
+    .apply-card { grid-template-columns: 1fr; }
     .related .grid { grid-template-columns: 1fr; }
   }
 </style>

@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { services } from '../../data/services';
 import { SITE } from '../../data/site';
 
-const title = 'Cotizar un proyecto | ZulIA';
+const title = 'Cotiza tu proyecto de software o IA · Asesoría sin costo | ZulIA';
 const description =
   'Cuéntanos qué necesitas en cuatro pasos. Te respondemos con una recomendación de fase uno, alcance y rango de inversión en menos de dos días hábiles.';
 
@@ -45,6 +45,10 @@ const timings = [
     <section class="form-wrap">
       <div class="shell-narrow">
         <form class="quote" data-quote novalidate>
+          <p class="ref" data-ref hidden>
+            Cotización con referencia al caso <strong data-ref-name></strong>. Lo tomamos como punto de partida, no como alcance cerrado.
+          </p>
+
           <ol class="progress mono" aria-label="Progreso">
             <li data-step-dot="1" aria-current="step">1 Proyecto</li>
             <li data-step-dot="2">2 Contexto</li>
@@ -134,7 +138,7 @@ const timings = [
           <ol class="after">
             <li>Leemos tu resumen y, si hace falta, te hacemos dos o tres preguntas por WhatsApp.</li>
             <li>Te proponemos una primera fase: alcance cerrado, entregables y rango de inversión.</li>
-            <li>Si tiene sentido, agendamos treinta minutos para ajustarla contigo.</li>
+            <li>Agendamos una asesoría de treinta minutos, sin costo, para ajustarla contigo y acordar la fecha de entrega.</li>
           </ol>
           <p class="muted small">No compartimos tu información con nadie ni te metemos a una lista de correos.</p>
         </aside>
@@ -163,6 +167,13 @@ const timings = [
     if (pre) {
       const r = form.querySelector<HTMLInputElement>(`input[name="linea"][value="${pre}"]`);
       if (r) r.checked = true;
+    }
+
+    const caso = (params.get('caso') ?? '').slice(0, 120);
+    const refBox = form.querySelector<HTMLElement>('[data-ref]');
+    if (caso && refBox) {
+      refBox.querySelector<HTMLElement>('[data-ref-name]')!.textContent = caso;
+      refBox.hidden = false;
     }
 
     const show = (n: number) => {
@@ -206,6 +217,7 @@ const timings = [
       const lines = [
         'Hola ZulIA, quiero cotizar un proyecto.',
         '',
+        ...(caso ? [`Vengo del caso: ${caso}`, ''] : []),
         `Tipo: ${labelOf('linea', String(fd.get('linea')))}`,
         `Contexto: ${contexto.length ? contexto.join(', ') : 'sin especificar'}`,
         `Inversión: ${labelOf('presupuesto', String(fd.get('presupuesto')))}`,
@@ -240,6 +252,9 @@ const timings = [
 </script>
 
 <style>
+  .ref { margin-bottom: 1.5rem; padding: .9rem 1.1rem; border: 1px solid var(--line); border-left: 3px solid var(--accent-surface); border-radius: var(--radius-sm); background: var(--white); color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
+  .ref strong { color: var(--ink); }
+
   .head .display { margin-top: 1rem; }
   .head .lead { margin-top: 1.25rem; }
   .form-wrap { padding-bottom: var(--section); }

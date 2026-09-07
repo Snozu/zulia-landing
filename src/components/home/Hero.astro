@@ -5,15 +5,16 @@ import { CTA } from '../../data/site';
 <section class="hero" aria-labelledby="hero-title">
   <div class="shell grid">
     <div class="copy">
-      <h1 id="hero-title" class="display">Tus sistemas, operados desde un chat de IA.</h1>
-      <p class="lead">Conectamos el ERP, el CRM, el correo y WhatsApp que tu empresa ya usa a una capa de inteligencia que consulta, ejecuta y pide aprobación cuando toca.</p>
+      <p class="label">Consultoría de software e inteligencia artificial · Monterrey</p>
+      <h1 id="hero-title" class="display">Construimos el software que tu operación necesita.</h1>
+      <p class="lead">Construimos plataformas internas, sitios corporativos, landing pages, catálogos y tiendas en línea, y conectamos el ERP, el CRM, el correo y WhatsApp que tu empresa ya usa a asistentes que consultan, ejecutan y piden aprobación antes de cualquier acción sensible.</p>
       <div class="ctas">
         <a class="btn" href={CTA.primaryHref}>{CTA.primary}</a>
         <a class="link" href={CTA.secondaryHref}>
           {CTA.secondary}
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 13 13 3M6 3h7v7"/></svg>
         </a>
       </div>
+      <p class="free">La primera asesoría es de <strong>treinta minutos y sin costo</strong>. <a class="link" href="https://agenda.zulia.lat" target="_blank" rel="noopener">Agéndala aquí</a>.</p>
     </div>
 
     <div class="stack" aria-hidden="true">
@@ -50,6 +51,9 @@ import { CTA } from '../../data/site';
   }
   .copy { display: grid; gap: 1.6rem; align-content: start; }
   .copy h1 { max-width: 20ch; }
+  .free { color: var(--text-muted); font-size: .95rem; line-height: 1.6; }
+  .free strong { color: var(--ink); font-weight: 600; }
+  .free .link { font-size: inherit; padding-block: 0; }
   .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; padding-top: .5rem; }
 
   .stack { position: relative; min-height: 30rem; }
