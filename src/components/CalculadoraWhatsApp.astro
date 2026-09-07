@@ -1,17 +1,19 @@
 ---
+import { MERCADOS, DIVISAS, TARIFAS_VIGENTES_DESDE, TARIFAS_FUENTE, TIPO_CAMBIO_FECHA } from '../data/whatsappRates';
+
 /**
  * Cotizador del cambio de precios de WhatsApp del 1 de octubre de 2026.
  *
- * Dos decisiones de diseño que vienen de habernos equivocado con estos datos:
+ * Sigue el modelo de la calculadora de Meta —mercado y divisa por separado—
+ * pero responde otra pregunta: la de Meta da la tarifa por mensaje, esta da la
+ * factura del mes y cuánto sube.
  *
- *  · Las tarifas son campos editables, no constantes. Meta las mueve por país
- *    y por fecha; un cotizador con números incrustados miente a los dos meses.
- *  · Los supuestos del cálculo están escritos en la pantalla, no escondidos.
- *    Una cifra sin el supuesto que la produjo no sirve para decidir nada.
+ * Las tarifas van fijas en `src/data/whatsappRates.ts`. Un cotizador con
+ * tarifas editables por el visitante no sirve para decidir nada.
  *
- * Sin framework y sin dependencias: el sitio no carga un solo bundle de JS y
- * esta herramienta no va a ser la que rompa eso.
+ * Sin framework y sin dependencias: el sitio no carga un solo bundle de JS.
  */
+const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
 ---
 
 <section class="calc" id="calculadora" aria-labelledby="calc-titulo">
@@ -23,13 +25,30 @@
     </div>
 
     <form class="calc-form" id="calc-form" novalidate>
-      <fieldset class="grupo">
-        <legend>Tu operación</legend>
+      <div class="selectores">
+        <label>
+          <span>Mercado</span>
+          <select id="mercado">
+            {MERCADOS.map((m) => <option value={m.clave} selected={m.clave === 'mx'}>{m.nombre}</option>)}
+          </select>
+          <small>El país de quien recibe tus mensajes. Es lo que fija la tarifa.</small>
+        </label>
+        <label>
+          <span>Divisa</span>
+          <select id="divisa">
+            {DIVISAS.map((d) => <option value={d.clave} selected={d.clave === 'MXN'}>{d.clave} · {d.nombre}</option>)}
+          </select>
+          <small>Solo para mostrar el resultado. Meta factura en dólares.</small>
+        </label>
+      </div>
+
+      <div class="grupo">
+        <p class="grupo-t">Tu operación al mes</p>
 
         <label>
-          <span>Conversaciones al mes</span>
+          <span>Conversaciones</span>
           <input type="number" id="conv" value="1000" min="0" step="50" inputmode="numeric" />
-          <small>Cuántas personas distintas te escriben al mes.</small>
+          <small>Cuántas personas distintas te escriben.</small>
         </label>
 
         <label>
@@ -41,48 +60,21 @@
         <label>
           <span>Porcentaje que llega desde un anuncio</span>
           <input type="number" id="anuncio" value="20" min="0" max="100" step="5" inputmode="numeric" />
-          <small>Click-to-WhatsApp o botón de Facebook. Esas abren la ventana de 72 h y no se cobran.</small>
+          <small>Click-to-WhatsApp o botón de Facebook: abren la ventana de 72 h y no se cobran.</small>
         </label>
 
         <label>
-          <span>Plantillas de marketing al mes</span>
+          <span>Plantillas de marketing</span>
           <input type="number" id="mkt" value="500" min="0" step="50" inputmode="numeric" />
           <small>Promociones y campañas. Se cobran hoy y también después.</small>
         </label>
 
         <label>
-          <span>Plantillas de utility al mes</span>
+          <span>Plantillas de utility</span>
           <input type="number" id="util" value="300" min="0" step="50" inputmode="numeric" />
           <small>Avisos de pedido, envío, recordatorios.</small>
         </label>
-      </fieldset>
-
-      <fieldset class="grupo tarifas">
-        <legend>Tarifas en USD por mensaje</legend>
-        <p class="aviso">Estas son referencias públicas para México a septiembre de 2026 y las puedes cambiar. La cifra buena es la de la <a class="link" href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing" target="_blank" rel="noopener">tarjeta oficial de Meta</a>, que se mueve por país y por fecha.</p>
-
-        <label>
-          <span>Mensaje de servicio</span>
-          <input type="number" id="tServ" value="0.0085" min="0" step="0.0001" inputmode="decimal" />
-        </label>
-        <label>
-          <span>Plantilla de marketing</span>
-          <input type="number" id="tMkt" value="0.0305" min="0" step="0.0001" inputmode="decimal" />
-        </label>
-        <label>
-          <span>Plantilla de utility</span>
-          <input type="number" id="tUtil" value="0.0080" min="0" step="0.0001" inputmode="decimal" />
-        </label>
-        <label>
-          <span>Margen de tu proveedor</span>
-          <input type="number" id="tBsp" value="0" min="0" step="0.001" inputmode="decimal" />
-          <small>Lo que suma tu proveedor por mensaje, si te cobra uno.</small>
-        </label>
-        <label>
-          <span>Pesos por dólar</span>
-          <input type="number" id="fx" value="18.5" min="1" step="0.1" inputmode="decimal" />
-        </label>
-      </fieldset>
+      </div>
     </form>
 
     <div class="calc-out" aria-live="polite">
@@ -104,69 +96,89 @@
         </div>
       </div>
 
+      <p class="tarifa-nota muted" id="tarifaNota"></p>
+
       <ul class="desglose" id="desglose"></ul>
 
       <details class="supuestos">
-        <summary>Qué está suponiendo este cálculo</summary>
+        <summary>Tarifas y supuestos del cálculo</summary>
+        <p class="fuente muted">
+          Tarifas por mensaje entregado vigentes desde el {TARIFAS_VIGENTES_DESDE}, publicadas por Meta en su
+          <a class="link" href={TARIFAS_FUENTE} target="_blank" rel="noopener">página de precios</a>.
+          Conversión de divisa con el tipo de cambio del {TIPO_CAMBIO_FECHA}; Meta factura en dólares.
+        </p>
         <ul>
           <li>Las conversaciones que llegan desde un anuncio abren la ventana de 72 horas y su entrega no se cobra, ni hoy ni después.</li>
-          <li>Las demás abren la ventana de 24 horas: hoy tus respuestas ahí son gratis y a partir del 1 de octubre se cobran una por una.</li>
+          <li>Las demás abren la ventana de 24 horas: hoy tus respuestas ahí son gratis y desde el 1 de octubre se cobran una por una, a la misma tarifa que una plantilla de utility.</li>
           <li>Las plantillas de marketing se cobran siempre, antes y después del cambio.</li>
-          <li>Las plantillas de utility se asumen enviadas dentro de la ventana: hoy no cuestan y después sí. Si las mandas fuera de ventana, hoy ya las estás pagando y el aumento real es menor.</li>
-          <li>No hay descuentos por volumen en mensajes de servicio.</li>
+          <li>Las plantillas de utility se asumen enviadas dentro de la ventana: hoy no cuestan y después sí. Si las mandas fuera, hoy ya las pagas y tu aumento real es menor.</li>
+          <li>No se aplican descuentos por volumen, que Meta sí ofrece en utility y autenticación a partir de ciertos niveles.</li>
+          <li>No incluye el margen que tu proveedor pueda sumar por mensaje. Pídeselo por escrito.</li>
         </ul>
       </details>
     </div>
   </div>
 </section>
 
-<script is:inline>
+<script is:inline define:vars={{ datos }}>
   (() => {
     const form = document.getElementById('calc-form');
     if (!form) return;
+    const { mercados, divisas } = JSON.parse(datos);
     const $ = (id) => document.getElementById(id);
     const n = (id) => {
       const v = parseFloat($(id).value);
       return Number.isFinite(v) && v >= 0 ? v : 0;
     };
 
-    const mxn = (v) => '$' + v.toLocaleString('es-MX', { maximumFractionDigits: 0 }) + ' MXN';
-    const usd = (v) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }) + ' USD';
-
     function calcular() {
+      const m = mercados.find((x) => x.clave === $('mercado').value) || mercados[0];
+      const d = divisas.find((x) => x.clave === $('divisa').value) || divisas[0];
+
+      // Con el símbolo solo, "$258" se puede leer como dólares. El código
+      // delante quita la ambigüedad en cualquier divisa.
+      const fmt = (usdVal) => {
+        const v = usdVal * d.porDolar;
+        return v.toLocaleString('es-MX', {
+          style: 'currency',
+          currency: d.clave,
+          currencyDisplay: 'code',
+          maximumFractionDigits: d.decimales,
+        });
+      };
+      const enUsd = (v) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }) + ' USD';
+
       const conv = n('conv');
       const resp = n('resp');
       const desdeAnuncio = Math.min(n('anuncio'), 100) / 100;
       const mkt = n('mkt');
       const util = n('util');
-      const fx = n('fx') || 1;
-
-      const tServ = n('tServ') + n('tBsp');
-      const tMkt = n('tMkt') + n('tBsp');
-      const tUtil = n('tUtil') + n('tBsp');
 
       // Solo las conversaciones que NO llegan desde un anuncio caen en la
       // ventana de 24 h, que es la que se empieza a cobrar.
       const convPagadas = conv * (1 - desdeAnuncio);
       const msgServicio = convPagadas * resp;
 
-      const costoMkt = mkt * tMkt;
-      const costoServ = msgServicio * tServ;
-      const costoUtil = util * tUtil;
+      const costoMkt = mkt * m.marketing;
+      const costoServ = msgServicio * m.servicio;
+      const costoUtil = util * m.utility;
 
       const hoy = costoMkt;
       const despues = costoMkt + costoServ + costoUtil;
       const delta = despues - hoy;
       const pct = hoy > 0 ? (delta / hoy) * 100 : null;
 
-      $('outHoy').textContent = mxn(hoy * fx);
-      $('outHoyUsd').textContent = usd(hoy);
-      $('outDesp').textContent = mxn(despues * fx);
-      $('outDespUsd').textContent = usd(despues);
-      $('outDelta').textContent = '+' + mxn(delta * fx);
+      $('outHoy').textContent = fmt(hoy);
+      $('outDesp').textContent = fmt(despues);
+      $('outDelta').textContent = '+' + fmt(delta);
+      $('outHoyUsd').textContent = d.clave === 'USD' ? '' : enUsd(hoy);
+      $('outDespUsd').textContent = d.clave === 'USD' ? '' : enUsd(despues);
       $('outPct').textContent = pct === null
         ? 'sobre una base de cero'
         : '+' + pct.toLocaleString('es-MX', { maximumFractionDigits: 0 }) + '% sobre lo de hoy';
+
+      $('tarifaNota').textContent =
+        `Tarifas de ${m.nombre}: marketing ${m.marketing.toFixed(4)} USD, utility y servicio ${m.utility.toFixed(4)} USD por mensaje entregado.`;
 
       const filas = [
         ['Mensajes de servicio que pasan a cobrarse', Math.round(msgServicio), costoServ],
@@ -177,11 +189,20 @@
 
       $('desglose').innerHTML = filas
         .map(([etiqueta, cantidad, costo]) =>
-          `<li><span class="d-t">${etiqueta}</span><span class="d-c">${cantidad.toLocaleString('es-MX')} msj</span><span class="d-m">${costo > 0 ? mxn(costo * fx) : 'sin costo'}</span></li>`)
+          `<li><span class="d-t">${etiqueta}</span><span class="d-c">${cantidad.toLocaleString('es-MX')} msj</span><span class="d-m">${costo > 0 ? fmt(costo) : 'sin costo'}</span></li>`)
         .join('');
     }
 
+    // Al cambiar de mercado se preselecciona su divisa local, que es lo que
+    // el cliente de ese país espera ver.
+    $('mercado').addEventListener('change', () => {
+      const m = mercados.find((x) => x.clave === $('mercado').value);
+      if (m && divisas.some((d) => d.clave === m.divisa)) $('divisa').value = m.divisa;
+      calcular();
+    });
+
     form.addEventListener('input', calcular);
+    form.addEventListener('change', calcular);
     calcular();
   })();
 </script>
@@ -205,10 +226,18 @@
   .calc-head .h2 { margin-top: .5rem; font-size: clamp(1.5rem, 3vw, 2rem); }
   .calc-head .muted { margin-top: .6rem; max-width: 56ch; line-height: 1.6; }
 
-  .calc-form { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-  .grupo { border: 0; margin: 0; padding: 0; display: grid; gap: 1.1rem; align-content: start; }
-  legend {
-    padding: 0 0 .9rem;
+  .calc-form { margin-top: 2rem; }
+  .selectores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    padding-bottom: 1.75rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .grupo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem; }
+  .grupo-t {
+    grid-column: 1 / -1;
     color: var(--ink);
     font-family: var(--font-mono);
     font-size: .72rem;
@@ -216,11 +245,10 @@
     letter-spacing: .1em;
     text-transform: uppercase;
   }
-  .aviso { margin: -.3rem 0 .4rem; color: var(--text-muted); font-size: .85rem; line-height: 1.55; }
-  .grupo label { display: grid; gap: .35rem; }
-  .grupo label > span { color: var(--ink); font-size: .92rem; font-weight: 550; }
-  .grupo small { color: var(--text-muted); font-size: .8rem; line-height: 1.45; }
-  .grupo input {
+  label { display: grid; gap: .35rem; align-content: start; }
+  label > span { color: var(--ink); font-size: .92rem; font-weight: 550; }
+  small { color: var(--text-muted); font-size: .8rem; line-height: 1.45; }
+  input, select {
     width: 100%;
     padding: .6rem .75rem;
     border: 1px solid var(--line);
@@ -230,21 +258,23 @@
     font-family: var(--font-mono);
     font-size: 1rem;
   }
-  .grupo input:focus { border-color: var(--accent-surface); outline: none; box-shadow: 0 0 0 3px var(--blue-soft); }
+  select { font-family: inherit; cursor: pointer; }
+  input:focus, select:focus { border-color: var(--accent-surface); outline: none; box-shadow: 0 0 0 3px var(--blue-soft); }
 
   .calc-out { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
   .cifras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
   .cifra { display: grid; gap: .3rem; align-content: start; padding-right: 1.25rem; }
   .cifra + .cifra { padding-left: 1.25rem; border-left: 1px solid var(--line); }
   .cifra-l { color: var(--text-muted); font-size: .82rem; }
-  .cifra strong { font-size: clamp(1.4rem, 3.2vw, 2.1rem); font-weight: 650; letter-spacing: -.03em; line-height: 1.1; }
+  .cifra strong { font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 650; letter-spacing: -.03em; line-height: 1.1; }
   .cifra-u { color: var(--text-muted); font-family: var(--font-mono); font-size: .76rem; }
   .destaca strong { color: var(--blue-dark); }
 
+  .tarifa-nota { margin-top: 1.25rem; font-size: .84rem; line-height: 1.5; }
+
   /* Estas filas las inyecta el script, así que no llevan el atributo de scope
-     que Astro pone en tiempo de build. Sin :global() la regla no las alcanza y
-     las tres columnas salen pegadas en una sola línea. */
-  .desglose { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; }
+     que Astro pone en tiempo de build. Sin :global() salen pegadas. */
+  .desglose { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; }
   .desglose :global(li) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
@@ -261,11 +291,12 @@
   .supuestos summary { padding: .9rem 0; cursor: pointer; font-size: .9rem; font-weight: 600; list-style: none; }
   .supuestos summary::after { content: " +"; color: var(--blue-dark); }
   .supuestos[open] summary::after { content: " −"; }
+  .fuente { margin-bottom: 1rem; font-size: .86rem; line-height: 1.6; }
   .supuestos ul { margin: 0 0 1.1rem; padding-left: 1.1rem; display: grid; gap: .5rem; }
   .supuestos li { color: var(--text-muted); font-size: .88rem; line-height: 1.55; }
 
   @media (max-width: 820px) {
-    .calc-form { grid-template-columns: 1fr; gap: 1.75rem; }
+    .selectores, .grupo { grid-template-columns: 1fr; }
     .cifras { grid-template-columns: 1fr; }
     .cifra { padding-right: 0; }
     .cifra + .cifra { padding-left: 0; padding-top: 1.1rem; margin-top: 1.1rem; border-left: 0; border-top: 1px solid var(--line); }
