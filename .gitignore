@@ -34,7 +34,10 @@ deploy_package.tar.gz
 # local scratch and editor/agent folders
 tmp/
 .trae/
-.claude/
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/zulia-marca/
 
 # agent skills installed locally (npx skills)
 .agents/

@@ -1,0 +1,326 @@
+<!doctype html><meta charset="utf-8"><title>social</title>
+<style>
+@font-face{font-family:Onest;src:url('__ONEST__') format('woff2-variations');font-weight:100 900;font-display:block}
+@font-face{font-family:'JetBrains Mono';src:url('__MONO__') format('woff2-variations');font-weight:100 800;font-display:block}
+body{margin:0;background:#2a2c30;font-family:Onest,system-ui;color:#fff;padding:20px}
+#log{font:13px ui-monospace,Menlo,monospace;white-space:pre-wrap}
+#salida{display:flex;flex-wrap:wrap;gap:14px}
+canvas{display:block;max-width:250px;height:auto;border:1px solid #555}
+</style>
+<div id="log">generando…</div>
+<div id="salida"></div>
+<script>
+const ICONOS = {"whatsapp": "M152.58,145.23l23,11.48A24,24,0,0,1,152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155ZM232,128A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-40,24a8,8,0,0,0-4.42-7.16l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88A40,40,0,0,0,192,152Z", "reloj": "M208,96a12,12,0,1,1,12,12A12,12,0,0,1,208,96ZM196,72a12,12,0,1,0-12-12A12,12,0,0,0,196,72Zm28.66,56a8,8,0,0,0-8.63,7.31A88.12,88.12,0,1,1,120.66,40,8,8,0,0,0,119.34,24,104.12,104.12,0,1,0,232,136.66,8,8,0,0,0,224.66,128ZM128,56a72,72,0,1,1-72,72A72.08,72.08,0,0,1,128,56Zm-8,72a8,8,0,0,0,8,8h48a8,8,0,0,0,0-16H136V80a8,8,0,0,0-16,0Zm40-80a12,12,0,1,0-12-12A12,12,0,0,0,160,48Z", "megafono": "M200,72H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48,48,0,0,0,200,72ZM179,207.89l0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z", "recibo": "M216,40H40A16,16,0,0,0,24,56V208a8,8,0,0,0,11.58,7.15L64,200.94l28.42,14.21a8,8,0,0,0,7.16,0L128,200.94l28.42,14.21a8,8,0,0,0,7.16,0L192,200.94l28.42,14.21A8,8,0,0,0,232,208V56A16,16,0,0,0,216,40ZM176,144H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Zm0-32H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Z", "chat": "M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24ZM84,140a12,12,0,1,1,12-12A12,12,0,0,1,84,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,128,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,172,140Z", "calculadora": "M200,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V40A16,16,0,0,0,200,24ZM88,200a12,12,0,1,1,12-12A12,12,0,0,1,88,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,88,160Zm40,40a12,12,0,1,1,12-12A12,12,0,0,1,128,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,128,160Zm40,40a12,12,0,1,1,12-12A12,12,0,0,1,168,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,168,160Zm16-56a8,8,0,0,1-8,8H80a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8h96a8,8,0,0,1,8,8Z", "clic": "M220.49,190.83a12,12,0,0,1,0,17L207.8,220.49a12,12,0,0,1-17,0l-56.56-56.57L115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13-50.17,19.27ZM96,32a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0v8A8,8,0,0,0,96,32ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31Z", "tendencia": "M240,56v64a8,8,0,0,1-13.66,5.66L200,99.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31,29.66,189.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0L136,140.69,188.69,88,162.34,61.66A8,8,0,0,1,168,48h64A8,8,0,0,1,240,56Z", "moneda": "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm12,152h-4v8a8,8,0,0,1-16,0v-8H104a8,8,0,0,1,0-16h36a12,12,0,0,0,0-24H116a28,28,0,0,1,0-56h4V72a8,8,0,0,1,16,0v8h16a8,8,0,0,1,0,16H116a12,12,0,0,0,0,24h24a28,28,0,0,1,0,56Z", "etiqueta": "M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"};
+
+/* Paleta tomada de src/styles/global.css. Los nombres son los de las
+   variables del sitio para que se note de dónde sale cada color. */
+const STAGE='#0e1013', LINEA='rgba(255,255,255,.12)', PANEL='rgba(255,255,255,.04)';
+const TEXTO='#f2f3f5', MUTED='#9da5b0', ORDINAL='#7d848f';
+const AZUL='#2f6bff', AZUL_LUZ='#5a8dff', VERDE='#24b879';
+/* Único color fuera del sistema del sitio: hace falta un tono de "esto ahora
+   cuesta" y la paleta no tiene ninguno. Se usa solo en redes. */
+const COSTO='#e0a33a';
+
+const SANS='Onest', MONO='"JetBrains Mono"';
+const MAY = f => f*0.72;          // altura de mayúscula aproximada
+const DESC = f => f*0.21;         // descendente
+
+function fondo(ctx,W,H){
+  ctx.fillStyle=STAGE; ctx.fillRect(0,0,W,H);
+  // Mismo resplandor que .escenario: 80rem x 40rem al 20% -10%, y al .22.
+  const rx=W*1.185, ry=rx*0.5, cx=W*0.20, cy=-H*0.10;
+  ctx.save(); ctx.translate(cx,cy); ctx.scale(1,ry/rx);
+  const g=ctx.createRadialGradient(0,0,0,0,0,rx);
+  g.addColorStop(0,'rgba(45,106,245,.22)'); g.addColorStop(.6,'rgba(45,106,245,0)');
+  ctx.fillStyle=g; ctx.fillRect(-rx,-rx,rx*2,rx*2); ctx.restore();
+}
+
+// Devuelve la y de la línea base siguiente para encadenar bloques sin medir.
+function texto(ctx,txt,x,y,maxW,lh,font,color,ls=0){
+  ctx.font=font; ctx.fillStyle=color; ctx.textBaseline='alphabetic';
+  const escribir=(s,yy)=>{
+    if(!ls){ctx.fillText(s,x,yy);return;}
+    let cx=x; for(const ch of s){ctx.fillText(ch,cx,yy); cx+=ctx.measureText(ch).width+ls;}
+  };
+  const anchoDe=(s)=> ls? [...s].reduce((a,c)=>a+ctx.measureText(c).width+ls,0)-ls : ctx.measureText(s).width;
+  const palabras=txt.split(' '); let linea=''; let yy=y;
+  for(const p of palabras){
+    const prueba=linea?linea+' '+p:p;
+    if(anchoDe(prueba)>maxW && linea){ escribir(linea,yy); yy+=lh; linea=p; }
+    else linea=prueba;
+  }
+  escribir(linea,yy);
+  return yy+lh;
+}
+
+function ancho(ctx,txt,font,ls=0){
+  ctx.font=font;
+  return ls ? [...txt].reduce((a,c)=>a+ctx.measureText(c).width+ls,0)-ls : ctx.measureText(txt).width;
+}
+
+function rotulo(ctx,txt,x,y,f,color){        // versalitas en mono, como el sitio
+  return texto(ctx,txt,x,y,9999,f*1.6,`700 ${f}px ${MONO}`,color,f*0.12);
+}
+
+function filete(ctx,x1,y,x2,color=LINEA){
+  ctx.strokeStyle=color; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x1,y+.5); ctx.lineTo(x2,y+.5); ctx.stroke();
+}
+
+/* Los iconos del sitio son glifos sólidos que siguen al color del texto, sin
+   contenedor. Aquí igual: nada de cuadros con fondo. */
+function icono(ctx,clave,x,y,tam,color){
+  ctx.save(); ctx.translate(x,y); ctx.scale(tam/256,tam/256);
+  ctx.fillStyle=color; ctx.fill(new Path2D(ICONOS[clave]));
+  ctx.restore();
+}
+
+function panel(ctx,x,y,w,h,r=20,cara=PANEL,borde=LINEA){
+  ctx.fillStyle=cara; ctx.strokeStyle=borde; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.roundRect(x+.5,y+.5,w-1,h-1,r); ctx.fill(); ctx.stroke();
+}
+
+// Etiqueta de estado: filete y versalitas, no una pastilla rellena.
+function etiqueta(ctx,txt,x,y,color,f=22){
+  const w=ancho(ctx,txt,`700 ${f}px ${MONO}`,f*0.12), padX=f*0.8, h=f*2;
+  ctx.strokeStyle=color; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.roundRect(x+.5,y+.5,w+padX*2,h,6); ctx.stroke();
+  texto(ctx,txt,x+padX,y+(h+MAY(f))/2,9999,h,`700 ${f}px ${MONO}`,color,f*0.12);
+  return w+padX*2;
+}
+
+function marca(ctx,x,y,tam=50){
+  ctx.font=`700 ${tam*0.78}px ${SANS}`; ctx.textBaseline='alphabetic';
+  const yb=y+MAY(tam);
+  ctx.fillStyle=TEXTO; ctx.fillText('Zul',x,yb);
+  ctx.fillStyle=AZUL_LUZ; ctx.fillText('IA',x+ctx.measureText('Zul').width,yb);
+}
+
+/* Cabecera y pie comunes. El folio en mono sustituye a la barra de progreso:
+   dice lo mismo y se parece al resto de la marca. */
+function cabecera(ctx,W,m,ante,n,total){
+  rotulo(ctx,ante,m,132,24,AZUL);
+  if(n){
+    const f=`700 24px ${MONO}`, t=`${String(n).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+    texto(ctx,t,W-m-ancho(ctx,t,f,2.4),132,9999,40,f,ORDINAL,2.4);
+  }
+  filete(ctx,m,168,W-m);
+}
+
+function pie(ctx,W,H,m,derecha){
+  filete(ctx,m,H-172,W-m);
+  marca(ctx,m,H-138,50);
+  if(derecha){
+    const f=`500 26px ${MONO}`;
+    texto(ctx,derecha,W-m-ancho(ctx,derecha,f),H-100,9999,40,f,ORDINAL);
+  }
+}
+
+const disenos={
+  'carrusel-1-portada':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'GUÍA · WHATSAPP BUSINESS API',1,6);
+    icono(ctx,'whatsapp',m,250,86,AZUL);
+    let y=texto(ctx,'El 1 de octubre WhatsApp deja de ser gratis',m,470,w,104,`680 92px ${SANS}`,TEXTO);
+    y=texto(ctx,'Meta empieza a cobrar las respuestas que hoy mandas sin costo dentro de la ventana de 24 horas.',m,y+46,w-40,52,`400 38px ${SANS}`,MUTED);
+
+    filete(ctx,m,H-320,W-m);
+    rotulo(ctx,'A QUIÉN LE TOCA',m,H-258,22,COSTO);
+    texto(ctx,'Solo a la API. La app de WhatsApp Business sigue igual.',m,H-206,w,44,`500 30px ${SANS}`,TEXTO);
+    pie(ctx,W,H,m,'Desliza  →');
+  },
+
+  'carrusel-2-que-cambia':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'QUÉ CAMBIA',2,6);
+    let y=texto(ctx,'Cuatro cambios el mismo día',m,282,w,74,`680 62px ${SANS}`,TEXTO)+40;
+    const filas=[
+      ['Los mensajes de servicio se cobran','Cada respuesta tuya dentro de las 24 h.'],
+      ['Las plantillas de utility se cobran','Avisos de pedido, envío y recordatorios.'],
+      ['Se acaban los descuentos por volumen','Da igual cuántos mandes: misma tarifa.'],
+      ['Se cobra por mensaje, no por conversación','El modelo de 24 h gratis desaparece.'],
+    ];
+    // Ordinales en mono, como los números de sección de las páginas de servicio.
+    filas.forEach(([t,s],i)=>{
+      filete(ctx,m,y,W-m);
+      rotulo(ctx,String(i+1).padStart(2,'0'),m,y+52,26,ORDINAL);
+      let yy=texto(ctx,t,m+96,y+52,w-96,50,`640 40px ${SANS}`,TEXTO);
+      y=texto(ctx,s,m+96,yy+2,w-96,42,`400 29px ${SANS}`,MUTED)+40;
+    });
+    pie(ctx,W,H,m,'Desliza  →');
+  },
+
+  'carrusel-3-antes-despues':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'ANTES Y DESPUÉS',3,6);
+    let y=texto(ctx,'Lo mismo, con otra factura',m,282,w,74,`680 62px ${SANS}`,TEXTO)+58;
+
+    const colB=m+w*0.52, anchoA=w*0.52-30, anchoB=w*0.48;
+    rotulo(ctx,'HASTA EL 30 SEP',m,y,21,ORDINAL);
+    rotulo(ctx,'DESDE EL 1 OCT',colB,y,21,COSTO);
+    y+=26;
+    for(const [etq,a,b] of [
+      ['Mensajes de servicio','Gratis','Se cobran'],
+      ['Plantillas de utility','Exentas en la ventana','Siempre se cobran'],
+      ['Unidad de cobro','Conversación de 24 h','Mensaje entregado'],
+      ['Descuento por volumen','Sí, por escalones','Ninguno'],
+    ]){
+      filete(ctx,m,y,W-m);
+      rotulo(ctx,etq.toUpperCase(),m,y+44,19,ORDINAL);
+      texto(ctx,a,m,y+92,anchoA,38,`400 32px ${SANS}`,MUTED);
+      texto(ctx,b,colB,y+92,anchoB,38,`640 32px ${SANS}`,TEXTO);
+      y+=138;
+    }
+    filete(ctx,m,y,W-m);
+    texto(ctx,'La conversación deja de ser la unidad. Ahora cuenta cada mensaje que sale.',m,y+62,w-30,46,`400 31px ${SANS}`,MUTED);
+    pie(ctx,W,H,m,'Desliza  →');
+  },
+
+  'carrusel-4-ventanas':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'LAS DOS VENTANAS',4,6);
+    let y=texto(ctx,'Solo una sigue gratis',m,282,w,74,`680 62px ${SANS}`,TEXTO)+46;
+
+    // Barra de acento a la izquierda en vez de teñir toda la tarjeta.
+    const ventana=(top,ic,titulo,cuerpo,etq,color)=>{
+      const pad=34, ico=44, fC=33;
+      const baseT=pad+ico/2+MAY(24)/2;
+      const baseC=pad+ico+30+MAY(fC);
+      const lineas=ancho(ctx,cuerpo,`500 ${fC}px ${SANS}`)>w-pad*2-30?2:1;
+      const finC=baseC+(lineas-1)*fC*1.33+DESC(fC);
+      const topEtq=Math.round(finC+26);
+      const alto=Math.round(topEtq+44+pad);
+      panel(ctx,m,top,w,alto);
+      ctx.fillStyle=color; ctx.beginPath(); ctx.roundRect(m,top+20,4,alto-40,2); ctx.fill();
+      icono(ctx,ic,m+pad,top+pad,ico,color);
+      rotulo(ctx,titulo,m+pad+ico+20,top+baseT,24,color);
+      texto(ctx,cuerpo,m+pad,top+baseC,w-pad*2-30,fC*1.33,`500 ${fC}px ${SANS}`,TEXTO);
+      etiqueta(ctx,etq,m+pad,top+topEtq,color,22);
+      return top+alto+30;
+    };
+    y=ventana(y,'reloj','VENTANA DE 24 HORAS','Se abre cuando el cliente te escribe. Todo lo que respondas dentro pasa a costar.','AHORA SE COBRA',COSTO);
+    y=ventana(y,'clic','VENTANA DE 72 HORAS','Sigue sin costo, pero solo la abre un anuncio de Click-to-WhatsApp.','SIGUE GRATIS',VERDE);
+
+    texto(ctx,'Si el cliente te escribe por su cuenta, la de 72 horas no aplica.',m,y+56,w-30,46,`400 31px ${SANS}`,MUTED);
+    pie(ctx,W,H,m,'Desliza  →');
+  },
+
+  'carrusel-5-cuanto':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'LAS TARIFAS EN MÉXICO',5,6);
+    let y=texto(ctx,'Cuánto cuesta cada mensaje',m,282,w,74,`680 62px ${SANS}`,TEXTO)+56;
+    const rot='USD POR MENSAJE';
+    texto(ctx,rot,W-m-ancho(ctx,rot,`700 20px ${MONO}`,2.4),y-22,9999,32,`700 20px ${MONO}`,ORDINAL,2.4);
+
+    // Tabla de datos de verdad: cifras en mono, alineadas a la derecha.
+    for(const [ic,t,usd,mxn,nota] of [
+      ['megafono','Marketing','$0.0305','≈ $0.52 MXN',''],
+      ['recibo','Utility','$0.0085','≈ $0.14 MXN',''],
+      ['chat','Servicio','$0.0085','≈ $0.14 MXN','NUEVO'],
+    ]){
+      filete(ctx,m,y,W-m);
+      icono(ctx,ic,m,y+29,34,AZUL);
+      texto(ctx,t,m+56,y+58,400,40,`640 34px ${SANS}`,TEXTO);
+      if(nota) etiqueta(ctx,nota,m+56+ancho(ctx,t,`640 34px ${SANS}`)+20,y+34,COSTO,19);
+      const fU=`700 36px ${MONO}`;
+      texto(ctx,usd,W-m-ancho(ctx,usd,fU),y+58,600,40,fU,TEXTO);
+      const fM=`400 23px ${MONO}`;
+      texto(ctx,mxn,W-m-ancho(ctx,mxn,fM),y+87,600,34,fM,ORDINAL);
+      y+=124;
+    }
+    filete(ctx,m,y,W-m);
+
+    y+=44;
+    const alto=252;
+    panel(ctx,m,y,w,alto);
+    rotulo(ctx,'UN EJEMPLO REAL',m+34,y+50,22,AZUL_LUZ);
+    texto(ctx,'2,000 conversaciones al mes, 4 respuestas cada una',m+34,y+100,w-68,44,`400 30px ${SANS}`,MUTED);
+    texto(ctx,'$1,148 MXN',m+34,y+172,w-68,60,`700 56px ${MONO}`,TEXTO);
+    texto(ctx,'al mes, que hoy pagas cero',m+34+ancho(ctx,'$1,148 MXN',`700 56px ${MONO}`)+22,y+172,w,40,`500 27px ${SANS}`,COSTO);
+    texto(ctx,'Son $13,782 al año.',m+34,y+212,w-68,40,`400 26px ${SANS}`,MUTED);
+
+    texto(ctx,'Tarifas oficiales de julio 2026. Servicio se cobrará como utility.',m,y+alto+50,w-30,32,`400 22px ${SANS}`,ORDINAL);
+    pie(ctx,W,H,m,'Desliza  →');
+  },
+
+  'carrusel-6-cta':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'HERRAMIENTA GRATIS',6,6);
+    icono(ctx,'calculadora',m,250,80,AZUL);
+    let y=texto(ctx,'Calcula cuánto te sube a ti',m,460,w,100,`680 84px ${SANS}`,TEXTO);
+    y=texto(ctx,'Pones tus volúmenes, eliges tu país y tu moneda, y te dice el antes y el después.',m,y+40,w-30,52,`400 37px ${SANS}`,MUTED);
+
+    const alto=178;
+    panel(ctx,m,y+56,w,alto);
+    rotulo(ctx,'GUÍA COMPLETA Y CALCULADORA',m+34,y+112,22,AZUL_LUZ);
+    texto(ctx,'zulia.lat/guias',m+34,y+186,w-68,60,`700 52px ${MONO}`,TEXTO);
+    rotulo(ctx,'6 PAÍSES · 8 MONEDAS · TARIFAS OFICIALES',m,y+alto+120,21,ORDINAL);
+    pie(ctx,W,H,m,'');
+  },
+
+  'og-meta-whatsapp-2026':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=76, w=W-m*2;
+    icono(ctx,'whatsapp',m,72,44,AZUL);
+    rotulo(ctx,'GUÍA · WHATSAPP BUSINESS API',m+62,106,21,AZUL);
+    filete(ctx,m,140,W-m);
+    let y=texto(ctx,'El 1 de octubre WhatsApp deja de ser gratis',m,230,W*0.78,80,`680 70px ${SANS}`,TEXTO);
+    texto(ctx,'Se empiezan a cobrar los mensajes dentro de la ventana de 24 horas. La de 72 horas sobrevive, pero solo la abre un anuncio.',m,y+30,W*0.84,42,`400 28px ${SANS}`,MUTED);
+    filete(ctx,m,H-128,W-m);
+    marca(ctx,m,H-98,42);
+    const f=`500 24px ${MONO}`;
+    texto(ctx,'zulia.lat/guias',W-m-ancho(ctx,'zulia.lat/guias',f),H-68,9999,40,f,ORDINAL);
+  },
+
+  'historia':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=92, w=W-m*2;
+    icono(ctx,'whatsapp',m,270,80,AZUL);
+    rotulo(ctx,'WHATSAPP BUSINESS API',m,440,26,AZUL);
+    filete(ctx,m,478,W-m);
+    let y=texto(ctx,'El 1 de octubre deja de ser gratis',m,584,w,116,`680 100px ${SANS}`,TEXTO);
+    y=texto(ctx,'Meta empieza a cobrar cada respuesta dentro de la ventana de 24 horas.',m,y+40,w,58,`400 40px ${SANS}`,MUTED);
+
+    const alto=212;
+    panel(ctx,m,y+50,w,alto);
+    rotulo(ctx,'2,000 CONVERSACIONES AL MES',m+36,y+100,22,AZUL_LUZ);
+    texto(ctx,'$1,148 MXN',m+36,y+174,w-72,60,`700 54px ${MONO}`,TEXTO);
+    texto(ctx,'que hoy pagas cero',m+36,y+222,w-72,44,`500 30px ${SANS}`,COSTO);
+
+    // De 1400 a 1740 se deja despejado para el sticker del enlace.
+    const f=`500 32px ${MONO}`;
+    texto(ctx,'CALCULA EL TUYO  ↓',m,1360,9999,40,`700 28px ${MONO}`,MUTED,3.4);
+    filete(ctx,m,1748,W-m);
+    marca(ctx,m,1780,52);
+  },
+};
+
+const medidas={
+  'og-meta-whatsapp-2026':[1200,630],
+  'carrusel-1-portada':[1080,1350],'carrusel-2-que-cambia':[1080,1350],
+  'carrusel-3-antes-despues':[1080,1350],'carrusel-4-ventanas':[1080,1350],
+  'carrusel-5-cuanto':[1080,1350],'carrusel-6-cta':[1080,1350],
+  'historia':[1080,1920],
+};
+
+(async ()=>{
+  await Promise.all([
+    document.fonts.load('700 96px Onest'),
+    document.fonts.load('700 56px "JetBrains Mono"'),
+    document.fonts.load('400 24px "JetBrains Mono"'),
+  ]);
+  await document.fonts.ready;
+  await new Promise(r=>setTimeout(r,500));
+  const log=document.getElementById('log'); const out=[];
+  for(const [nombre,fn] of Object.entries(disenos)){
+    const [W,H]=medidas[nombre];
+    const c=document.createElement('canvas'); c.width=W; c.height=H;
+    fn(c.getContext('2d'),W,H);
+    document.getElementById('salida').appendChild(c);
+    const url=c.toDataURL('image/png');
+    await fetch('http://127.0.0.1:4322/',{method:'POST',body:`${nombre}.png|${url}`});
+    out.push(`${nombre}.png  ${W}x${H}`);
+    log.textContent=out.join('\n');
+  }
+  log.textContent=out.join('\n')+'\nLISTO';
+  document.title='LISTO';
+})();
+</script>
