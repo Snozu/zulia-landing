@@ -5,6 +5,12 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://zulia.lat',
+  build: {
+    // El CSS de cada página son 45 KB en tres peticiones que arrancan a la vez
+    // que la fuente y le quitan ancho de banda justo cuando el título espera
+    // para repintarse. Inline: menos viajes y la fuente llega antes.
+    inlineStylesheets: 'always',
+  },
   integrations: [sitemap()],
   redirects: {
     '/servicios/desarrollo-software-a-medida/': '/servicios/software-a-medida/',
