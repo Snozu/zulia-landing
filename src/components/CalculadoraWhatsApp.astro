@@ -4,118 +4,181 @@ import { MERCADOS, DIVISAS, TARIFAS_VIGENTES_DESDE, TARIFAS_FUENTE, TIPO_CAMBIO_
 /**
  * Cotizador del cambio de precios de WhatsApp del 1 de octubre de 2026.
  *
- * Sigue el modelo de la calculadora de Meta —mercado y divisa por separado—
- * pero responde otra pregunta: la de Meta da la tarifa por mensaje, esta da la
- * factura del mes y cuánto sube.
+ * Qué toma de cada referencia y qué agrega:
+ *  · De Meta: separar mercado de divisa. Su calculadora da la tarifa unitaria.
+ *  · De las calculadoras de creadores: resultado siempre a la vista, cifra
+ *    anual, costo marginal del mensaje extra y tabla de escenarios.
+ *  · Propio: las tarifas van publicadas y fijas —ninguna de las dos referencias
+ *    las trae— y el resultado se puede copiar para mandarlo por WhatsApp.
  *
- * Las tarifas van fijas en `src/data/whatsappRates.ts`. Un cotizador con
- * tarifas editables por el visitante no sirve para decidir nada.
- *
- * Sin framework y sin dependencias: el sitio no carga un solo bundle de JS.
+ * Sin framework y sin dependencias.
  */
 const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
 ---
 
 <section class="calc" id="calculadora" aria-labelledby="calc-titulo">
-  <div class="calc-caja">
-    <div class="calc-head">
-      <p class="calc-eyebrow">Cotizador</p>
-      <h2 class="h2" id="calc-titulo">Cuánto te va a costar el cambio</h2>
-      <p class="muted">Pon tus números y compara lo que pagas hoy contra lo que vas a pagar desde el 1 de octubre de 2026.</p>
-    </div>
+  <div class="calc-head">
+    <p class="calc-eyebrow">Cotizador · 1 de octubre de 2026</p>
+    <h2 class="h2" id="calc-titulo">Cuánto te va a costar el cambio</h2>
+    <p class="muted">Hoy respondes gratis dentro de la ventana de 24 horas. Desde octubre cada respuesta se cobra. Pon tus números.</p>
+  </div>
 
-    <form class="calc-form" id="calc-form" novalidate>
-      <div class="selectores">
-        <label>
-          <span>Mercado</span>
-          <select id="mercado">
-            {MERCADOS.map((m) => <option value={m.clave} selected={m.clave === 'mx'}>{m.nombre}</option>)}
-          </select>
-          <small>El país de quien recibe tus mensajes. Es lo que fija la tarifa.</small>
-        </label>
-        <label>
-          <span>Divisa</span>
-          <select id="divisa">
-            {DIVISAS.map((d) => <option value={d.clave} selected={d.clave === 'MXN'}>{d.clave} · {d.nombre}</option>)}
-          </select>
-          <small>Solo para mostrar el resultado. Meta factura en dólares.</small>
+  <div class="calc-grid">
+    <form class="panel entradas" id="calc-form" novalidate>
+      <div class="bloque">
+        <div class="bloque-t">
+          <span>Mercado y divisa</span>
+          <button type="button" class="ejemplo" id="btnEjemplo">Cargar un ejemplo</button>
+        </div>
+        <div class="par">
+          <label>
+            <span>Mercado</span>
+            <select id="mercado">
+              {MERCADOS.map((m) => <option value={m.clave} selected={m.clave === 'mx'}>{m.nombre}</option>)}
+            </select>
+          </label>
+          <label>
+            <span>Divisa</span>
+            <select id="divisa">
+              {DIVISAS.map((d) => <option value={d.clave} selected={d.clave === 'MXN'}>{d.clave}</option>)}
+            </select>
+          </label>
+        </div>
+        <p class="tarifa-nota" id="tarifaNota"></p>
+      </div>
+
+      <div class="bloque">
+        <p class="bloque-t"><span>Conversaciones al mes</span></p>
+
+        <div class="fila">
+          <div class="fila-t">
+            <span>Desde anuncios Click-to-WhatsApp</span>
+            <small>Abren la ventana de 72 h. Su entrega no se cobra.</small>
+          </div>
+          <div class="stepper">
+            <button type="button" data-menos="convAd" aria-label="Menos">−</button>
+            <input type="number" id="convAd" value="200" min="0" step="50" inputmode="numeric" />
+            <button type="button" data-mas="convAd" aria-label="Más">+</button>
+          </div>
+        </div>
+
+        <div class="fila">
+          <div class="fila-t">
+            <span>De cualquier otra fuente</span>
+            <small>Tu sitio, Google, un enlace, boca a boca. Ventana de 24 h.</small>
+          </div>
+          <div class="stepper">
+            <button type="button" data-menos="convOtras" aria-label="Menos">−</button>
+            <input type="number" id="convOtras" value="800" min="0" step="50" inputmode="numeric" />
+            <button type="button" data-mas="convOtras" aria-label="Más">+</button>
+          </div>
+        </div>
+
+        <label class="rango">
+          <span class="rango-t">Leads de anuncio que responden después de las 72 h <b id="vTarde">30%</b></span>
+          <input type="range" id="tarde" value="30" min="0" max="100" step="5" />
+          <small>Esos vuelven cuando la ventana gratis ya cerró, así que sí se cobran.</small>
         </label>
       </div>
 
-      <div class="grupo">
-        <p class="grupo-t">Tu operación al mes</p>
+      <div class="bloque">
+        <p class="bloque-t"><span>Volumen de mensajes</span></p>
 
-        <label>
-          <span>Conversaciones</span>
-          <input type="number" id="conv" value="1000" min="0" step="50" inputmode="numeric" />
-          <small>Cuántas personas distintas te escriben.</small>
+        <label class="rango">
+          <span class="rango-t">Mensajes que envías por conversación <b id="vMsj">6</b></span>
+          <input type="range" id="msj" value="6" min="1" max="20" step="1" />
+          <small>Cuenta cada mensaje que sale de tu número: saludo, pregunta, confirmación.</small>
         </label>
 
-        <label>
-          <span>Respuestas por conversación</span>
-          <input type="number" id="resp" value="6" min="0" step="1" inputmode="numeric" />
-          <small>Cuántos mensajes mandas tú en cada una, en promedio.</small>
-        </label>
+        <div class="fila">
+          <div class="fila-t">
+            <span>Plantillas de marketing</span>
+            <small>Ya las pagas hoy y se seguirán cobrando.</small>
+          </div>
+          <div class="stepper">
+            <button type="button" data-menos="mkt" aria-label="Menos">−</button>
+            <input type="number" id="mkt" value="500" min="0" step="50" inputmode="numeric" />
+            <button type="button" data-mas="mkt" aria-label="Más">+</button>
+          </div>
+        </div>
 
-        <label>
-          <span>Porcentaje que llega desde un anuncio</span>
-          <input type="number" id="anuncio" value="20" min="0" max="100" step="5" inputmode="numeric" />
-          <small>Click-to-WhatsApp o botón de Facebook: abren la ventana de 72 h y no se cobran.</small>
-        </label>
-
-        <label>
-          <span>Plantillas de marketing</span>
-          <input type="number" id="mkt" value="500" min="0" step="50" inputmode="numeric" />
-          <small>Promociones y campañas. Se cobran hoy y también después.</small>
-        </label>
-
-        <label>
-          <span>Plantillas de utility</span>
-          <input type="number" id="util" value="300" min="0" step="50" inputmode="numeric" />
-          <small>Avisos de pedido, envío, recordatorios.</small>
-        </label>
+        <div class="fila">
+          <div class="fila-t">
+            <span>Plantillas de utility</span>
+            <small>Avisos de pedido y envío. Pierden la exención en octubre.</small>
+          </div>
+          <div class="stepper">
+            <button type="button" data-menos="util" aria-label="Menos">−</button>
+            <input type="number" id="util" value="300" min="0" step="50" inputmode="numeric" />
+            <button type="button" data-mas="util" aria-label="Más">+</button>
+          </div>
+        </div>
       </div>
     </form>
 
-    <div class="calc-out" aria-live="polite">
-      <div class="cifras">
-        <div class="cifra">
-          <span class="cifra-l">Hoy, al mes</span>
-          <strong id="outHoy">—</strong>
-          <span class="cifra-u" id="outHoyUsd"></span>
+    <div class="panel salida">
+      <div class="sticky" aria-live="polite">
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab activa" data-vista="hoy" role="tab" aria-selected="true">Hoy</button>
+          <button type="button" class="tab" data-vista="oct" role="tab" aria-selected="false">Desde octubre</button>
         </div>
-        <div class="cifra">
-          <span class="cifra-l">Desde el 1 de octubre</span>
-          <strong id="outDesp">—</strong>
-          <span class="cifra-u" id="outDespUsd"></span>
+
+        <p class="vista-nota" id="vistaNota">Hasta el 30 de septiembre de 2026</p>
+        <p class="gran" id="granCifra">—</p>
+        <p class="gran-sub"><span id="granAnual"></span><span class="sep">·</span><span id="granUsd"></span></p>
+
+        <div class="barras">
+          <div class="barra">
+            <span class="b-l">Hoy</span>
+            <span class="b-p"><i id="barHoy"></i></span>
+            <span class="b-v" id="valHoy">—</span>
+          </div>
+          <div class="barra alto">
+            <span class="b-l">Octubre</span>
+            <span class="b-p"><i id="barOct"></i></span>
+            <span class="b-v" id="valOct">—</span>
+          </div>
         </div>
-        <div class="cifra destaca">
-          <span class="cifra-l">Lo que sube</span>
-          <strong id="outDelta">—</strong>
-          <span class="cifra-u" id="outPct"></span>
+
+        <p class="delta" id="delta">—</p>
+
+        <div class="marginal">
+          <p class="m-t">Cada mensaje extra por conversación</p>
+          <p class="m-v" id="marginal">—</p>
+          <p class="m-s">Lo que te cuesta al año sumar un solo mensaje a cada conversación.</p>
         </div>
+
+        <button type="button" class="btn copiar" id="btnCopiar">Copiar el resultado</button>
       </div>
 
-      <p class="tarifa-nota muted" id="tarifaNota"></p>
+      <div class="detalle">
+        <p class="det-t">De dónde sale</p>
+        <ul class="desglose" id="desglose"></ul>
 
-      <ul class="desglose" id="desglose"></ul>
+        <p class="det-t esc-t">Escenarios por mensajes en cada conversación</p>
+        <div class="tabla-esc">
+          <table>
+            <thead><tr><th>Mensajes</th><th>Al mes</th><th>Al año</th></tr></thead>
+            <tbody id="escenarios"></tbody>
+          </table>
+        </div>
 
-      <details class="supuestos">
-        <summary>Tarifas y supuestos del cálculo</summary>
-        <p class="fuente muted">
-          Tarifas por mensaje entregado vigentes desde el {TARIFAS_VIGENTES_DESDE}, publicadas por Meta en su
-          <a class="link" href={TARIFAS_FUENTE} target="_blank" rel="noopener">página de precios</a>.
-          Conversión de divisa con el tipo de cambio del {TIPO_CAMBIO_FECHA}; Meta factura en dólares.
-        </p>
-        <ul>
-          <li>Las conversaciones que llegan desde un anuncio abren la ventana de 72 horas y su entrega no se cobra, ni hoy ni después.</li>
-          <li>Las demás abren la ventana de 24 horas: hoy tus respuestas ahí son gratis y desde el 1 de octubre se cobran una por una, a la misma tarifa que una plantilla de utility.</li>
-          <li>Las plantillas de marketing se cobran siempre, antes y después del cambio.</li>
-          <li>Las plantillas de utility se asumen enviadas dentro de la ventana: hoy no cuestan y después sí. Si las mandas fuera, hoy ya las pagas y tu aumento real es menor.</li>
-          <li>No se aplican descuentos por volumen, que Meta sí ofrece en utility y autenticación a partir de ciertos niveles.</li>
-          <li>No incluye el margen que tu proveedor pueda sumar por mensaje. Pídeselo por escrito.</li>
-        </ul>
-      </details>
+        <details class="supuestos">
+          <summary>Tarifas y supuestos</summary>
+          <p class="fuente muted">
+            Tarifas por mensaje entregado vigentes desde el {TARIFAS_VIGENTES_DESDE}, publicadas por Meta en su
+            <a class="link" href={TARIFAS_FUENTE} target="_blank" rel="noopener">página de precios</a>.
+            Conversión con el tipo de cambio del {TIPO_CAMBIO_FECHA}; Meta factura en dólares.
+          </p>
+          <ul>
+            <li>Las conversaciones desde anuncio abren la ventana de 72 horas: su entrega no se cobra, salvo las que responden después de que cerró.</li>
+            <li>Las demás abren la ventana de 24 horas: hoy tus respuestas ahí son gratis y desde octubre se cobran a la tarifa de utility del mercado.</li>
+            <li>Las plantillas de marketing se cobran hoy y también después.</li>
+            <li>Las de utility se asumen enviadas dentro de la ventana: hoy no cuestan y después sí. Si las mandas fuera, hoy ya las pagas y tu aumento real es menor.</li>
+            <li>No se aplican los descuentos por volumen que Meta ofrece en utility y autenticación, ni el margen que tu proveedor pueda sumar por mensaje.</li>
+          </ul>
+        </details>
+      </div>
     </div>
   </div>
 </section>
@@ -126,95 +189,168 @@ const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
     if (!form) return;
     const { mercados, divisas } = JSON.parse(datos);
     const $ = (id) => document.getElementById(id);
-    const n = (id) => {
+    const num = (id) => {
       const v = parseFloat($(id).value);
       return Number.isFinite(v) && v >= 0 ? v : 0;
     };
+    let vista = 'hoy';
+    let ultimo = null;
 
-    function calcular() {
+    const modelo = () => {
       const m = mercados.find((x) => x.clave === $('mercado').value) || mercados[0];
       const d = divisas.find((x) => x.clave === $('divisa').value) || divisas[0];
 
-      // Con el símbolo solo, "$258" se puede leer como dólares. El código
-      // delante quita la ambigüedad en cualquier divisa.
-      const fmt = (usdVal) => {
-        const v = usdVal * d.porDolar;
-        return v.toLocaleString('es-MX', {
-          style: 'currency',
-          currency: d.clave,
-          currencyDisplay: 'code',
-          maximumFractionDigits: d.decimales,
-        });
-      };
-      const enUsd = (v) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }) + ' USD';
+      const convAd = num('convAd');
+      const convOtras = num('convOtras');
+      const tarde = Math.min(num('tarde'), 100) / 100;
+      const msj = Math.max(num('msj'), 0);
+      const mkt = num('mkt');
+      const util = num('util');
 
-      const conv = n('conv');
-      const resp = n('resp');
-      const desdeAnuncio = Math.min(n('anuncio'), 100) / 100;
-      const mkt = n('mkt');
-      const util = n('util');
-
-      // Solo las conversaciones que NO llegan desde un anuncio caen en la
-      // ventana de 24 h, que es la que se empieza a cobrar.
-      const convPagadas = conv * (1 - desdeAnuncio);
-      const msgServicio = convPagadas * resp;
+      // Las de anuncio solo se cobran si el lead vuelve pasada la ventana.
+      const convFacturables = convOtras + convAd * tarde;
+      const msgServicio = convFacturables * msj;
 
       const costoMkt = mkt * m.marketing;
       const costoServ = msgServicio * m.servicio;
       const costoUtil = util * m.utility;
 
-      const hoy = costoMkt;
-      const despues = costoMkt + costoServ + costoUtil;
-      const delta = despues - hoy;
-      const pct = hoy > 0 ? (delta / hoy) * 100 : null;
+      return {
+        m, d, convAd, convOtras, msj, mkt, util,
+        convFacturables, msgServicio,
+        costoMkt, costoServ, costoUtil,
+        hoy: costoMkt,
+        oct: costoMkt + costoServ + costoUtil,
+        // Un mensaje más en cada conversación facturable, al año.
+        marginalAnual: convFacturables * m.servicio * 12,
+      };
+    };
 
-      $('outHoy').textContent = fmt(hoy);
-      $('outDesp').textContent = fmt(despues);
-      $('outDelta').textContent = '+' + fmt(delta);
-      $('outHoyUsd').textContent = d.clave === 'USD' ? '' : enUsd(hoy);
-      $('outDespUsd').textContent = d.clave === 'USD' ? '' : enUsd(despues);
-      $('outPct').textContent = pct === null
-        ? 'sobre una base de cero'
-        : '+' + pct.toLocaleString('es-MX', { maximumFractionDigits: 0 }) + '% sobre lo de hoy';
+    const fmt = (d, usdVal) =>
+      (usdVal * d.porDolar).toLocaleString('es-MX', {
+        style: 'currency', currency: d.clave, currencyDisplay: 'code', maximumFractionDigits: d.decimales,
+      });
+    const enUsd = (v) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }) + ' USD';
 
+    function pintar() {
+      const r = modelo();
+      ultimo = r;
+      const { m, d } = r;
+
+      $('vTarde').textContent = num('tarde') + '%';
+      $('vMsj').textContent = num('msj');
       $('tarifaNota').textContent =
-        `Tarifas de ${m.nombre}: marketing ${m.marketing.toFixed(4)} USD, utility y servicio ${m.utility.toFixed(4)} USD por mensaje entregado.`;
+        `${m.nombre}: marketing ${m.marketing.toFixed(4)} USD · utility y servicio ${m.utility.toFixed(4)} USD por mensaje.`;
+
+      const activo = vista === 'hoy' ? r.hoy : r.oct;
+      $('vistaNota').textContent = vista === 'hoy'
+        ? 'Hasta el 30 de septiembre de 2026'
+        : 'A partir del 1 de octubre de 2026';
+      $('granCifra').textContent = fmt(d, activo);
+      $('granAnual').textContent = fmt(d, activo * 12) + ' al año';
+      $('granUsd').textContent = d.clave === 'USD' ? '' : enUsd(activo) + ' al mes';
+
+      const tope = Math.max(r.oct, 0.0001);
+      $('barHoy').style.width = (r.hoy / tope) * 100 + '%';
+      $('barOct').style.width = '100%';
+      $('valHoy').textContent = fmt(d, r.hoy);
+      $('valOct').textContent = fmt(d, r.oct);
+
+      const delta = r.oct - r.hoy;
+      const pct = r.hoy > 0 ? Math.round((delta / r.hoy) * 100) : null;
+      $('delta').textContent = pct === null
+        ? `Sube ${fmt(d, delta)} al mes`
+        : `Sube ${fmt(d, delta)} al mes, un ${pct.toLocaleString('es-MX')}% más de lo que pagas hoy`;
+
+      $('marginal').textContent = '+' + fmt(d, r.marginalAnual);
 
       const filas = [
-        ['Mensajes de servicio que pasan a cobrarse', Math.round(msgServicio), costoServ],
-        ['Plantillas de utility que pierden la exención', Math.round(util), costoUtil],
-        ['Plantillas de marketing (ya las pagas hoy)', Math.round(mkt), costoMkt],
-        ['Conversaciones desde anuncio, sin costo de entrega', Math.round(conv * desdeAnuncio), 0],
+        ['Mensajes de servicio que pasan a cobrarse', Math.round(r.msgServicio), r.costoServ],
+        ['Plantillas de utility que pierden la exención', Math.round(r.util), r.costoUtil],
+        ['Plantillas de marketing, que ya pagas hoy', Math.round(r.mkt), r.costoMkt],
+        ['Conversaciones que siguen sin costo de entrega', Math.round(r.convAd - r.convAd * (num('tarde') / 100)), 0],
       ];
+      $('desglose').innerHTML = filas.map(([t, c, v]) =>
+        `<li><span class="d-t">${t}</span><span class="d-c">${c.toLocaleString('es-MX')}</span><span class="d-m">${v > 0 ? fmt(d, v) : 'sin costo'}</span></li>`).join('');
 
-      $('desglose').innerHTML = filas
-        .map(([etiqueta, cantidad, costo]) =>
-          `<li><span class="d-t">${etiqueta}</span><span class="d-c">${cantidad.toLocaleString('es-MX')} msj</span><span class="d-m">${costo > 0 ? fmt(costo) : 'sin costo'}</span></li>`)
-        .join('');
+      const actual = num('msj');
+      $('escenarios').innerHTML = [1, 2, 3, 4, 5, 6, 8, 10, 15, 20].map((k) => {
+        const mes = r.costoMkt + r.costoUtil + r.convFacturables * k * m.servicio;
+        return `<tr${k === actual ? ' class="tu"' : ''}><td>${k}${k === actual ? ' <span class="tag">tú</span>' : ''}</td><td>${fmt(d, mes)}</td><td>${fmt(d, mes * 12)}</td></tr>`;
+      }).join('');
     }
 
-    // Al cambiar de mercado se preselecciona su divisa local, que es lo que
-    // el cliente de ese país espera ver.
+    document.querySelectorAll('.tab').forEach((b) => {
+      b.addEventListener('click', () => {
+        vista = b.dataset.vista;
+        document.querySelectorAll('.tab').forEach((x) => {
+          const on = x === b;
+          x.classList.toggle('activa', on);
+          x.setAttribute('aria-selected', String(on));
+        });
+        pintar();
+      });
+    });
+
+    document.querySelectorAll('[data-mas],[data-menos]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const mas = b.dataset.mas;
+        const campo = $(mas || b.dataset.menos);
+        const paso = parseFloat(campo.step) || 1;
+        const v = (parseFloat(campo.value) || 0) + (mas ? paso : -paso);
+        campo.value = Math.max(0, v);
+        pintar();
+      });
+    });
+
     $('mercado').addEventListener('change', () => {
       const m = mercados.find((x) => x.clave === $('mercado').value);
       if (m && divisas.some((d) => d.clave === m.divisa)) $('divisa').value = m.divisa;
-      calcular();
+      pintar();
     });
 
-    form.addEventListener('input', calcular);
-    form.addEventListener('change', calcular);
-    calcular();
+    $('btnEjemplo').addEventListener('click', () => {
+      const ej = { convAd: 600, convOtras: 1400, tarde: 35, msj: 8, mkt: 1200, util: 900 };
+      Object.entries(ej).forEach(([k, v]) => ($(k).value = v));
+      vista = 'oct';
+      document.querySelectorAll('.tab').forEach((x) => {
+        const on = x.dataset.vista === 'oct';
+        x.classList.toggle('activa', on);
+        x.setAttribute('aria-selected', String(on));
+      });
+      pintar();
+    });
+
+    $('btnCopiar').addEventListener('click', async () => {
+      if (!ultimo) return;
+      const { m, d } = ultimo;
+      const texto = [
+        `WhatsApp Business API — ${m.nombre}`,
+        `Hoy: ${fmt(d, ultimo.hoy)} al mes`,
+        `Desde el 1 de octubre de 2026: ${fmt(d, ultimo.oct)} al mes (${fmt(d, ultimo.oct * 12)} al año)`,
+        `Sube ${fmt(d, ultimo.oct - ultimo.hoy)} al mes`,
+        `Calculado en https://zulia.lat/calculadora-whatsapp/`,
+      ].join('\n');
+      try {
+        await navigator.clipboard.writeText(texto);
+        const b = $('btnCopiar');
+        b.textContent = 'Copiado';
+        setTimeout(() => (b.textContent = 'Copiar el resultado'), 1800);
+      } catch {
+        const b = $('btnCopiar');
+        b.textContent = 'No se pudo copiar';
+        setTimeout(() => (b.textContent = 'Copiar el resultado'), 1800);
+      }
+    });
+
+    form.addEventListener('input', pintar);
+    form.addEventListener('change', pintar);
+    pintar();
   })();
 </script>
 
 <style>
   .calc { margin-top: 2.5rem; }
-  .calc-caja {
-    padding: clamp(1.5rem, 4vw, 2.5rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--white);
-  }
   .calc-eyebrow {
     color: var(--blue-dark);
     font-family: var(--font-mono);
@@ -223,84 +359,129 @@ const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
     letter-spacing: .1em;
     text-transform: uppercase;
   }
-  .calc-head .h2 { margin-top: .5rem; font-size: clamp(1.5rem, 3vw, 2rem); }
-  .calc-head .muted { margin-top: .6rem; max-width: 56ch; line-height: 1.6; }
+  .calc-head .h2 { margin-top: .5rem; font-size: clamp(1.6rem, 3.2vw, 2.1rem); }
+  .calc-head .muted { margin-top: .6rem; max-width: 58ch; line-height: 1.6; }
 
-  .calc-form { margin-top: 2rem; }
-  .selectores {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    padding-bottom: 1.75rem;
-    margin-bottom: 1.75rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .grupo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem; }
-  .grupo-t {
-    grid-column: 1 / -1;
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-  label { display: grid; gap: .35rem; align-content: start; }
-  label > span { color: var(--ink); font-size: .92rem; font-weight: 550; }
-  small { color: var(--text-muted); font-size: .8rem; line-height: 1.45; }
-  input, select {
-    width: 100%;
-    padding: .6rem .75rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 1rem;
-  }
-  select { font-family: inherit; cursor: pointer; }
-  input:focus, select:focus { border-color: var(--accent-surface); outline: none; box-shadow: 0 0 0 3px var(--blue-soft); }
+  .calc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; margin-top: 2rem; align-items: start; }
+  .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+  .entradas { padding: clamp(1.25rem, 3vw, 1.75rem); display: grid; gap: 1.75rem; }
 
-  .calc-out { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--line); }
-  .cifras { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
-  .cifra { display: grid; gap: .3rem; align-content: start; padding-right: 1.25rem; }
-  .cifra + .cifra { padding-left: 1.25rem; border-left: 1px solid var(--line); }
-  .cifra-l { color: var(--text-muted); font-size: .82rem; }
-  .cifra strong { font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 650; letter-spacing: -.03em; line-height: 1.1; }
-  .cifra-u { color: var(--text-muted); font-family: var(--font-mono); font-size: .76rem; }
-  .destaca strong { color: var(--blue-dark); }
-
-  .tarifa-nota { margin-top: 1.25rem; font-size: .84rem; line-height: 1.5; }
-
-  /* Estas filas las inyecta el script, así que no llevan el atributo de scope
-     que Astro pone en tiempo de build. Sin :global() salen pegadas. */
-  .desglose { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; }
-  .desglose :global(li) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    gap: 1rem;
-    padding: .7rem 0;
-    border-top: 1px solid var(--line);
-    font-size: .92rem;
+  .bloque { display: grid; gap: 1rem; }
+  .bloque + .bloque { padding-top: 1.6rem; border-top: 1px solid var(--line); }
+  .bloque-t {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+    color: var(--ink); font-family: var(--font-mono); font-size: .72rem;
+    font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   }
+  .ejemplo {
+    border: 0; background: none; padding: 0; cursor: pointer;
+    color: var(--blue-dark); font-family: var(--font-mono); font-size: .7rem;
+    font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+
+  .par { display: grid; grid-template-columns: 1.4fr 1fr; gap: .75rem; }
+  .par label { display: grid; gap: .3rem; }
+  .par span { color: var(--ink); font-size: .88rem; font-weight: 550; }
+  select, .stepper input {
+    width: 100%; padding: .55rem .7rem;
+    border: 1px solid var(--line); border-radius: var(--radius-sm);
+    background: var(--paper); color: var(--ink); font-size: .95rem;
+  }
+  select { cursor: pointer; }
+  select:focus, input:focus { border-color: var(--accent-surface); outline: none; box-shadow: 0 0 0 3px var(--blue-soft); }
+  .tarifa-nota { color: var(--text-muted); font-family: var(--font-mono); font-size: .74rem; line-height: 1.5; }
+
+  .fila { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .fila-t { display: grid; gap: .15rem; }
+  .fila-t span { color: var(--ink); font-size: .92rem; font-weight: 550; }
+  .fila-t small, .rango small { color: var(--text-muted); font-size: .78rem; line-height: 1.4; }
+
+  .stepper { display: flex; align-items: center; gap: .3rem; flex: 0 0 auto; }
+  .stepper button {
+    width: 2rem; height: 2rem; display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: 999px; background: var(--white);
+    color: var(--ink); font-size: 1rem; cursor: pointer;
+  }
+  .stepper button:hover { border-color: var(--ink); }
+  .stepper input { width: 4.75rem; text-align: center; font-family: var(--font-mono); }
+
+  .rango { display: grid; gap: .4rem; }
+  .rango-t { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; color: var(--ink); font-size: .92rem; font-weight: 550; }
+  .rango-t b { color: var(--blue-dark); font-family: var(--font-mono); font-size: 1rem; }
+  input[type="range"] { width: 100%; accent-color: var(--brand-blue); }
+
+  .salida { display: grid; }
+  .sticky { padding: clamp(1.25rem, 3vw, 1.75rem); }
+  .tabs { display: inline-flex; padding: .25rem; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); }
+  .tab {
+    padding: .4rem 1rem; border: 0; border-radius: 999px; background: none;
+    color: var(--text-muted); font-size: .88rem; font-weight: 600; cursor: pointer;
+  }
+  .tab.activa { background: var(--white); color: var(--ink); box-shadow: var(--shadow-sm); }
+
+  .vista-nota { margin-top: 1.1rem; color: var(--text-muted); font-size: .82rem; }
+  .gran { margin-top: .3rem; font-size: clamp(2rem, 5vw, 3rem); font-weight: 660; letter-spacing: -.04em; line-height: 1.05; }
+  .gran-sub { margin-top: .4rem; color: var(--text-muted); font-family: var(--font-mono); font-size: .8rem; display: flex; gap: .5rem; flex-wrap: wrap; }
+  .sep { opacity: .5; }
+
+  .barras { margin-top: 1.5rem; display: grid; gap: .6rem; }
+  .barra { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto; gap: .75rem; align-items: center; }
+  .b-l { color: var(--text-muted); font-size: .82rem; }
+  .b-p { height: .5rem; border-radius: 999px; background: var(--paper-deep); overflow: hidden; }
+  .b-p i { display: block; height: 100%; border-radius: 999px; background: var(--line-dark); transition: width 260ms ease; }
+  .alto .b-p i { background: var(--brand-blue); }
+  .b-v { font-family: var(--font-mono); font-size: .8rem; white-space: nowrap; }
+
+  .delta { margin-top: 1.1rem; color: var(--ink); font-size: .95rem; font-weight: 550; line-height: 1.5; }
+
+  .marginal { margin-top: 1.25rem; padding: 1rem 1.1rem; border-radius: var(--radius-sm); background: var(--blue-soft); }
+  .m-t { color: var(--blue-dark); font-family: var(--font-mono); font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .m-v { margin-top: .3rem; font-size: 1.4rem; font-weight: 650; letter-spacing: -.02em; }
+  .m-s { margin-top: .25rem; color: var(--text-muted); font-size: .8rem; line-height: 1.45; }
+
+  .copiar { width: 100%; margin-top: 1.25rem; justify-content: center; }
+
+  .detalle { padding: 0 clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 1.75rem); }
+  .det-t { padding-top: 1.5rem; border-top: 1px solid var(--line); color: var(--ink); font-family: var(--font-mono); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .esc-t { margin-top: 1.75rem; }
+
+  .desglose { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; }
+  .desglose :global(li) { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: .9rem; padding: .6rem 0; border-top: 1px solid var(--line); font-size: .88rem; }
+  .desglose :global(li:first-child) { border-top: 0; }
   .desglose :global(.d-t) { color: var(--ink-soft); }
-  .desglose :global(.d-c) { color: var(--text-muted); font-family: var(--font-mono); font-size: .82rem; white-space: nowrap; }
+  .desglose :global(.d-c) { color: var(--text-muted); font-family: var(--font-mono); font-size: .78rem; }
   .desglose :global(.d-m) { color: var(--ink); font-weight: 600; white-space: nowrap; }
 
+  .tabla-esc { margin-top: .75rem; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  th, td { padding: .5rem .6rem; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--text-muted); font-family: var(--font-mono); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  td { color: var(--ink-soft); font-family: var(--font-mono); }
+  tbody :global(tr.tu) { background: var(--blue-soft); }
+  tbody :global(tr.tu td) { color: var(--ink); font-weight: 600; }
+  :global(.tag) { margin-left: .35rem; padding: .1rem .35rem; border-radius: 999px; background: var(--blue-dark); color: #fff; font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
+
   .supuestos { margin-top: 1.5rem; border-top: 1px solid var(--line); }
-  .supuestos summary { padding: .9rem 0; cursor: pointer; font-size: .9rem; font-weight: 600; list-style: none; }
+  .supuestos summary { padding: .9rem 0; cursor: pointer; font-size: .88rem; font-weight: 600; list-style: none; }
   .supuestos summary::after { content: " +"; color: var(--blue-dark); }
   .supuestos[open] summary::after { content: " −"; }
-  .fuente { margin-bottom: 1rem; font-size: .86rem; line-height: 1.6; }
+  .fuente { margin-bottom: 1rem; font-size: .84rem; line-height: 1.6; }
   .supuestos ul { margin: 0 0 1.1rem; padding-left: 1.1rem; display: grid; gap: .5rem; }
-  .supuestos li { color: var(--text-muted); font-size: .88rem; line-height: 1.55; }
+  .supuestos li { color: var(--text-muted); font-size: .85rem; line-height: 1.55; }
 
-  @media (max-width: 820px) {
-    .selectores, .grupo { grid-template-columns: 1fr; }
-    .cifras { grid-template-columns: 1fr; }
-    .cifra { padding-right: 0; }
-    .cifra + .cifra { padding-left: 0; padding-top: 1.1rem; margin-top: 1.1rem; border-left: 0; border-top: 1px solid var(--line); }
-    .desglose :global(li) { grid-template-columns: 1fr auto; gap: .3rem .75rem; }
-    .desglose :global(.d-t) { grid-column: 1 / -1; }
+  @media (min-width: 981px) {
+    /* El resultado se queda a la vista mientras se mueven los controles. */
+    .sticky { position: sticky; top: 5.5rem; }
+  }
+  @media (max-width: 980px) {
+    .calc-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .fila { flex-direction: column; align-items: stretch; gap: .5rem; }
+    .stepper { justify-content: space-between; }
+    .stepper input { width: 100%; }
+    .par { grid-template-columns: 1fr; }
   }
 </style>
