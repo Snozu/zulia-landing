@@ -6,7 +6,7 @@ metaDescription: "Qué cambia el 1 de octubre de 2026 en WhatsApp Business API, 
 updated: "2026-09-07"
 readingMinutes: 6
 line: "chatbots"
-image: "/og/meta-whatsapp-2026.png"
+image: "/og/meta-whatsapp-2026.jpg"
 calculator: true
 position:
   claim: "Diseñamos el flujo para que el mayor volumen entre por la puerta que sigue siendo gratis."
