@@ -41,6 +41,15 @@ const listSchema = {
 
     <section class="lista section-tight">
       <div class="shell">
+        {/* La herramienta va antes que las guías: se comparte y se enlaza más
+            que un texto, y es la puerta de entrada de la mayoría. */}
+        <a class="herramienta" href="/calculadora-whatsapp/" data-reveal>
+          <span class="h-label label">Herramienta gratuita</span>
+          <span class="h3 h-titulo">Calculadora: cuánto te va a subir WhatsApp en octubre</span>
+          <span class="muted h-texto">Pon tus conversaciones al mes y compara lo que pagas hoy contra lo que vas a pagar cuando Meta empiece a cobrar los mensajes de servicio. Sin registro.</span>
+          <span class="link h-cta">Abrir la calculadora</span>
+        </a>
+
         <ol class="filas">
           {guias.map((g, i) => (
             <li data-reveal style={`transition-delay: ${i * 0.06}s`}>
@@ -96,6 +105,25 @@ const listSchema = {
     -webkit-background-clip: text;
     background-clip: text;
   }
+
+  .herramienta {
+    display: grid;
+    gap: .55rem;
+    margin-bottom: 2.5rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--accent-line, var(--line));
+    border-radius: var(--radius);
+    background: var(--blue-soft);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 180ms ease;
+  }
+  .herramienta:hover { transform: translateY(-2px); }
+  .herramienta:hover .h-titulo { color: var(--blue-dark); }
+  .h-label { color: var(--blue-dark); }
+  .h-titulo { transition: color 140ms ease; }
+  .h-texto { max-width: 66ch; line-height: 1.6; }
+  .h-cta { margin-top: .5rem; justify-self: start; }
 
   /* Cada guía es una fila con su número, no un renglón suelto: el número da el
      ancla visual que la lista de antes no tenía. */

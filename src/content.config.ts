@@ -71,6 +71,8 @@ const guias = defineCollection({
     /** Imagen propia para cuando la guía se comparte. Sin esto todas usan la
      *  tarjeta genérica del sitio y en un chat se ven idénticas entre sí. */
     image: z.string().optional(),
+    /** Inserta el cotizador de WhatsApp debajo del cuerpo de la guía. */
+    calculator: z.boolean().default(false),
     line: z.enum(LINES).optional(),
     // Sin esto la guía es un reporte de mercado y nos deja como un proveedor
     // más del montón. Aquí va la postura: en qué parte del rango estamos y por

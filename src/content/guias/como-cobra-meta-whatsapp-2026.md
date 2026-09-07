@@ -7,6 +7,7 @@ updated: "2026-09-07"
 readingMinutes: 6
 line: "chatbots"
 image: "/og/meta-whatsapp-2026.png"
+calculator: true
 position:
   claim: "Diseñamos el flujo para que el mayor volumen entre por la puerta que sigue siendo gratis."
   points:

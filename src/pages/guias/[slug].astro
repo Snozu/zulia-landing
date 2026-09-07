@@ -6,6 +6,7 @@ import CtaBand from '../../components/CtaBand.astro';
 import { getCollection, render } from 'astro:content';
 import { services } from '../../data/services';
 import { SITE, CTA } from '../../data/site';
+import CalculadoraWhatsApp from '../../components/CalculadoraWhatsApp.astro';
 
 export async function getStaticPaths() {
   const guias = await getCollection('guias', ({ data }) => !data.draft);
@@ -84,6 +85,14 @@ const breadcrumbSchema = {
         <Content />
       </div>
     </section>
+
+    {d.calculator && (
+      <section class="calc-wrap section-tight">
+        <div class="shell-narrow">
+          <CalculadoraWhatsApp />
+        </div>
+      </section>
+    )}
 
     <section class="postura escenario">
       <div class="shell-narrow">

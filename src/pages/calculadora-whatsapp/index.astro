@@ -1,0 +1,116 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import CalculadoraWhatsApp from '../../components/CalculadoraWhatsApp.astro';
+import { CTA } from '../../data/site';
+
+const title = 'Calculadora: cuánto costará WhatsApp desde octubre 2026 | ZulIA';
+const description =
+  'Calcula gratis cuánto va a subir tu factura de WhatsApp Business API con el cobro de mensajes de servicio del 1 de octubre de 2026. Sin registro.';
+const url = 'https://zulia.lat/calculadora-whatsapp/';
+
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Calculadora de costos de WhatsApp Business API',
+  description,
+  url,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  inLanguage: 'es-MX',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'MXN' },
+  publisher: { '@id': 'https://zulia.lat/#organization' },
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://zulia.lat/' },
+    { '@type': 'ListItem', position: 2, name: 'Calculadora de WhatsApp', item: url },
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  jsonLd={[appSchema, breadcrumbSchema]}
+  image="/og/meta-whatsapp-2026.png"
+>
+  <Navbar />
+  <main id="contenido">
+    <section class="head escenario">
+      <div class="shell grid">
+        <div class="copy">
+          <p class="esc-eyebrow">Herramienta gratuita</p>
+          <h1 class="display">¿Cuánto te va a subir WhatsApp en octubre?</h1>
+          <p class="lead">A partir del 1 de octubre de 2026 Meta empieza a cobrar los mensajes de servicio: las respuestas dentro de la ventana de 24 horas que hoy son gratuitas. Pon tus números y compara. Sin registro y sin dejar tu correo.</p>
+        </div>
+        <p class="signo" aria-hidden="true">+$</p>
+      </div>
+    </section>
+
+    <section class="tool section-tight">
+      <div class="shell-narrow">
+        <CalculadoraWhatsApp />
+
+        <div class="siguiente">
+          <p class="label">Y ahora qué</p>
+          <p class="muted">El número de arriba no baja solo. Lo que sí lo mueve es por dónde entran tus conversaciones: las que llegan desde un anuncio de Click-to-WhatsApp abren una ventana de 72 horas que sigue sin costo, y las que llegan por tu cuenta no.</p>
+          <div class="ctas">
+            <a class="btn" href={`${CTA.primaryHref}?linea=chatbots`}>Que lo revisemos contigo</a>
+            <a class="link" href="/guias/como-cobra-meta-whatsapp-2026/">Leer la guía completa del cambio</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .escenario {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    background:
+      radial-gradient(70rem 36rem at 15% -10%, rgb(45 106 245 / .24), transparent 60%),
+      var(--stage);
+    border-bottom: 1px solid var(--stage-line);
+    color: var(--stage-text);
+  }
+  .grid { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 3fr); gap: 2rem; align-items: center; }
+  .esc-eyebrow {
+    color: var(--brand-blue);
+    font-family: var(--font-mono);
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .copy .display { margin-top: .8rem; color: #fff; max-width: 20ch; }
+  .copy .lead { margin-top: 1.1rem; max-width: 60ch; color: var(--stage-muted); }
+  .signo {
+    justify-self: end;
+    margin: 0;
+    font-size: clamp(4.5rem, 11vw, 9rem);
+    font-weight: 680;
+    letter-spacing: -.06em;
+    line-height: .8;
+    color: transparent;
+    background: linear-gradient(160deg, rgb(255 255 255 / .2), rgb(45 106 245 / .5));
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .siguiente { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .siguiente .muted { margin-top: .8rem; max-width: 62ch; line-height: 1.65; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 1.75rem; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .signo { justify-self: start; }
+  }
+</style>
