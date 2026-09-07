@@ -228,7 +228,7 @@ export const services: Service[] = [
         'Número verificado con Meta',
         'Asistente entrenado con lo tuyo',
         'WhatsApp, web, Instagram y Messenger',
-        'Plantillas aprobadas y ventana de 24 h',
+        'Plantillas aprobadas y costo por mensaje',
         'Bandeja compartida con paso a humano',
         'Reportes de conversación y de costo',
       ],
@@ -237,7 +237,7 @@ export const services: Service[] = [
     faq: [
       { q: '¿En qué se diferencia de los bots de botones?', a: 'Un bot de botones sigue un árbol: si el cliente escribe algo que no está en el menú, se traba. Este entiende la pregunta como venga escrita y responde con tu información. Y cuando no sabe, lo dice y pasa a una persona en lugar de inventar.' },
       { q: '¿Sirve el WhatsApp que ya uso?', a: 'El número que hoy usas en la aplicación de WhatsApp Business se puede migrar a la API oficial, pero deja de funcionar en esa aplicación. Casi siempre conviene dar de alta un número nuevo a nombre de la empresa y dejar el actual como está.' },
-      { q: '¿Qué se le paga a Meta y qué a ustedes?', a: 'Meta cobra por conversación, no por mensaje: las que inicia el cliente son gratuitas las primeras veinticuatro horas y las que inicias tú cuestan centavos de dólar. Ese consumo se paga directo a Meta y va aparte de nuestro trabajo. Te lo dejamos por escrito antes de empezar.' },
+      { q: '¿Qué se le paga a Meta y qué a ustedes?', a: 'Desde julio de 2025 Meta cobra por mensaje, no por conversación. Se paga por cada plantilla que llega, con tarifa según su categoría y el país de quien la recibe, y ese consumo va directo a Meta. Además, a partir del 1 de octubre de 2026 se empiezan a cobrar también los mensajes dentro de la ventana de servicio, que hoy son gratuitos. Te dejamos el cálculo por escrito con el modelo vigente antes de empezar.' },
       { q: '¿Puede inventar cosas?', a: 'Responde únicamente con las fuentes que le autorizamos, con instrucción de decir que no sabe en lugar de suponer. Cada respuesta queda registrada para poder revisarla.' },
       { q: '¿Y si el cliente quiere hablar con una persona?', a: 'Lo pide y la conversación pasa a la bandeja compartida con todo el historial. También lo hace por su cuenta cuando detecta molestia o algo fuera de su alcance.' },
       { q: '¿Puede vender, no solo informar?', a: 'Sí: manda catálogo, arma el pedido y deja el prospecto calificado con nombre, teléfono y qué quiere. Cobrar dentro del chat es del segundo nivel, cuando ya está conectado a tus sistemas.' },
