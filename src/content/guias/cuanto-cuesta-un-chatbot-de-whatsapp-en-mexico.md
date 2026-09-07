@@ -26,7 +26,7 @@ faq:
     a: "La parte que no depende de nadie más es rápida. Lo que marca el calendario es la verificación del negocio con Meta y la aprobación de las plantillas, que son trámites con sus propios tiempos. Por eso conviene arrancar por ahí y no dejarlo para el final."
   - q: "¿Un chatbot puede inventar información?"
     a: "Uno mal montado, sí. Uno bien montado responde solo con las fuentes que se le autorizaron y tiene instrucción explícita de decir que no sabe en lugar de suponer, además de pasar la conversación a una persona cuando se sale de su alcance. Pide siempre ver el registro de las conversaciones de prueba antes de firmar."
-order: 1
+order: 2
 ---
 
 Si estás cotizando, la primera respuesta honesta es que **el rango es amplio porque la palabra «chatbot» tapa tres cosas distintas**. Vale la pena saber cuál necesitas antes de comparar propuestas, porque una cotización de nueve mil y una de treinta y cinco mil pueden ser las dos razonables para trabajos diferentes.

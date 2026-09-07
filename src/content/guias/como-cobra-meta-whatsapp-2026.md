@@ -26,7 +26,7 @@ faq:
     a: "No. El cambio es solo para la WhatsApp Business Platform, que es la API. La aplicación de WhatsApp de siempre y la app de WhatsApp Business siguen igual y siguen sin costo. Si atiendes desde el celular, esto no te toca."
   - q: "¿Cuánto va a costar en México?"
     a: "Meta se comprometió a publicar las tarifas exactas de octubre antes del 1 de septiembre de 2026, y varían mucho por país: en Reino Unido son unos 0.0159 libras por mensaje entregado y en Brasil unos 0.0068 dólares, más del triple de diferencia. Antes de firmar cualquier propuesta, pide la cifra de México tomada de la tarjeta oficial de Meta y con fecha."
-order: 4
+order: 1
 ---
 
 Si tienes un chatbot de WhatsApp o estás por contratarlo, este cambio te toca la factura de manera directa, y llega en unas semanas.

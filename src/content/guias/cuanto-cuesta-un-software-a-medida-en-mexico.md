@@ -24,7 +24,7 @@ faq:
     a: "Un sistema que se usa todos los días cambia todos los meses. Conviene presupuestarlo desde el principio como acompañamiento, no como emergencias sueltas. Un rango habitual es entre el diez y el veinte por ciento anual de lo invertido, dependiendo de qué tanto siga creciendo."
   - q: "¿Cómo bajo el riesgo si es mi primera vez?"
     a: "Con fases cortas que terminen en algo que se pueda usar. Si al final de la primera fase tu equipo ya está trabajando con una parte del sistema, sabes que el proveedor entrega. Si al final de la primera fase solo hay documentos y pantallas, todavía no sabes nada."
-order: 3
+order: 4
 ---
 
 En software a medida el precio no se calcula por pantallas ni por horas: se calcula por **cuánta incertidumbre hay que resolver**. Por eso dos proyectos que se ven parecidos pueden costar tres veces distinto, y por eso una cotización cerrada dada en la primera llamada es una señal de alerta y no de eficiencia.

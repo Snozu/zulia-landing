@@ -24,7 +24,7 @@ faq:
     a: "Ábrelo en tu celular con datos móviles, no con wifi. Debe abrir en menos de dos o tres segundos. Después pásalo por PageSpeed Insights de Google: es gratis y da una calificación de 0 a 100 en móvil. Debajo de 50 hay un problema real, no una opinión de diseño."
   - q: "¿Cuánto tarda?"
     a: "Una landing bien hecha se entrega en días, no en meses. Un sitio corporativo depende sobre todo de qué tan rápido lleguen tus textos, tus fotos y las aprobaciones de tu lado. En la práctica el contenido es lo que atrasa los proyectos, no el desarrollo."
-order: 2
+order: 3
 ---
 
 Es la pregunta que más se hace y la que peor se responde, porque «página web» puede significar una sola pantalla con un botón de WhatsApp o una tienda con inventario y pagos. Estos son los rangos que se manejan en México en 2026, y sobre todo **qué es lo que hace que una cotización suba o baje**.

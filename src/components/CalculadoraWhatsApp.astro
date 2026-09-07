@@ -151,35 +151,36 @@ const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
         <button type="button" class="btn copiar" id="btnCopiar">Copiar el resultado</button>
       </div>
 
-      <div class="detalle">
-        <p class="det-t">De dónde sale</p>
-        <ul class="desglose" id="desglose"></ul>
-
-        <p class="det-t esc-t">Escenarios por mensajes en cada conversación</p>
-        <div class="tabla-esc">
-          <table>
-            <thead><tr><th>Mensajes</th><th>Al mes</th><th>Al año</th></tr></thead>
-            <tbody id="escenarios"></tbody>
-          </table>
-        </div>
-
-        <details class="supuestos">
-          <summary>Tarifas y supuestos</summary>
-          <p class="fuente muted">
-            Tarifas por mensaje entregado vigentes desde el {TARIFAS_VIGENTES_DESDE}, publicadas por Meta en su
-            <a class="link" href={TARIFAS_FUENTE} target="_blank" rel="noopener">página de precios</a>.
-            Conversión con el tipo de cambio del {TIPO_CAMBIO_FECHA}; Meta factura en dólares.
-          </p>
-          <ul>
-            <li>Las conversaciones desde anuncio abren la ventana de 72 horas: su entrega no se cobra, salvo las que responden después de que cerró.</li>
-            <li>Las demás abren la ventana de 24 horas: hoy tus respuestas ahí son gratis y desde octubre se cobran a la tarifa de utility del mercado.</li>
-            <li>Las plantillas de marketing se cobran hoy y también después.</li>
-            <li>Las de utility se asumen enviadas dentro de la ventana: hoy no cuestan y después sí. Si las mandas fuera, hoy ya las pagas y tu aumento real es menor.</li>
-            <li>No se aplican los descuentos por volumen que Meta ofrece en utility y autenticación, ni el margen que tu proveedor pueda sumar por mensaje.</li>
-          </ul>
-        </details>
-      </div>
     </div>
+  </div>
+
+  <div class="panel detalle">
+    <p class="det-t">De dónde sale</p>
+    <ul class="desglose" id="desglose"></ul>
+
+    <p class="det-t esc-t">Escenarios por mensajes en cada conversación</p>
+    <div class="tabla-esc">
+      <table>
+        <thead><tr><th>Mensajes</th><th>Al mes</th><th>Al año</th></tr></thead>
+        <tbody id="escenarios"></tbody>
+      </table>
+    </div>
+
+    <details class="supuestos">
+      <summary>Tarifas y supuestos</summary>
+      <p class="fuente muted">
+        Tarifas por mensaje entregado vigentes desde el {TARIFAS_VIGENTES_DESDE}, publicadas por Meta en su
+        <a class="link" href={TARIFAS_FUENTE} target="_blank" rel="noopener">página de precios</a>.
+        Conversión con el tipo de cambio del {TIPO_CAMBIO_FECHA}; Meta factura en dólares.
+      </p>
+      <ul>
+        <li>Las conversaciones desde anuncio abren la ventana de 72 horas: su entrega no se cobra, salvo las que responden después de que cerró.</li>
+        <li>Las demás abren la ventana de 24 horas: hoy tus respuestas ahí son gratis y desde octubre se cobran a la tarifa de utility del mercado.</li>
+        <li>Las plantillas de marketing se cobran hoy y también después.</li>
+        <li>Las de utility se asumen enviadas dentro de la ventana: hoy no cuestan y después sí. Si las mandas fuera, hoy ya las pagas y tu aumento real es menor.</li>
+        <li>No se aplican los descuentos por volumen que Meta ofrece en utility y autenticación, ni el margen que tu proveedor pueda sumar por mensaje.</li>
+      </ul>
+    </details>
   </div>
 </section>
 
@@ -411,7 +412,9 @@ const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
   .rango-t b { color: var(--blue-dark); font-family: var(--font-mono); font-size: 1rem; }
   input[type="range"] { width: 100%; accent-color: var(--brand-blue); }
 
-  .salida { display: grid; }
+  /* La columna del resultado se queda sola. Cuando el detalle vivía dentro de
+     ella, al hacer scroll el bloque pegajoso se montaba encima del texto. */
+  .salida { align-self: start; }
   .sticky { padding: clamp(1.25rem, 3vw, 1.75rem); }
   .tabs { display: inline-flex; padding: .25rem; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); }
   .tab {
@@ -442,9 +445,21 @@ const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
 
   .copiar { width: 100%; margin-top: 1.25rem; justify-content: center; }
 
-  .detalle { padding: 0 clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 1.75rem); }
-  .det-t { padding-top: 1.5rem; border-top: 1px solid var(--line); color: var(--ink); font-family: var(--font-mono); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-  .esc-t { margin-top: 1.75rem; }
+  /* Ancho completo debajo de la reja: aquí las tablas sí caben. */
+  .detalle {
+    margin-top: 1.5rem;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: .75rem 2.5rem;
+    align-items: start;
+  }
+  .det-t { color: var(--ink); font-family: var(--font-mono); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .detalle > :nth-child(1) { grid-column: 1; grid-row: 1; }
+  .detalle > :nth-child(2) { grid-column: 1; grid-row: 2; }
+  .detalle > :nth-child(3) { grid-column: 2; grid-row: 1; }
+  .detalle > :nth-child(4) { grid-column: 2; grid-row: 2; }
+  .supuestos { grid-column: 1 / -1; grid-row: 3; }
 
   .desglose { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; }
   .desglose :global(li) { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: .9rem; padding: .6rem 0; border-top: 1px solid var(--line); font-size: .88rem; }
@@ -477,6 +492,13 @@ const datos = JSON.stringify({ mercados: MERCADOS, divisas: DIVISAS });
   }
   @media (max-width: 980px) {
     .calc-grid { grid-template-columns: 1fr; }
+    .detalle { grid-template-columns: 1fr; }
+    .detalle > :nth-child(1),
+    .detalle > :nth-child(2),
+    .detalle > :nth-child(3),
+    .detalle > :nth-child(4),
+    .supuestos { grid-column: 1; grid-row: auto; }
+    .esc-t { margin-top: 1.25rem; }
   }
   @media (max-width: 560px) {
     .fila { flex-direction: column; align-items: stretch; gap: .5rem; }
