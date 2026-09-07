@@ -23,6 +23,7 @@ export const CTA = {
 export const NAV: ReadonlyArray<{ label: string; href: string }> = [
   { label: 'Servicios', href: '/servicios/' },
   { label: 'Proyectos', href: '/proyectos/' },
+  { label: 'Guías', href: '/guias/' },
   { label: 'Semilla', href: '/semilla/' },
   { label: 'Cursos', href: '/cursos/' },
   { label: 'Nosotros', href: '/nosotros/' },

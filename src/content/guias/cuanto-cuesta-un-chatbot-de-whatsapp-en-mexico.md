@@ -1,0 +1,69 @@
+---
+title: "Cuánto cuesta un chatbot de WhatsApp en México"
+answer: "En 2026 el rango de mercado va de 8,000 a 36,000 MXN de implementación según el nivel, más una mensualidad opcional de 2,500 a 25,000 MXN. Aparte se le paga a Meta por conversación: las que inicia el cliente son gratuitas las primeras 24 horas."
+searchTitle: "Cuánto cuesta un chatbot de WhatsApp en México en 2026 | ZulIA"
+metaDescription: "Precios reales de un chatbot de WhatsApp en México: implementación, mensualidad y lo que cobra Meta por conversación. Con los tres niveles y qué incluye cada uno."
+updated: "2026-09-07"
+readingMinutes: 6
+line: "chatbots"
+faq:
+  - q: "¿Por qué hay tanta diferencia entre 8,000 y 36,000 pesos?"
+    a: "Porque no se está comprando lo mismo. Abajo del rango hay un bot que responde preguntas frecuentes con un guion. Arriba hay uno conectado a tu inventario o a tu CRM, que responde con el dato real y deja el prospecto calificado. La diferencia de precio es la diferencia de trabajo: conectar un sistema, mapear permisos y probar con conversaciones reales."
+  - q: "¿Qué se le paga a Meta y qué a quien lo implementa?"
+    a: "Meta cobra por conversación, no por mensaje, y ese consumo se paga directo a Meta con la tarjeta de tu empresa. Las conversaciones que inicia el cliente son gratuitas las primeras 24 horas; las que inicias tú cuestan centavos de dólar según sean de utilidad o de marketing. Lo que le pagas a quien implementa es el montaje y la operación, y va aparte."
+  - q: "¿Sirve el número de WhatsApp que ya uso?"
+    a: "Se puede migrar a la API oficial, pero deja de funcionar en la aplicación de WhatsApp Business. Casi siempre conviene dar de alta un número nuevo a nombre de la empresa y dejar el actual como está, para no quedarte sin el canal mientras se hace el cambio."
+  - q: "¿Cuánto tarda en estar funcionando?"
+    a: "La parte que no depende de nadie más es rápida. Lo que marca el calendario es la verificación del negocio con Meta y la aprobación de las plantillas, que son trámites con sus propios tiempos. Por eso conviene arrancar por ahí y no dejarlo para el final."
+  - q: "¿Un chatbot puede inventar información?"
+    a: "Uno mal montado, sí. Uno bien montado responde solo con las fuentes que se le autorizaron y tiene instrucción explícita de decir que no sabe en lugar de suponer, además de pasar la conversación a una persona cuando se sale de su alcance. Pide siempre ver el registro de las conversaciones de prueba antes de firmar."
+order: 1
+---
+
+Si estás cotizando, la primera respuesta honesta es que **el rango es amplio porque la palabra «chatbot» tapa tres cosas distintas**. Vale la pena saber cuál necesitas antes de comparar propuestas, porque una cotización de nueve mil y una de treinta y cinco mil pueden ser las dos razonables para trabajos diferentes.
+
+## Los tres niveles, y qué cuesta cada uno
+
+**Nivel 1 — responde.** Aprende de tu catálogo, tus precios y tus políticas, y contesta lo que se pregunta todos los días: horario, ubicación, si hay existencia, si hacen envío. Cuando no sabe, pasa la conversación a una persona. **No consulta tus sistemas**, así que no puede decirte dónde va un pedido concreto.
+
+**Nivel 2 — consulta.** Todo lo anterior, más lectura en vivo de tu inventario, tu CRM o tu ERP. Aquí el asistente responde con la existencia real y el estado del pedido real, no con un guion. También califica al prospecto y agenda.
+
+**Nivel 3 — ejecuta.** Ya no solo responde: crea el pedido, actualiza el dato, manda el documento. Con permisos declarados y con aprobación humana antes de cualquier acción sensible.
+
+## Precios de referencia del mercado mexicano
+
+Estos son rangos publicados por proveedores en México durante 2026, no estimaciones nuestras:
+
+| Nivel | Implementación (MXN) | Mensualidad (MXN) |
+|---|---|---|
+| Básico: preguntas frecuentes, catálogo, captura de datos | 8,000 – 15,000 | 2,500 – 12,000 |
+| Profesional: calificación, agenda, varios flujos, CRM | 21,000 – 50,000 | 15,000 – 25,000 |
+| Multicanal: ERP, pagos, WhatsApp + web + voz | 50,000 – 100,000 | 25,000 – 40,000 |
+
+La mensualidad no siempre es obligatoria. Varios proveedores la ofrecen como soporte opcional; conviene preguntar qué pasa si no la contratas y quién queda a cargo del número.
+
+## Lo que se le paga a Meta, aparte
+
+Este es el costo que más sorprende, porque no aparece en la cotización. **Meta cobra por conversación, no por mensaje.**
+
+- **Conversaciones de servicio** (las inicia el cliente): gratuitas las primeras 24 horas.
+- **Conversaciones de utilidad** (las inicias tú: un aviso de pedido, un recordatorio): alrededor de 0.06 USD.
+- **Conversaciones de marketing** (promoción): alrededor de 0.10 USD.
+
+Para un negocio con unas tres mil conversaciones al mes, eso son del orden de 2,500 a 4,500 pesos mensuales pagados directo a Meta. Si una propuesta no menciona este costo, pregunta: no es que lo estén escondiendo necesariamente, pero llega igual.
+
+## Qué debe incluir cualquier propuesta seria
+
+Independientemente del nivel y del precio, hay cosas que si no vienen te van a costar después:
+
+- **Número propio verificado con Meta, a nombre de tu empresa.** No el celular de un empleado, y no un número rentado por la agencia. Si un día cambias de proveedor, el número y las conversaciones se quedan contigo.
+- **Plantillas aprobadas por Meta.** Sin ellas no puedes volver a escribirle a alguien pasadas las 24 horas de la última respuesta. Es la diferencia entre poder dar seguimiento y no poder.
+- **Opt-in y baja.** Es política de Meta. Sin esto arriesgas el número.
+- **Bandeja compartida con paso a una persona.** Es donde se muere el 90% de los bots: el cliente se atora, no hay salida a un humano y se va.
+- **Reportes de conversación y de costo.** Cuántas entraron, cuántas se resolvieron solas y cuánto costaron. Sin esto no puedes saber si funcionó.
+
+## Cómo saber cuál te toca
+
+Una regla que sirve: **si las preguntas que más recibes se pueden contestar leyendo tu catálogo, estás en el nivel 1.** Si para contestarlas alguien tiene que abrir un sistema, estás en el nivel 2. Y si además hay que hacer algo —crear el pedido, mandar la cotización— estás en el nivel 3.
+
+La mayoría de los negocios que cotizan pensando en el nivel 3 en realidad resuelven el 80% de sus mensajes con el nivel 1. Empezar ahí cuesta una fracción, y a las dos semanas ya tienes datos reales de qué te preguntan de verdad para decidir si vale la pena subir.

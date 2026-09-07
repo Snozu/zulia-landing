@@ -1,0 +1,67 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getCollection } from 'astro:content';
+
+const guias = (await getCollection('guias', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const title = 'Guías de precios y decisiones de tecnología en México | ZulIA';
+const description =
+  'Cuánto cuesta un chatbot de WhatsApp, una página web o un software a medida en México. Rangos reales, qué mueve el precio y qué exigir en una propuesta.';
+
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: guias.map((g, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://zulia.lat/guias/${g.id}/`,
+    name: g.data.title,
+  })),
+};
+---
+
+<Layout title={title} description={description} jsonLd={listSchema}>
+  <Navbar />
+  <main id="contenido">
+    <section class="head section-tight">
+      <div class="shell">
+        <p class="label">Guías</p>
+        <h1 class="display">Lo que cuesta, antes de que te lo cotizen.</h1>
+        <p class="lead">Rangos reales del mercado mexicano, qué hace que una propuesta suba o baje y qué puedes exigir en la entrega. Sin registro y sin dejar tu correo.</p>
+      </div>
+    </section>
+
+    <section class="lista section-tight">
+      <div class="shell">
+        <ul class="filas-linea">
+          {guias.map((g) => (
+            <li>
+              <a href={`/guias/${g.id}/`} data-reveal>
+                <h2 class="h3">{g.data.title}</h2>
+                <p class="muted">{g.data.answer}</p>
+                <p class="meta mono">Actualizada el {g.data.updated} · {g.data.readingMinutes} min de lectura</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .head .display { margin-top: 1rem; max-width: 20ch; }
+  .head .lead { margin-top: 1.25rem; max-width: 62ch; }
+  .filas-linea a { display: grid; gap: .6rem; color: inherit; text-decoration: none; }
+  .filas-linea a:hover .h3 { color: var(--blue-dark); }
+  .filas-linea p { max-width: 72ch; }
+  .meta { color: var(--text-muted); font-size: .78rem; }
+</style>

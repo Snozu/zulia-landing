@@ -1,0 +1,183 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { getCollection, render } from 'astro:content';
+import { services } from '../../data/services';
+import { SITE, CTA } from '../../data/site';
+
+export async function getStaticPaths() {
+  const guias = await getCollection('guias', ({ data }) => !data.draft);
+  return guias.map((guia) => ({ params: { slug: guia.id }, props: { guia } }));
+}
+
+const { guia } = Astro.props;
+const d = guia.data;
+const { Content } = await render(guia);
+const servicio = d.line ? services.find((s) => s.line === d.line) : undefined;
+const url = `https://zulia.lat/guias/${guia.id}/`;
+
+// Article + FAQPage + migas. Los tres juntos son lo que hace que esta página
+// se pueda citar entera o por pregunta suelta.
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.answer,
+  inLanguage: 'es-MX',
+  datePublished: d.updated,
+  dateModified: d.updated,
+  author: { '@id': 'https://zulia.lat/#haziel-zul' },
+  publisher: { '@id': 'https://zulia.lat/#organization' },
+  mainEntityOfPage: url,
+  url,
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: d.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://zulia.lat/' },
+    { '@type': 'ListItem', position: 2, name: 'Guías', item: 'https://zulia.lat/guias/' },
+    { '@type': 'ListItem', position: 3, name: d.title, item: url },
+  ],
+};
+---
+
+<Layout
+  title={d.searchTitle}
+  description={d.metaDescription}
+  jsonLd={[articleSchema, faqSchema, breadcrumbSchema]}
+  pageType="article"
+>
+  <Navbar />
+  <main id="contenido" class="guia">
+    <section class="head section-tight">
+      <div class="shell-narrow">
+        <nav class="crumbs" aria-label="Ruta"><a href="/guias/">Guías</a><span>/</span><span>Precios</span></nav>
+        <h1 class="display">{d.title}</h1>
+        <p class="meta mono">Actualizada el {d.updated} · {d.readingMinutes} min de lectura</p>
+
+        {/* La respuesta corta antes del texto: quien llega desde un buscador
+            quiere el número, y un asistente de IA necesita poder extraerlo sin
+            leer la página entera. */}
+        <div class="respuesta">
+          <p class="respuesta-label">Respuesta corta</p>
+          <p>{d.answer}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cuerpo section-tight">
+      <div class="shell-narrow prose">
+        <Content />
+      </div>
+    </section>
+
+    <section class="faq section-tight">
+      <div class="shell-narrow">
+        <h2 class="h2">Preguntas frecuentes</h2>
+        <div class="qa">
+          {d.faq.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {servicio && (
+      <section class="salida section-tight">
+        <div class="shell-narrow">
+          <div class="salida-caja">
+            <p class="label">Si ya quieres números de tu caso</p>
+            <h2 class="h3">{servicio.name}</h2>
+            <p class="muted">{servicio.plain}</p>
+            <div class="ctas">
+              <a class="btn" href={`${CTA.primaryHref}?linea=${servicio.slug}`}>Cotizar</a>
+              <a class="link" href={`/servicios/${servicio.slug}/`}>Ver el servicio</a>
+            </div>
+            <p class="nota muted">La primera asesoría es de treinta minutos y sin costo. Escribe a {SITE.email}.</p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .crumbs { display: flex; gap: .6rem; color: var(--text-muted); font-size: .85rem; }
+  .crumbs a { color: var(--text-muted); text-decoration: none; }
+  .head .display { margin-top: 1rem; max-width: 22ch; }
+  .meta { margin-top: 1rem; color: var(--text-muted); font-size: .78rem; }
+
+  .respuesta {
+    margin-top: 2rem;
+    padding: 1.4rem 1.5rem 1.6rem;
+    border: 1px solid var(--accent-line, var(--line));
+    border-radius: var(--radius);
+    background: var(--blue-soft);
+  }
+  .respuesta-label {
+    color: var(--blue-dark);
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .respuesta p:last-child { margin-top: .6rem; font-size: 1.1rem; line-height: 1.6; color: var(--ink); }
+
+  .prose :global(h2) { margin-top: 2.75rem; font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 640; letter-spacing: -.02em; }
+  .prose :global(h3) { margin-top: 2rem; font-size: 1.2rem; font-weight: 620; }
+  .prose :global(p) { margin-top: 1rem; line-height: 1.75; color: var(--ink-soft); }
+  .prose :global(ul) { margin-top: 1rem; padding-left: 1.1rem; display: grid; gap: .6rem; }
+  .prose :global(li) { line-height: 1.7; color: var(--ink-soft); }
+  .prose :global(strong) { color: var(--ink); font-weight: 620; }
+
+  /* Las tablas de precio son lo que se cita. Markdown las emite sin envoltorio,
+     así que la tabla misma se vuelve el contenedor que desplaza: en 390 px una
+     tabla de tres columnas empujaría el ancho de toda la página. */
+  .prose :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: .95rem;
+  }
+  /* Sin ancho mínimo la tabla se aplasta hasta partir cada palabra en un
+     renglón. Mejor que se desplace y se lea. */
+  .prose :global(table) > :global(*) { min-width: 34rem; }
+  .prose :global(th), .prose :global(td) { padding: .8rem .9rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .prose :global(th) { color: var(--ink); font-weight: 620; border-bottom-color: var(--line-dark); white-space: nowrap; }
+  .prose :global(td) { color: var(--ink-soft); line-height: 1.6; }
+
+  .qa { margin-top: 1.5rem; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { padding: 1.1rem 0; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  summary::after { content: "+"; color: var(--blue-dark); font-weight: 500; }
+  details[open] summary::after { content: "−"; }
+  details p { padding: 0 0 1.25rem; max-width: 65ch; line-height: 1.7; }
+
+  .salida-caja { padding: clamp(1.5rem, 4vw, 2.25rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+  .salida-caja .h3 { margin-top: .8rem; }
+  .salida-caja .muted { margin-top: .5rem; max-width: 56ch; line-height: 1.6; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 1.5rem; }
+  .nota { margin-top: 1.25rem; font-size: .88rem; }
+</style>

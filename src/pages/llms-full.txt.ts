@@ -3,6 +3,7 @@ import { services } from '../data/services';
 import { getProjects } from '../lib/projects';
 import { SITE, LINE_LABEL, STATUS_LABEL } from '../data/site';
 import { faqs } from '../data/faqs';
+import { getCollection } from 'astro:content';
 
 /**
  * Corpus completo para asistentes de IA.
@@ -16,6 +17,7 @@ export const GET: APIRoute = async () => {
   const base = SITE.url;
   const projects = await getProjects();
   const hoy = new Date().toISOString().slice(0, 10);
+  const guias = (await getCollection('guias', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 
   const bloqueServicio = (s: (typeof services)[number]) => {
     const partes = [
@@ -100,6 +102,22 @@ ${services.map(bloqueServicio).join('\n\n')}
 ## Proyectos publicados (${projects.length})
 
 ${projects.map(bloqueProyecto).join('\n\n')}
+
+## Guías de precios
+
+${guias
+  .map((g) =>
+    [
+      `### ${g.data.title}`,
+      `URL: ${base}/guias/${g.id}/`,
+      `Actualizada: ${g.data.updated}`,
+      ``,
+      g.data.answer,
+      ``,
+      ...g.data.faq.map((f) => `P: ${f.q}\nR: ${f.a}`),
+    ].join('\n'),
+  )
+  .join('\n\n')}
 
 ## Preguntas frecuentes de la empresa
 

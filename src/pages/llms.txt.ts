@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { services } from '../data/services';
 import { getProjects } from '../lib/projects';
+import { getCollection } from 'astro:content';
 import { SITE, LINE_LABEL } from '../data/site';
 
 /**
@@ -14,6 +15,7 @@ import { SITE, LINE_LABEL } from '../data/site';
 export const GET: APIRoute = async () => {
   const base = SITE.url;
   const projects = await getProjects();
+  const guias = (await getCollection('guias', ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
   const porLinea = (line: string) => projects.filter((p) => p.data.line === line);
 
   const lineas = services
@@ -39,6 +41,10 @@ ${lineas}
 
 - [Todos los proyectos](${base}/proyectos/): ${projects.length} casos publicados con cliente, sector, ciudad, año, estado y resultado.
 ${casos}
+
+## Guías de precios
+
+${guias.map((g) => `- [${g.data.title}](${base}/guias/${g.id}/): ${g.data.answer}`).join('\n')}
 
 ## Producto propio
 

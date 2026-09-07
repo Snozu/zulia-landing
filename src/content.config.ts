@@ -51,4 +51,28 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+/**
+ * Guías: páginas que responden la pregunta de compra antes de vender nada.
+ *
+ * Es la pieza que faltaba para salir a nivel nacional. Nadie busca "capa
+ * agéntica"; busca "cuánto cuesta un chatbot de WhatsApp". Y los buscadores
+ * generativos citan justo esto: una respuesta concreta, con números y fecha.
+ */
+const guias = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/guias' }),
+  schema: z.object({
+    title: z.string(),
+    // La respuesta en una frase, para que se pueda extraer sin leer la página.
+    answer: z.string().max(320),
+    searchTitle: z.string(),
+    metaDescription: z.string().max(165),
+    updated: z.string(),
+    readingMinutes: z.number(),
+    line: z.enum(LINES).optional(),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).min(3),
+    order: z.number().default(100),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, guias };
