@@ -62,7 +62,10 @@ export const BRANDS: ReadonlyArray<{ name: string; file: string; dark?: string; 
   { name: 'iKom', file: '/brands/ikom.png', dark: '/brands/ikom-blanco.png' },
   { name: 'Kawasaki', file: '/brands/kawasaki.svg' },
   { name: 'Kymco', file: '/brands/kymco.png' },
-  { name: 'Triumph', file: '/brands/triumph.svg' },
+  // Nombre nuevo a propósito: el archivo anterior era el logo blanco y los SVG
+  // se cachean 30 días, así que quien ya lo tenía guardado seguía viendo un logo
+  // blanco sobre placa blanca. Cambiar la URL es lo único que rompe ese caché.
+  { name: 'Triumph', file: '/brands/triumph-negro.svg' },
   { name: 'TVS', file: '/brands/tvs.svg' },
   { name: 'Metales y Reciclados VIGA', file: '/brands/viga.png' },
   { name: 'Mueblería Juárez', file: '/brands/muebleria-juarez.png' },
