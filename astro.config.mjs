@@ -11,7 +11,15 @@ export default defineConfig({
     // para repintarse. Inline: menos viajes y la fuente llega antes.
     inlineStylesheets: 'always',
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Sin lastmod, Google no tiene señal de qué vale la pena volver a
+      // rastrear y trata todo el sitio igual. Se usa la fecha del build porque
+      // aquí cada despliegue lleva cambios; si se empieza a desplegar sin
+      // tocar contenido, esta fecha deja de significar algo.
+      lastmod: new Date(),
+    }),
+  ],
   redirects: {
     '/servicios/desarrollo-software-a-medida/': '/servicios/software-a-medida/',
     '/servicios/agentes-inteligencia-artificial/': '/servicios/capa-agentica/',

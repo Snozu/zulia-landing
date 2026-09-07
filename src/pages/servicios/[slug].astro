@@ -7,6 +7,7 @@ import ProjectTile from '../../components/ProjectTile.astro';
 import { services, type Service } from '../../data/services';
 import { getProjectsByLine } from '../../lib/projects';
 import { CTA } from '../../data/site';
+import { getCollection } from 'astro:content';
 
 export function getStaticPaths() {
   return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
@@ -16,6 +17,11 @@ interface Props { service: Service }
 const { service } = Astro.props;
 const projects = (await getProjectsByLine(service.line)).slice(0, 3);
 const others = services.filter((s) => s.slug !== service.slug);
+// La guía de precios de esta línea, si existe. Enlazarlas en los dos sentidos
+// es lo que convierte dos páginas sueltas en un tema con peso.
+const guia = (await getCollection('guias', ({ data }) => !data.draft)).find(
+  (g) => g.data.line === service.line,
+);
 const quoteHref = `${CTA.primaryHref}?linea=${service.slug}`;
 
 const serviceSchema = {
@@ -328,6 +334,19 @@ const faqSchema = {
               </details>
             ))}
           </div>
+        </div>
+      </section>
+    )}
+
+    {guia && (
+      <section class="guia-cruce section-tight">
+        <div class="shell">
+          <a class="cruce" href={`/guias/${guia.id}/`} data-reveal>
+            <span class="cruce-label label">Antes de cotizar</span>
+            <span class="cruce-titulo h3">{guia.data.title}</span>
+            <span class="cruce-texto muted">{guia.data.answer}</span>
+            <span class="link cruce-cta">Leer la guía</span>
+          </a>
         </div>
       </section>
     )}
@@ -673,6 +692,23 @@ const faqSchema = {
   summary::after { content: "+"; color: var(--blue-dark); font-weight: 500; }
   details[open] summary::after { content: "−"; }
   details p { padding: 0 0 1.1rem; max-width: 65ch; }
+  .cruce {
+    display: grid;
+    gap: .55rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 180ms ease, transform 180ms ease;
+  }
+  .cruce:hover { border-color: var(--line-dark); transform: translateY(-2px); }
+  .cruce:hover .cruce-titulo { color: var(--blue-dark); }
+  .cruce-titulo { transition: color 140ms ease; }
+  .cruce-texto { max-width: 70ch; line-height: 1.6; }
+  .cruce-cta { margin-top: .4rem; justify-self: start; }
+
   .other-list { margin: 1rem 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; }
   .other-list a { display: inline-block; padding: .55rem .9rem; border: 1px solid var(--line); border-radius: 999px; background: var(--white); box-shadow: var(--shadow-sm); color: var(--ink); font-size: .9rem; text-decoration: none; }
   .other-list a:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
