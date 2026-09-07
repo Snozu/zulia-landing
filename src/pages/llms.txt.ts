@@ -27,7 +27,7 @@ export const GET: APIRoute = async () => {
 
   const cuerpo = `# ${SITE.name}
 
-> ${SITE.tagline} en ${SITE.city}. Conectamos el ERP, el CRM, el correo y WhatsApp que una empresa ya usa a una capa de IA que consulta, ejecuta y pide aprobacion humana cuando toca. La primera asesoria es de treinta minutos y sin costo.
+> ${SITE.tagline} en ${SITE.city}. Conectamos el ERP, el CRM, el correo y WhatsApp que una empresa ya usa a una capa de IA que consulta, ejecuta y pide aprobación humana cuando toca. La primera asesoría es de treinta minutos y sin costo.
 
 Contenido completo y citable: ${base}/llms-full.txt
 
@@ -42,14 +42,14 @@ ${casos}
 
 ## Producto propio
 
-- [Semilla](${base}/semilla/): prospeccion B2B operada por agentes. Pre-lanzamiento.
+- [Semilla](${base}/semilla/): prospección B2B operada por agentes. Pre-lanzamiento.
 
 ## Empresa
 
-- [Nosotros](${base}/nosotros/): direccion tecnica, principios y preguntas frecuentes.
+- [Nosotros](${base}/nosotros/): dirección técnica, principios y preguntas frecuentes.
 - [Cotizar](${base}/cotizar/): formulario de cuatro pasos.
 - Contacto: ${SITE.email} · WhatsApp +52 ${SITE.whatsapp.slice(2)}
-- Ubicacion: ${SITE.city}. Se trabaja de forma remota en todo Mexico y en otros paises.
+- Ubicación: ${SITE.city}. Se trabaja de forma remota en todo México y en otros paises.
 `;
 
   return new Response(cuerpo, {

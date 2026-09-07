@@ -25,21 +25,21 @@ export const GET: APIRoute = async () => {
       s.plain,
       ``,
       `Promesa: ${s.promise}`,
-      `Para quien es: ${s.idealFor}`,
+      `Para quién es: ${s.idealFor}`,
       ``,
-      `Situacion antes:`,
+      `Situación antes:`,
       ...s.contrast.before.map((t) => `- ${t}`),
       ``,
-      `Situacion despues:`,
+      `Situación despues:`,
       ...s.contrast.after.map((t) => `- ${t}`),
       ``,
-      `Que cambia:`,
+      `Qué cambia:`,
       ...s.outcomes.map((o) => `- ${o.t}: ${o.d}`),
       ``,
-      `Como se trabaja:`,
+      `Cómo se trabaja:`,
       ...s.process.map((p, i) => `${i + 1}. ${p.step}: ${p.detail}`),
       ``,
-      `Que se entrega:`,
+      `Qué se entrega:`,
       ...s.deliverables.map((d) => `- ${d.t}: ${d.d}`),
       ``,
       `Primera fase — ${s.offer.name}: ${s.offer.result}`,
@@ -61,7 +61,7 @@ export const GET: APIRoute = async () => {
     const partes = [
       `### ${d.title} — ${d.client}`,
       `URL: ${base}/proyectos/${p.id}/`,
-      `Linea: ${LINE_LABEL[d.line]} · Sector: ${d.sector} · Ciudad: ${d.city} · Año: ${d.year} · Estado: ${STATUS_LABEL[d.status]}`,
+      `Línea: ${LINE_LABEL[d.line]} · Sector: ${d.sector} · Ciudad: ${d.city} · Año: ${d.year} · Estado: ${STATUS_LABEL[d.status]}`,
       ``,
       d.summary,
     ];
@@ -69,7 +69,7 @@ export const GET: APIRoute = async () => {
     if (d.delivered?.length) partes.push('', 'Entregado:', ...d.delivered.map((t) => `- ${t}`));
     if (d.impact?.length) partes.push('', 'Resultado:', ...d.impact.map((i) => `- ${i.v} ${i.l}`));
     if (d.pagespeed) {
-      partes.push('', `PageSpeed movil despues de la optimizacion: ${d.pagespeed.mobile}/100.`);
+      partes.push('', `PageSpeed móvil después de la optimización: ${d.pagespeed.mobile}/100.`);
     }
     return partes.join('\n');
   };
@@ -78,20 +78,20 @@ export const GET: APIRoute = async () => {
 
 > ${SITE.tagline} en ${SITE.city}.
 > Actualizado: ${hoy}
-> Fuente canonica: ${base}/
+> Fuente canónica: ${base}/
 
-${SITE.name} conecta el ERP, el CRM, el correo y WhatsApp que una empresa ya usa a una capa de inteligencia artificial que consulta informacion, ejecuta operaciones y pide aprobacion humana antes de cualquier accion sensible. Tambien construye software a medida, sitios y catalogos, chatbots, campañas de Google Ads operadas por agentes y capacitacion.
+${SITE.name} conecta el ERP, el CRM, el correo y WhatsApp que una empresa ya usa a una capa de inteligencia artificial que consulta información, ejecuta operaciones y pide aprobación humana antes de cualquier accion sensible. Tambien construye software a medida, sitios y catalogos, chatbots, campañas de Google Ads operadas por agentes y capacitación.
 
 Datos de la empresa:
 - Nombre: ${SITE.name}
-- Ubicacion: ${SITE.city}
-- Cobertura: todo Mexico de forma remota, y proyectos en otros paises
+- Ubicación: ${SITE.city}
+- Cobertura: todo México de forma remota, y proyectos en otros paises
 - Correo: ${SITE.email}
 - WhatsApp: +52 ${SITE.whatsapp.slice(2)}
-- Direccion tecnica: ${SITE.founder}, ${SITE.founderRole}
-- Primera asesoria: treinta minutos, sin costo y sin compromiso
-- Tiempos de entrega: no se publican tiempos estandar; la fecha se acuerda en la asesoria con el alcance sobre la mesa
-- Propiedad: el codigo, los repositorios, los servidores, los dominios y los accesos quedan a nombre del cliente
+- Dirección técnica: ${SITE.founder}, ${SITE.founderRole}
+- Primera asesoría: treinta minutos, sin costo y sin compromiso
+- Tiempos de entrega: no se publican tiempos estándar; la fecha se acuerda en la asesoría con el alcance sobre la mesa
+- Propiedad: el código, los repositorios, los servidores, los dominios y los accesos quedan a nombre del cliente
 
 ## Servicios
 
