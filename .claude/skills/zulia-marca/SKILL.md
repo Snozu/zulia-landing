@@ -130,7 +130,13 @@ Los diseños viven en `tools/social/plantilla.html`. Se dibujan en canvas al
 tamaño exacto con la fuente real del sitio y se guardan en
 `~/Downloads/zulia-social/`.
 
-Medidas: carrusel 1080×1350, historia 1080×1920, feature image 1200×630.
+Medidas de composición: carrusel 1080×1350, historia 1080×1920, feature image
+1200×630. **Todo se exporta al doble** salvo la feature image: el canvas se crea
+a 2× y se escala el contexto, así que los diseños siguen escritos en
+coordenadas de 1080 y el PNG sale a 2160×2700. Instagram reduce con un buen
+remuestreo, de modo que llega más nítida que subiendo el tamaño exacto. La
+feature image se queda a 1× porque WhatsApp se salta la vista previa cuando
+pesa mucho.
 En la historia hay que dejar libre la franja de 1400 a 1740 px para el sticker
 del enlace.
 

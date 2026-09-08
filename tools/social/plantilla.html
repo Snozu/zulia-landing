@@ -506,7 +506,7 @@ const disenos={
 
 const medidas={
   'partner-a-azul':[1080,1350],
-  'og-meta-whatsapp-2026':[1200,630],
+  'og-meta-whatsapp-2026':[1200,630,1],
   'carrusel-1-portada':[1080,1350],'carrusel-2-que-cambia':[1080,1350],
   'carrusel-3-antes-despues':[1080,1350],'carrusel-4-ventanas':[1080,1350],
   'carrusel-5-cuanto':[1080,1350],'carrusel-6-cta':[1080,1350],
@@ -524,13 +524,20 @@ const medidas={
   await new Promise(r=>setTimeout(r,500));
   const log=document.getElementById('log'); const out=[];
   for(const [nombre,fn] of Object.entries(disenos)){
-    const [W,H]=medidas[nombre];
-    const c=document.createElement('canvas'); c.width=W; c.height=H;
-    fn(c.getContext('2d'),W,H);
+    const [W,H,esc=2]=medidas[nombre];
+    /* Se dibuja al doble y se escala el contexto: los diseños siguen usando
+       coordenadas de 1080 y el PNG sale al doble de resolución. Instagram
+       reduce la imagen con un buen remuestreo, así que llega más nítida que
+       subiendo el tamaño exacto. */
+    const c=document.createElement('canvas');
+    c.width=W*esc; c.height=H*esc;
+    const ctx=c.getContext('2d');
+    ctx.scale(esc,esc);
+    fn(ctx,W,H);
     document.getElementById('salida').appendChild(c);
     const url=c.toDataURL('image/png');
     await fetch('http://127.0.0.1:4322/',{method:'POST',body:`${nombre}.png|${url}`});
-    out.push(`${nombre}.png  ${W}x${H}`);
+    out.push(`${nombre}.png  ${W*esc}x${H*esc}`);
     log.textContent=out.join('\n');
   }
   log.textContent=out.join('\n')+'\nLISTO';
