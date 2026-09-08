@@ -10,7 +10,7 @@ canvas{display:block;max-width:250px;height:auto;border:1px solid #555}
 <div id="log">generando…</div>
 <div id="salida"></div>
 <script>
-const ICONOS = {"whatsapp": "M152.58,145.23l23,11.48A24,24,0,0,1,152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155ZM232,128A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-40,24a8,8,0,0,0-4.42-7.16l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88A40,40,0,0,0,192,152Z", "reloj": "M208,96a12,12,0,1,1,12,12A12,12,0,0,1,208,96ZM196,72a12,12,0,1,0-12-12A12,12,0,0,0,196,72Zm28.66,56a8,8,0,0,0-8.63,7.31A88.12,88.12,0,1,1,120.66,40,8,8,0,0,0,119.34,24,104.12,104.12,0,1,0,232,136.66,8,8,0,0,0,224.66,128ZM128,56a72,72,0,1,1-72,72A72.08,72.08,0,0,1,128,56Zm-8,72a8,8,0,0,0,8,8h48a8,8,0,0,0,0-16H136V80a8,8,0,0,0-16,0Zm40-80a12,12,0,1,0-12-12A12,12,0,0,0,160,48Z", "megafono": "M200,72H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48,48,0,0,0,200,72ZM179,207.89l0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z", "recibo": "M216,40H40A16,16,0,0,0,24,56V208a8,8,0,0,0,11.58,7.15L64,200.94l28.42,14.21a8,8,0,0,0,7.16,0L128,200.94l28.42,14.21a8,8,0,0,0,7.16,0L192,200.94l28.42,14.21A8,8,0,0,0,232,208V56A16,16,0,0,0,216,40ZM176,144H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Zm0-32H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Z", "chat": "M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24ZM84,140a12,12,0,1,1,12-12A12,12,0,0,1,84,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,128,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,172,140Z", "calculadora": "M200,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V40A16,16,0,0,0,200,24ZM88,200a12,12,0,1,1,12-12A12,12,0,0,1,88,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,88,160Zm40,40a12,12,0,1,1,12-12A12,12,0,0,1,128,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,128,160Zm40,40a12,12,0,1,1,12-12A12,12,0,0,1,168,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,168,160Zm16-56a8,8,0,0,1-8,8H80a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8h96a8,8,0,0,1,8,8Z", "clic": "M220.49,190.83a12,12,0,0,1,0,17L207.8,220.49a12,12,0,0,1-17,0l-56.56-56.57L115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13-50.17,19.27ZM96,32a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0v8A8,8,0,0,0,96,32ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31Z", "tendencia": "M240,56v64a8,8,0,0,1-13.66,5.66L200,99.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31,29.66,189.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0L136,140.69,188.69,88,162.34,61.66A8,8,0,0,1,168,48h64A8,8,0,0,1,240,56Z", "moneda": "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm12,152h-4v8a8,8,0,0,1-16,0v-8H104a8,8,0,0,1,0-16h36a12,12,0,0,0,0-24H116a28,28,0,0,1,0-56h4V72a8,8,0,0,1,16,0v8h16a8,8,0,0,1,0,16H116a12,12,0,0,0,0,24h24a28,28,0,0,1,0,56Z", "etiqueta": "M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z"};
+const ICONOS = {"whatsapp": "M152.58,145.23l23,11.48A24,24,0,0,1,152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23L101,118a8,8,0,0,0-.73,7.51,56.47,56.47,0,0,0,30.15,30.15A8,8,0,0,0,138,155ZM232,128A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-40,24a8,8,0,0,0-4.42-7.16l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88A40,40,0,0,0,192,152Z", "reloj": "M208,96a12,12,0,1,1,12,12A12,12,0,0,1,208,96ZM196,72a12,12,0,1,0-12-12A12,12,0,0,0,196,72Zm28.66,56a8,8,0,0,0-8.63,7.31A88.12,88.12,0,1,1,120.66,40,8,8,0,0,0,119.34,24,104.12,104.12,0,1,0,232,136.66,8,8,0,0,0,224.66,128ZM128,56a72,72,0,1,1-72,72A72.08,72.08,0,0,1,128,56Zm-8,72a8,8,0,0,0,8,8h48a8,8,0,0,0,0-16H136V80a8,8,0,0,0-16,0Zm40-80a12,12,0,1,0-12-12A12,12,0,0,0,160,48Z", "megafono": "M200,72H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48,48,0,0,0,200,72ZM179,207.89l0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z", "recibo": "M216,40H40A16,16,0,0,0,24,56V208a8,8,0,0,0,11.58,7.15L64,200.94l28.42,14.21a8,8,0,0,0,7.16,0L128,200.94l28.42,14.21a8,8,0,0,0,7.16,0L192,200.94l28.42,14.21A8,8,0,0,0,232,208V56A16,16,0,0,0,216,40ZM176,144H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Zm0-32H80a8,8,0,0,1,0-16h96a8,8,0,0,1,0,16Z", "chat": "M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24ZM84,140a12,12,0,1,1,12-12A12,12,0,0,1,84,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,128,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,172,140Z", "calculadora": "M200,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V40A16,16,0,0,0,200,24ZM88,200a12,12,0,1,1,12-12A12,12,0,0,1,88,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,88,160Zm40,40a12,12,0,1,1,12-12A12,12,0,0,1,128,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,128,160Zm40,40a12,12,0,1,1,12-12A12,12,0,0,1,168,200Zm0-40a12,12,0,1,1,12-12A12,12,0,0,1,168,160Zm16-56a8,8,0,0,1-8,8H80a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8h96a8,8,0,0,1,8,8Z", "clic": "M220.49,190.83a12,12,0,0,1,0,17L207.8,220.49a12,12,0,0,1-17,0l-56.56-56.57L115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13-50.17,19.27ZM96,32a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0v8A8,8,0,0,0,96,32ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31Z", "tendencia": "M240,56v64a8,8,0,0,1-13.66,5.66L200,99.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31,29.66,189.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0L136,140.69,188.69,88,162.34,61.66A8,8,0,0,1,168,48h64A8,8,0,0,1,240,56Z", "moneda": "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm12,152h-4v8a8,8,0,0,1-16,0v-8H104a8,8,0,0,1,0-16h36a12,12,0,0,0,0-24H116a28,28,0,0,1,0-56h4V72a8,8,0,0,1,16,0v8h16a8,8,0,0,1,0,16H116a12,12,0,0,0,0,24h24a28,28,0,0,1,0,56Z", "etiqueta": "M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63ZM84,96A12,12,0,1,1,96,84,12,12,0,0,1,84,96Z", "palomita": "M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z", "sello": "M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-52.2,6.84-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z", "escudo": "M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm-34.32,69.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z", "estrella": "M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z", "rayo": "M213.85,125.46l-112,120a8,8,0,0,1-13.69-7l14.66-73.33L45.19,143.49a8,8,0,0,1-3-13l112-120a8,8,0,0,1,13.69,7L153.18,90.9l57.63,21.61a8,8,0,0,1,3,12.95Z", "flechaDiag": "M204,64V168a12,12,0,0,1-24,0V93L72.49,200.49a12,12,0,0,1-17-17L163,76H88a12,12,0,0,1,0-24H192A12,12,0,0,1,204,64Z", "globo": "M128,24h0A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm78.36,64H170.71a135.28,135.28,0,0,0-22.3-45.6A88.29,88.29,0,0,1,206.37,88ZM216,128a87.61,87.61,0,0,1-3.33,24H174.16a157.44,157.44,0,0,0,0-48h38.51A87.61,87.61,0,0,1,216,128ZM128,43a115.27,115.27,0,0,1,26,45H102A115.11,115.11,0,0,1,128,43ZM102,168H154a115.11,115.11,0,0,1-26,45A115.27,115.27,0,0,1,102,168Zm-3.9-16a140.84,140.84,0,0,1,0-48h59.88a140.84,140.84,0,0,1,0,48Zm50.35,61.6a135.28,135.28,0,0,0,22.3-45.6h35.66A88.29,88.29,0,0,1,148.41,213.6Z"};
 
 /* Paleta tomada de src/styles/global.css. Los nombres son los de las
    variables del sitio para que se note de dónde sale cada color. */
@@ -34,6 +34,56 @@ function fondo(ctx,W,H){
   const g=ctx.createRadialGradient(0,0,0,0,0,rx);
   g.addColorStop(0,'rgba(45,106,245,.22)'); g.addColorStop(.6,'rgba(45,106,245,0)');
   ctx.fillStyle=g; ctx.fillRect(-rx,-rx,rx*2,rx*2); ctx.restore();
+}
+
+// Sello de verificado: disco sólido con la palomita calada. Como elemento
+// deliberado se lee mucho mejor que un glifo gigante a medio salir del lienzo.
+function sello(ctx,cx,cy,d,colorDisco,colorPalomita){
+  ctx.fillStyle=colorDisco; ctx.beginPath(); ctx.arc(cx,cy,d/2,0,Math.PI*2); ctx.fill();
+  icono(ctx,'palomita',cx-d*0.30,cy-d*0.24,d*0.60,colorPalomita);
+}
+
+function girado(ctx,cx,cy,grados,dibujar){
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(grados*Math.PI/180); ctx.translate(-cx,-cy);
+  dibujar(); ctx.restore();
+}
+
+function pastillaIcono(ctx,txt,x,y,{ico=null,fondo='#fff',color=AZUL,f=26,giro=0}={}){
+  const ls=f*0.04, tw=ancho(ctx,txt,`600 ${f}px ${SANS}`,ls);
+  const h=f*2.15, padX=f*0.78, icoTam=f*1.05;
+  const w=tw+padX*2+(ico?icoTam+f*0.42:0);
+  girado(ctx,x+w/2,y+h/2,giro,()=>{
+    ctx.fillStyle=fondo; ctx.beginPath(); ctx.roundRect(x,y,w,h,h/2); ctx.fill();
+    let cx=x+padX;
+    if(ico){ icono(ctx,ico,cx,y+(h-icoTam)/2,icoTam,color); cx+=icoTam+f*0.42; }
+    texto(ctx,txt,cx,y+(h+MAY(f))/2,9999,h,`600 ${f}px ${SANS}`,color,ls);
+  });
+  return w;
+}
+
+function botonCirculo(ctx,ico,cx,cy,d,fondo,color){
+  ctx.fillStyle=fondo; ctx.beginPath(); ctx.arc(cx,cy,d/2,0,Math.PI*2); ctx.fill();
+  icono(ctx,ico,cx-d*0.27,cy-d*0.27,d*0.54,color);
+}
+
+// Resalta una palabra dentro de una línea ya dibujada.
+function resaltado(ctx,x,yBase,txt,f,font,color,radio=10){
+  const w=ancho(ctx,txt,font);
+  const arriba=f*0.15, abajo=DESC(f)+f*0.07;
+  ctx.fillStyle=color; ctx.beginPath();
+  ctx.roundRect(x-f*0.12,yBase-MAY(f)-arriba,w+f*0.24,MAY(f)+arriba+abajo,radio); ctx.fill();
+}
+
+function tarjetaGirada(ctx,x,y,w,h,giro,dibujar){
+  girado(ctx,x+w/2,y+h/2,giro,()=>{
+    ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.roundRect(x,y,w,h,18); ctx.fill();
+    dibujar();
+  });
+}
+
+function fondoColor(ctx,W,H,color){
+  ctx.fillStyle=color; ctx.fillRect(0,0,W,H);
 }
 
 // Devuelve la y de la línea base siguiente para encadenar bloques sin medir.
@@ -309,64 +359,35 @@ const disenos={
     pie(ctx,W,H,m,'');
   },
 
-  'partner-a-cimiento':(ctx,W,H)=>{
-    fondo(ctx,W,H); const m=88, w=W-m*2;
-    cabecera(ctx,W,m,'NUEVO');
-    let y=texto(ctx,'Todo lo que hacemos vive en algún lado',m,272,w,86,`680 74px ${SANS}`,TEXTO)+40;
+  'partner-a-azul':(ctx,W,H)=>{
+    fondoColor(ctx,W,H,AZUL); const m=88, w=W-m*2;
 
-    /* Las tres capas se van ensanchando hacia abajo: la base es lo que
-       sostiene al resto, y ahí es donde entra Hostinger. */
-    const capas=[
-      ['LO QUE VE TU CLIENTE','Tu sitio, tu catálogo, tu chatbot',80],
-      ['LO QUE PROGRAMAMOS','Integraciones, automatizaciones, agentes',40],
-    ];
-    const altoCapa=132;
-    for(const [rot,desc,inset] of capas){
-      panel(ctx,m+inset,y,w-inset*2,altoCapa);
-      rotulo(ctx,rot,m+inset+PAD,y+52,21,ORDINAL);
-      texto(ctx,desc,m+inset+PAD,y+100,w-inset*2-PAD*2,40,`500 30px ${SANS}`,TEXTO);
-      y+=altoCapa+14;
-    }
+    rotulo(ctx,'VERIFICADO',m,132,26,'rgba(255,255,255,.78)');
+    filete(ctx,m,170,W-m,'rgba(255,255,255,.32)');
+    pastillaIcono(ctx,'AGENCIA VERIFICADA',W-m-392,96,{ico:'sello',fondo:'#fff',color:AZUL,f:25,giro:-3});
 
-    const altoBase=176;
-    panel(ctx,m,y,w,altoBase,20,'rgba(45,106,245,.10)','rgba(45,106,245,.55)');
-    rotulo(ctx,'DONDE VIVE TODO ESO',m+PAD,y+56,21,AZUL_LUZ);
-    imagen(ctx,'hostinger',m+PAD,y+80,240);
-    y+=altoBase;
+    // El titular se compone línea por línea para poder resaltar una palabra.
+    const fT=`680 116px ${SANS}`, lh=122;
+    let y=300;
+    texto(ctx,'Ya nos',m,y,9999,lh,fT,'#fff');
+    texto(ctx,'revisaron',m,y+lh,9999,lh,fT,'#fff');
+    const yb=y+lh*2;
+    resaltado(ctx,m,yb,'por ti',116,fT,'#fff',18);
+    texto(ctx,'por ti',m,yb,9999,lh,fT,AZUL);
 
-    texto(ctx,'Ahora ese piso también lo respondemos nosotros. Somos partner del programa de agencias de Hostinger.',m,y+90,w-20,48,`400 32px ${SANS}`,MUTED);
-    pie(ctx,W,H,m,'zulia.lat');
-  },
+    pastillaIcono(ctx,'REVISIÓN EXTERNA',m+556,y+lh-62,{ico:'escudo',fondo:'#0e1013',color:'#fff',f:25,giro:4});
 
-  'partner-b-cartel':(ctx,W,H)=>{
-    fondo(ctx,W,H); const m=88, w=W-m*2, cx=W/2;
-    // Composición centrada a propósito: rompe con la retícula del resto y se
-    // lee como un reconocimiento, no como una nota más.
-    textoCentro(ctx,'DESDE HOY',cx,300,w,50,`700 26px ${MONO}`,AZUL,4.5);
-    filete(ctx,cx-90,332,cx+90,'rgba(255,255,255,.22)');
+    let yy=texto(ctx,'Hostinger no acepta a cualquiera en su programa de agencias: revisa la empresa, el dominio y el trabajo.',m,yb+108,w-70,52,`400 36px ${SANS}`,'rgba(255,255,255,.86)');
 
-    imagen(ctx,'hostinger',cx-210,420,420);
+    girado(ctx,m+160,yy+110,-2.5,()=>imagen(ctx,'hostingerClaro',m,yy+50,320));
+    botonCirculo(ctx,'palomita',W-m-64,yy+110,128,'#fff',AZUL);
+    texto(ctx,'Las credenciales que sirven son las que da alguien más.',m,H-248,w-40,44,`500 32px ${SANS}`,'rgba(255,255,255,.9)');
 
-    let y=textoCentro(ctx,'Partner de Hostinger',cx,720,w,96,`680 82px ${SANS}`,TEXTO);
-    y=textoCentro(ctx,'Entramos a su programa de agencias.',cx,y+40,w-60,52,`400 36px ${SANS}`,MUTED);
-
-    filete(ctx,cx-90,y+52,cx+90,'rgba(255,255,255,.22)');
-    textoCentro(ctx,'Una capa menos de la que preocuparte',cx,y+140,w-60,50,`500 34px ${SANS}`,TEXTO);
-    pie(ctx,W,H,m,'zulia.lat');
-  },
-
-  'partner-historia':(ctx,W,H)=>{
-    fondo(ctx,W,H); const m=92, w=W-m*2, cx=W/2;
-    textoCentro(ctx,'DESDE HOY',cx,480,w,50,`700 28px ${MONO}`,AZUL,4.5);
-    filete(ctx,cx-100,514,cx+100,'rgba(255,255,255,.22)');
-    imagen(ctx,'hostinger',cx-230,620,460);
-    let y=textoCentro(ctx,'Partner de Hostinger',cx,960,w,104,`680 84px ${SANS}`,TEXTO);
-    textoCentro(ctx,'Entramos a su programa de agencias.',cx,y+40,w-40,54,`400 38px ${SANS}`,MUTED);
-
-    // De 1400 a 1740 se deja despejado para el sticker del enlace.
-    texto(ctx,'CONÓCENOS  ↓',m,1360,9999,40,`700 28px ${MONO}`,MUTED,3.4);
-    filete(ctx,m,1748,W-m);
-    marca(ctx,m,1780,52);
+    filete(ctx,m,H-172,W-m,'rgba(255,255,255,.32)');
+    ctx.font=`700 39px ${SANS}`; ctx.fillStyle='#fff'; ctx.textBaseline='alphabetic';
+    ctx.fillText('ZulIA',m,H-102);
+    const f=`500 26px ${MONO}`;
+    texto(ctx,'zulia.lat',W-m-ancho(ctx,'zulia.lat',f),H-102,9999,40,f,'rgba(255,255,255,.82)');
   },
 
   'og-meta-whatsapp-2026':(ctx,W,H)=>{
@@ -405,7 +426,7 @@ const disenos={
 };
 
 const medidas={
-  'partner-a-cimiento':[1080,1350],'partner-b-cartel':[1080,1350],'partner-historia':[1080,1920],
+  'partner-a-azul':[1080,1350],
   'og-meta-whatsapp-2026':[1200,630],
   'carrusel-1-portada':[1080,1350],'carrusel-2-que-cambia':[1080,1350],
   'carrusel-3-antes-despues':[1080,1350],'carrusel-4-ventanas':[1080,1350],
@@ -414,7 +435,7 @@ const medidas={
 };
 
 (async ()=>{
-  await cargarImagenes({hostinger:'/brands/hostinger-partner-blanco.svg'});
+  await cargarImagenes({hostinger:'/brands/hostinger-partner-blanco.svg',hostingerClaro:'/brands/hostinger-partner-negro.svg'});
   await Promise.all([
     document.fonts.load('700 96px Onest'),
     document.fonts.load('700 56px "JetBrains Mono"'),

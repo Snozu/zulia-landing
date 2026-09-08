@@ -9,20 +9,47 @@ La regla que gobierna todo: **el material de redes se ve como el sitio, no como
 una plantilla**. Todos los valores de abajo salen de `src/styles/global.css`.
 Si algo no está ahí, no se inventa: se agrega primero al sitio.
 
-## Cómo se ve un diseño hecho por defecto (y por qué está mal)
+## El sitio y las redes no se diseñan igual
 
-Estos son los tics que delatan una pieza generada sin criterio. Evítalos:
+Esta es la corrección más importante de esta skill. El sitio tiene que verse
+sobrio: alguien ya decidió entrar y lo que necesita es leer. Una pieza de redes
+compite contra un pulgar que va a toda velocidad, y ahí la sobriedad se lee como
+vacío. **La misma marca, dos registros distintos.**
 
-- Resplandor azul intenso en una esquina. El sitio usa `.22` de opacidad, no `.4`.
-- Todo metido en tarjetas con borde tenue y esquinas muy redondeadas.
-- Iconos dentro de cuadros de color con fondo tintado.
+### En el sitio
+
+Fondo `--stage`, filetes de `--stage-line`, paneles al `.04`, resplandor al
+`.22`, jerarquía por tamaño y no por color. Nada de bloques saturados.
+
+### En redes
+
+Bold, y sin miedo:
+
+- **Color a sangre.** Láminas enteras en `--brand-blue` alternadas con oscuras.
+  El azul de la marca es casi el mismo eléctrico que se usa en este tipo de
+  pieza, así que no hace falta salirse de la paleta para que pegue.
+- **Titular enorme y apretado**, de 110 px para arriba en un lienzo de 1080,
+  partido a mano en líneas para poder resaltar una palabra.
+- **Un resaltado** detrás de la palabra clave: rectángulo blanco y el texto en
+  azul. Invierte el contraste y ancla la mirada.
+- **Ornamento de interfaz.** Pastillas con icono, botones circulares, tarjetas
+  con dos o tres grados de giro, contadores. Elementos que parecen de una UI y
+  se colocan encima de la composición, rompiendo la retícula a propósito.
+- **Tres o cuatro ornamentos como máximo**, y cada uno tiene que decir algo. Si
+  una pastilla no aporta un dato, sobra: se quitó un "DESDE 2026" por eso.
+
+Los ayudantes están en la plantilla: `pastillaIcono`, `botonCirculo`,
+`resaltado`, `tarjetaGirada`, `girado`.
+
+### Lo que sí está mal en ambos registros
+
+- Resplandor azul intenso de fondo. En el sitio es `.22`; en redes el color va
+  plano, no en degradado.
+- Iconos metidos en cuadros tintados. Los glifos van sólidos, sueltos o dentro
+  de una pastilla con propósito.
 - Una sola tipografía para rótulos, cifras y texto corrido.
-- Barra de progreso de segmentos en los carruseles.
 - Verde menta y ámbar saturados que no existen en la marca.
-
-El reemplazo, en el mismo orden: resplandor al `.22`, filetes en vez de
-tarjetas, glifos sólidos sin contenedor, mono para todo lo que sea rótulo o
-cifra, folio `01 / 06` en mono, y los colores de `global.css`.
+- Alto de caja fijado a ojo. Se calcula desde el contenido.
 
 ## Tipografía
 
