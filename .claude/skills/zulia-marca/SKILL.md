@@ -38,8 +38,18 @@ Bold, y sin miedo:
 - **Tres o cuatro ornamentos como máximo**, y cada uno tiene que decir algo. Si
   una pastilla no aporta un dato, sobra: se quitó un "DESDE 2026" por eso.
 
+- **Volumen.** Lo plano se ve pobre al lado de las referencias del sector, que
+  usan render 3D. Canvas llega solo con lo que ya trae: `ctx.filter` para
+  desenfoque, `shadowColor` con color para el halo, y degradados diagonales más
+  un especular en la mitad superior para que una baldosa se lea como objeto.
+  No hace falta comprar assets 3D.
+
 Los ayudantes están en la plantilla: `pastillaIcono`, `botonCirculo`,
-`resaltado`, `tarjetaGirada`, `girado`.
+`resaltado`, `tarjetaGirada`, `girado`, y para el volumen `fondoProfundo`,
+`resplandorSuave`, `baldosa` y `vidrio`.
+
+Un racimo de tres baldosas a distinta escala, giro y profundidad rinde mucho
+más que una fila de iconos del mismo tamaño.
 
 ### Lo que sí está mal en ambos registros
 
