@@ -423,7 +423,7 @@ const disenos={
   'partner-a-azul':(ctx,W,H)=>{
     fondoProfundo(ctx,W,H); const m=88, w=W-m*2, cx=W/2;
 
-    rotulo(ctx,'PARTNER DE HOSTINGER',m,132,26,'rgba(160,190,255,.9)');
+    rotulo(ctx,'ALIANZAS ESTRATÉGICAS',m,132,26,'rgba(160,190,255,.9)');
     filete(ctx,m,170,W-m,'rgba(255,255,255,.16)');
 
     // Racimo de baldosas: una principal y dos satélites a distinta escala y
@@ -432,15 +432,17 @@ const disenos={
     baldosa(ctx,cx+160,380,126,'estrella',{giro:14,claro:'#6f9bff',oscuro:'#1533a8'});
     baldosa(ctx,cx,336,254,'sello',{giro:-5,claro:'#8fb2ff',oscuro:'#1c46d6'});
 
-    const fT=`680 88px ${SANS}`;
-    let y=textoCentro(ctx,'No trabajamos solos',cx,690,9999,96,fT,'#fff');
-    y=textoCentro(ctx,'Somos partner de su programa de agencias. La infraestructura donde viven tus proyectos se apoya en una empresa global, no solo en nosotros.',cx,y+30,w-70,50,`400 34px ${SANS}`,'rgba(206,218,245,.92)');
+    // El corte va a mano para que las dos líneas queden parejas.
+    const fT=`680 84px ${SANS}`, lh=92;
+    textoCentro(ctx,'Nos dieron',cx,646,9999,lh,fT,'#fff');
+    let y=textoCentro(ctx,'la bienvenida',cx,646+lh,9999,lh,fT,'#fff');
+    y=textoCentro(ctx,'Hostinger nos recibió en su programa de socios para alianzas estratégicas. Un respaldo más para la infraestructura de tus proyectos.',cx,y+26,w-70,48,`400 32px ${SANS}`,'rgba(206,218,245,.92)');
 
     const anchoV=560, altoV=152, xv=cx-anchoV/2, yv=y+18;
     vidrio(ctx,xv,yv,anchoV,altoV);
     imagen(ctx,'hostingerClaro',xv+42,yv+(altoV-170*30/80)/2,170);
-    texto(ctx,'Partner verificado',xv+250,yv+66,280,38,`600 27px ${SANS}`,'#fff');
-    texto(ctx,'Programa de agencias',xv+250,yv+104,280,38,`400 22px ${MONO}`,'rgba(190,205,240,.9)');
+    texto(ctx,'Socio estratégico',xv+250,yv+66,280,38,`600 27px ${SANS}`,'#fff');
+    texto(ctx,'Programa de partners',xv+250,yv+104,280,38,`400 22px ${MONO}`,'rgba(190,205,240,.9)');
 
     filete(ctx,m,H-172,W-m,'rgba(255,255,255,.16)');
     ctx.font=`700 39px ${SANS}`; ctx.fillStyle='#fff'; ctx.textBaseline='alphabetic';
