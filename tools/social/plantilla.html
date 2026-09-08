@@ -188,6 +188,21 @@ function panelTexto(ctx,x,y,w,rot,cuerpo,colorRot=AZUL_LUZ,fRot=22,fCuerpo=31,lh
   return y+alto;
 }
 
+function anchoBalanceado(ctx,txt,maxW,font){
+  const n=contarLineas(ctx,txt,maxW,font);
+  if(n<=1) return maxW;
+  let bajo=0, alto=maxW;
+  for(let i=0;i<24;i++){
+    const medio=(bajo+alto)/2;
+    if(contarLineas(ctx,txt,medio,font)<=n) alto=medio; else bajo=medio;
+  }
+  return alto;
+}
+
+function textoCentroBalanceado(ctx,txt,cx,y,maxW,lh,font,color,ls=0){
+  return textoCentro(ctx,txt,cx,y,anchoBalanceado(ctx,txt,maxW,font),lh,font,color,ls);
+}
+
 function textoCentro(ctx,txt,cx,y,maxW,lh,font,color,ls=0){
   ctx.font=font;
   const palabras=txt.split(' '); const lineas=[]; let linea='';
@@ -432,11 +447,14 @@ const disenos={
     baldosa(ctx,cx+160,380,126,'estrella',{giro:14,claro:'#6f9bff',oscuro:'#1533a8'});
     baldosa(ctx,cx,336,254,'sello',{giro:-5,claro:'#8fb2ff',oscuro:'#1c46d6'});
 
-    // El corte va a mano para que las dos líneas queden parejas.
-    const fT=`680 84px ${SANS}`, lh=92;
-    textoCentro(ctx,'Nos dieron',cx,646,9999,lh,fT,'#fff');
-    let y=textoCentro(ctx,'la bienvenida',cx,646+lh,9999,lh,fT,'#fff');
-    y=textoCentro(ctx,'Hostinger nos recibió en su programa de socios para alianzas estratégicas. Un respaldo más para la infraestructura de tus proyectos.',cx,y+26,w-70,48,`400 32px ${SANS}`,'rgba(206,218,245,.92)');
+    /* En una sola línea: partido en dos dejaba "la" colgando al final del
+       renglón, y en tipografía de display eso canta. Se busca el cuerpo más
+       grande que quepa completo. */
+    let cuerpo=88;
+    while(cuerpo>58 && ancho(ctx,'Nos dieron la bienvenida',`680 ${cuerpo}px ${SANS}`)>w-30) cuerpo-=2;
+    const fT=`680 ${cuerpo}px ${SANS}`;
+    let y=textoCentro(ctx,'Nos dieron la bienvenida',cx,690,9999,cuerpo*1.1,fT,'#fff');
+    y=textoCentroBalanceado(ctx,'Hostinger nos recibió en su programa de socios para alianzas estratégicas. Un respaldo más para la infraestructura de tus proyectos.',cx,y+26,w-70,48,`400 32px ${SANS}`,'rgba(206,218,245,.92)');
 
     const anchoV=560, altoV=152, xv=cx-anchoV/2, yv=y+18;
     vidrio(ctx,xv,yv,anchoV,altoV);
