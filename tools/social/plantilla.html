@@ -77,6 +77,20 @@ function panelTexto(ctx,x,y,w,rot,cuerpo,colorRot=AZUL_LUZ,fRot=22,fCuerpo=31,lh
   return y+alto;
 }
 
+function textoCentro(ctx,txt,cx,y,maxW,lh,font,color,ls=0){
+  ctx.font=font;
+  const palabras=txt.split(' '); const lineas=[]; let linea='';
+  const medir=(t)=> ls? [...t].reduce((a,c)=>a+ctx.measureText(c).width+ls,0)-ls : ctx.measureText(t).width;
+  for(const p of palabras){
+    const prueba=linea?linea+' '+p:p;
+    if(medir(prueba)>maxW && linea){ lineas.push(linea); linea=p; } else linea=prueba;
+  }
+  lineas.push(linea);
+  let yy=y;
+  for(const l of lineas){ texto(ctx,l,cx-medir(l)/2,yy,9999,lh,font,color,ls); yy+=lh; }
+  return yy;
+}
+
 function ancho(ctx,txt,font,ls=0){
   ctx.font=font;
   return ls ? [...txt].reduce((a,c)=>a+ctx.measureText(c).width+ls,0)-ls : ctx.measureText(txt).width;
@@ -295,25 +309,59 @@ const disenos={
     pie(ctx,W,H,m,'');
   },
 
-  'partner-hostinger-post':(ctx,W,H)=>{
+  'partner-a-cimiento':(ctx,W,H)=>{
     fondo(ctx,W,H); const m=88, w=W-m*2;
     cabecera(ctx,W,m,'NUEVO');
-    imagen(ctx,'hostinger',m,258,268);
-    let y=texto(ctx,'Ya somos partner de Hostinger',m,470,w,104,`680 88px ${SANS}`,TEXTO);
-    y=texto(ctx,'Entramos al programa de agencias. Es un respaldo de infraestructura, no un cambio de oficio.',m,y+44,w-30,52,`400 37px ${SANS}`,MUTED);
+    let y=texto(ctx,'Todo lo que hacemos vive en algún lado',m,272,w,86,`680 74px ${SANS}`,TEXTO)+40;
 
-    panelTexto(ctx,m,y+56,w,'QUÉ CAMBIA PARA TI','Desplegamos y sostenemos tus proyectos sobre infraestructura con respaldo del proveedor.');
-    rotulo(ctx,'SOFTWARE · AUTOMATIZACIÓN · AGENTES',m,H-232,21,ORDINAL);
+    /* Las tres capas se van ensanchando hacia abajo: la base es lo que
+       sostiene al resto, y ahí es donde entra Hostinger. */
+    const capas=[
+      ['LO QUE VE TU CLIENTE','Tu sitio, tu catálogo, tu chatbot',80],
+      ['LO QUE PROGRAMAMOS','Integraciones, automatizaciones, agentes',40],
+    ];
+    const altoCapa=132;
+    for(const [rot,desc,inset] of capas){
+      panel(ctx,m+inset,y,w-inset*2,altoCapa);
+      rotulo(ctx,rot,m+inset+PAD,y+52,21,ORDINAL);
+      texto(ctx,desc,m+inset+PAD,y+100,w-inset*2-PAD*2,40,`500 30px ${SANS}`,TEXTO);
+      y+=altoCapa+14;
+    }
+
+    const altoBase=176;
+    panel(ctx,m,y,w,altoBase,20,'rgba(45,106,245,.10)','rgba(45,106,245,.55)');
+    rotulo(ctx,'DONDE VIVE TODO ESO',m+PAD,y+56,21,AZUL_LUZ);
+    imagen(ctx,'hostinger',m+PAD,y+80,240);
+    y+=altoBase;
+
+    texto(ctx,'Ahora ese piso también lo respondemos nosotros. Somos partner del programa de agencias de Hostinger.',m,y+90,w-20,48,`400 32px ${SANS}`,MUTED);
     pie(ctx,W,H,m,'zulia.lat');
   },
 
-  'partner-hostinger-historia':(ctx,W,H)=>{
-    fondo(ctx,W,H); const m=92, w=W-m*2;
-    imagen(ctx,'hostinger',m,270,300);
-    rotulo(ctx,'NUEVO',m,470,26,AZUL);
-    filete(ctx,m,508,W-m);
-    let y=texto(ctx,'Ya somos partner de Hostinger',m,614,w,116,`680 96px ${SANS}`,TEXTO);
-    texto(ctx,'Entramos al programa de agencias. Un respaldo más para la infraestructura de tus proyectos.',m,y+44,w,58,`400 40px ${SANS}`,MUTED);
+  'partner-b-cartel':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2, cx=W/2;
+    // Composición centrada a propósito: rompe con la retícula del resto y se
+    // lee como un reconocimiento, no como una nota más.
+    textoCentro(ctx,'DESDE HOY',cx,300,w,50,`700 26px ${MONO}`,AZUL,4.5);
+    filete(ctx,cx-90,332,cx+90,'rgba(255,255,255,.22)');
+
+    imagen(ctx,'hostinger',cx-210,420,420);
+
+    let y=textoCentro(ctx,'Partner de Hostinger',cx,720,w,96,`680 82px ${SANS}`,TEXTO);
+    y=textoCentro(ctx,'Entramos a su programa de agencias.',cx,y+40,w-60,52,`400 36px ${SANS}`,MUTED);
+
+    filete(ctx,cx-90,y+52,cx+90,'rgba(255,255,255,.22)');
+    textoCentro(ctx,'Una capa menos de la que preocuparte',cx,y+140,w-60,50,`500 34px ${SANS}`,TEXTO);
+    pie(ctx,W,H,m,'zulia.lat');
+  },
+
+  'partner-historia':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=92, w=W-m*2, cx=W/2;
+    textoCentro(ctx,'DESDE HOY',cx,480,w,50,`700 28px ${MONO}`,AZUL,4.5);
+    filete(ctx,cx-100,514,cx+100,'rgba(255,255,255,.22)');
+    imagen(ctx,'hostinger',cx-230,620,460);
+    let y=textoCentro(ctx,'Partner de Hostinger',cx,960,w,104,`680 84px ${SANS}`,TEXTO);
+    textoCentro(ctx,'Entramos a su programa de agencias.',cx,y+40,w-40,54,`400 38px ${SANS}`,MUTED);
 
     // De 1400 a 1740 se deja despejado para el sticker del enlace.
     texto(ctx,'CONÓCENOS  ↓',m,1360,9999,40,`700 28px ${MONO}`,MUTED,3.4);
@@ -357,7 +405,7 @@ const disenos={
 };
 
 const medidas={
-  'partner-hostinger-post':[1080,1350],'partner-hostinger-historia':[1080,1920],
+  'partner-a-cimiento':[1080,1350],'partner-b-cartel':[1080,1350],'partner-historia':[1080,1920],
   'og-meta-whatsapp-2026':[1200,630],
   'carrusel-1-portada':[1080,1350],'carrusel-2-que-cambia':[1080,1350],
   'carrusel-3-antes-despues':[1080,1350],'carrusel-4-ventanas':[1080,1350],
