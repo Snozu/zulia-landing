@@ -22,6 +22,7 @@ const AZUL='#2f6bff', AZUL_LUZ='#5a8dff', VERDE='#24b879';
 const COSTO='#e0a33a';
 
 const SANS='Onest', MONO='"JetBrains Mono"';
+const PAD = 36;                   // aire interior de los paneles
 const MAY = f => f*0.72;          // altura de mayúscula aproximada
 const DESC = f => f*0.21;         // descendente
 
@@ -51,6 +52,29 @@ function texto(ctx,txt,x,y,maxW,lh,font,color,ls=0){
   }
   escribir(linea,yy);
   return yy+lh;
+}
+
+function contarLineas(ctx,txt,maxW,font){
+  ctx.font=font;
+  let linea='', n=1;
+  for(const p of txt.split(' ')){
+    const prueba=linea?linea+' '+p:p;
+    if(ctx.measureText(prueba).width>maxW && linea){ n++; linea=p; } else linea=prueba;
+  }
+  return n;
+}
+
+// Panel con antetítulo en mono y un párrafo debajo; el alto sale del contenido.
+function panelTexto(ctx,x,y,w,rot,cuerpo,colorRot=AZUL_LUZ,fRot=22,fCuerpo=31,lh=46){
+  const fC=`500 ${fCuerpo}px ${SANS}`;
+  const lineas=contarLineas(ctx,cuerpo,w-PAD*2,fC);
+  const bRot=PAD+MAY(fRot);
+  const bCue=bRot+DESC(fRot)+24+MAY(fCuerpo);
+  const alto=Math.round(bCue+(lineas-1)*lh+DESC(fCuerpo)+PAD);
+  panel(ctx,x,y,w,alto);
+  rotulo(ctx,rot,x+PAD,y+bRot,fRot,colorRot);
+  texto(ctx,cuerpo,x+PAD,y+bCue,w-PAD*2,lh,fC,TEXTO);
+  return y+alto;
 }
 
 function ancho(ctx,txt,font,ls=0){
@@ -114,6 +138,19 @@ function pie(ctx,W,H,m,derecha){
     const f=`500 26px ${MONO}`;
     texto(ctx,derecha,W-m-ancho(ctx,derecha,f),H-100,9999,40,f,ORDINAL);
   }
+}
+
+const IMG={};
+async function cargarImagenes(rutas){
+  await Promise.all(Object.entries(rutas).map(([k,src])=>new Promise((ok,fallo)=>{
+    const i=new Image(); i.onload=()=>{IMG[k]=i;ok();}; i.onerror=fallo; i.src=src;
+  })));
+}
+
+// Dibuja una imagen a un ancho dado, conservando su proporción.
+function imagen(ctx,clave,x,y,ancho){
+  const i=IMG[clave];
+  ctx.drawImage(i,x,y,ancho,ancho*i.naturalHeight/i.naturalWidth);
 }
 
 const disenos={
@@ -258,6 +295,32 @@ const disenos={
     pie(ctx,W,H,m,'');
   },
 
+  'partner-hostinger-post':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=88, w=W-m*2;
+    cabecera(ctx,W,m,'NUEVO');
+    imagen(ctx,'hostinger',m,258,268);
+    let y=texto(ctx,'Ya somos partner de Hostinger',m,470,w,104,`680 88px ${SANS}`,TEXTO);
+    y=texto(ctx,'Entramos al programa de agencias. Es un respaldo de infraestructura, no un cambio de oficio.',m,y+44,w-30,52,`400 37px ${SANS}`,MUTED);
+
+    panelTexto(ctx,m,y+56,w,'QUÉ CAMBIA PARA TI','Desplegamos y sostenemos tus proyectos sobre infraestructura con respaldo del proveedor.');
+    rotulo(ctx,'SOFTWARE · AUTOMATIZACIÓN · AGENTES',m,H-232,21,ORDINAL);
+    pie(ctx,W,H,m,'zulia.lat');
+  },
+
+  'partner-hostinger-historia':(ctx,W,H)=>{
+    fondo(ctx,W,H); const m=92, w=W-m*2;
+    imagen(ctx,'hostinger',m,270,300);
+    rotulo(ctx,'NUEVO',m,470,26,AZUL);
+    filete(ctx,m,508,W-m);
+    let y=texto(ctx,'Ya somos partner de Hostinger',m,614,w,116,`680 96px ${SANS}`,TEXTO);
+    texto(ctx,'Entramos al programa de agencias. Un respaldo más para la infraestructura de tus proyectos.',m,y+44,w,58,`400 40px ${SANS}`,MUTED);
+
+    // De 1400 a 1740 se deja despejado para el sticker del enlace.
+    texto(ctx,'CONÓCENOS  ↓',m,1360,9999,40,`700 28px ${MONO}`,MUTED,3.4);
+    filete(ctx,m,1748,W-m);
+    marca(ctx,m,1780,52);
+  },
+
   'og-meta-whatsapp-2026':(ctx,W,H)=>{
     fondo(ctx,W,H); const m=76, w=W-m*2;
     icono(ctx,'whatsapp',m,72,44,AZUL);
@@ -294,6 +357,7 @@ const disenos={
 };
 
 const medidas={
+  'partner-hostinger-post':[1080,1350],'partner-hostinger-historia':[1080,1920],
   'og-meta-whatsapp-2026':[1200,630],
   'carrusel-1-portada':[1080,1350],'carrusel-2-que-cambia':[1080,1350],
   'carrusel-3-antes-despues':[1080,1350],'carrusel-4-ventanas':[1080,1350],
@@ -302,6 +366,7 @@ const medidas={
 };
 
 (async ()=>{
+  await cargarImagenes({hostinger:'/brands/hostinger-partner-blanco.svg'});
   await Promise.all([
     document.fonts.load('700 96px Onest'),
     document.fonts.load('700 56px "JetBrains Mono"'),
