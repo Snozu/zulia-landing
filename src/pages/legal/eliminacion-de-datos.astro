@@ -1,0 +1,113 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { LEGAL, whatsappUrl } from '../../data/site';
+
+const heading = 'Eliminación de datos';
+const title = 'Eliminación de datos | ZulIA';
+const description =
+  'Cómo solicitar la eliminación de tus datos personales en ZulIA: canales, plazos, qué se borra, qué se conserva por obligación legal y cómo revocar accesos.';
+const lead =
+  'Puedes pedir que eliminemos los datos personales que tengamos sobre ti. Aquí están los pasos, los plazos y qué se borra exactamente en cada caso.';
+
+const toc = [
+  { id: 'como', label: 'Cómo solicitarlo' },
+  { id: 'que-se-elimina', label: 'Qué se elimina' },
+  { id: 'plazos', label: 'Plazos' },
+  { id: 'whatsapp', label: 'Datos de WhatsApp' },
+  { id: 'google', label: 'Accesos de Google' },
+  { id: 'clientes', label: 'Si eres cliente de una empresa' },
+  { id: 'excepciones', label: 'Qué no podemos eliminar' },
+];
+
+const deletionMessage = 'Hola ZulIA, quiero solicitar la eliminación de mis datos personales.';
+---
+
+<LegalLayout heading={heading} title={title} description={description} lead={lead} toc={toc}>
+  <h2 id="como">1. Cómo solicitar la eliminación</h2>
+  <p>Envía un correo a <a href={`mailto:${LEGAL.privacyEmail}?subject=Eliminaci%C3%B3n%20de%20datos`}>{LEGAL.privacyEmail}</a> con el asunto <strong>«Eliminación de datos»</strong> e incluye:</p>
+  <ol>
+    <li>Tu nombre completo.</li>
+    <li>El correo o el número de teléfono con el que interactuaste con nosotros, para poder localizar tus registros.</li>
+    <li>Si aplica, el nombre de la empresa o del sistema donde nos escribiste.</li>
+    <li>Una copia de tu identificación oficial, solo para confirmar que eres tú. La usamos para validar la solicitud y la destruimos al cerrarla.</li>
+  </ol>
+  <p>
+    También puedes iniciar la solicitud por
+    <a href={whatsappUrl(deletionMessage)} target="_blank" rel="noopener">WhatsApp</a>; en ese caso te pediremos
+    la confirmación por correo para dejar constancia.
+  </p>
+
+  <h2 id="que-se-elimina">2. Qué se elimina</h2>
+  <p>Al aprobar la solicitud borramos, de los sistemas bajo nuestro control:</p>
+  <ul>
+    <li>Tus datos de contacto: nombre, correo, teléfono, empresa y puesto.</li>
+    <li>El historial de conversaciones por WhatsApp, correo y formularios del sitio.</li>
+    <li>Notas de reuniones, llamadas y seguimiento comercial asociadas a ti.</li>
+    <li>Los archivos que nos hayas compartido y que no formen parte de un entregable contratado.</li>
+    <li>Los tokens de acceso a servicios de terceros que hayas autorizado, junto con los datos derivados de ellos.</li>
+  </ul>
+  <p>La eliminación también se instruye a los proveedores que tratan datos por cuenta nuestra.</p>
+
+  <h2 id="plazos">3. Plazos</h2>
+  <ul>
+    <li><strong>Acuse de recibo:</strong> dentro de los 3 días hábiles siguientes a tu solicitud.</li>
+    <li><strong>Resolución:</strong> máximo 20 días hábiles.</li>
+    <li><strong>Ejecución del borrado:</strong> dentro de los 15 días hábiles siguientes a la resolución.</li>
+    <li><strong>Respaldos:</strong> los datos pueden persistir en copias de seguridad hasta 90 días, sin usarse para ninguna finalidad, hasta que el ciclo de respaldo los sobrescriba.</li>
+  </ul>
+  <p>Te confirmamos por escrito cuando el borrado esté completo.</p>
+
+  <h2 id="whatsapp">4. Datos asociados a WhatsApp</h2>
+  <p>
+    Si nos escribiste por WhatsApp, la solicitud elimina tu número, tu nombre de perfil y el historial de la
+    conversación de nuestros sistemas. Ten en cuenta dos cosas:
+  </p>
+  <ul>
+    <li>
+      La copia de los mensajes que queda en <strong>tu propio teléfono</strong> la controlas tú y puedes borrarla
+      desde la aplicación.
+    </li>
+    <li>
+      Meta conserva ciertos metadatos de la mensajería conforme a su propia política. Para pedir la eliminación
+      de los datos que Meta guarda sobre ti, hazlo directamente con Meta en
+      <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">whatsapp.com/legal/privacy-policy</a>.
+    </li>
+  </ul>
+
+  <h2 id="google">5. Revocar accesos de Google</h2>
+  <p>
+    Si conectaste una cuenta de Google a alguna solución de ZulIA, puedes revocar el acceso tú mismo y en
+    cualquier momento desde
+    <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>:
+    busca la aplicación en la lista y elige «Quitar acceso». Al revocarlo dejamos de poder leer tus datos de
+    Google de inmediato. Para borrar además lo que ya se hubiera almacenado, envía la solicitud de eliminación
+    descrita arriba.
+  </p>
+
+  <h2 id="clientes">6. Si interactuaste con un sistema que ZulIA opera para otra empresa</h2>
+  <p>
+    Cuando ZulIA construye u opera un asistente, chatbot o plataforma para un cliente, <strong>el responsable de
+    esos datos es esa empresa</strong>, no ZulIA. Nosotros actuamos como encargado y no podemos borrar esa
+    información por cuenta propia sin su instrucción.
+  </p>
+  <p>
+    Escríbenos de todos modos a <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a>: canalizamos tu
+    solicitud con el responsable dentro de los 5 días hábiles siguientes y te decimos con quién darle seguimiento.
+  </p>
+
+  <h2 id="excepciones">7. Qué no podemos eliminar</h2>
+  <p>La ley nos obliga a conservar cierta información aunque pidas el borrado:</p>
+  <ul>
+    <li><strong>Comprobantes fiscales y registros contables:</strong> 5 años, por obligación fiscal.</li>
+    <li><strong>Contratos y evidencia de su cumplimiento:</strong> durante el plazo de prescripción aplicable.</li>
+    <li><strong>Registros necesarios para defender o ejercer un derecho</strong> en un procedimiento en curso.</li>
+    <li><strong>Bitácoras de seguridad</strong> requeridas para detectar incidentes, en forma mínima y por tiempo limitado.</li>
+  </ul>
+  <p>
+    Esa información queda bloqueada: se conserva solo para cumplir la obligación correspondiente y no se usa para
+    contactarte ni para ninguna otra finalidad. Cuando el plazo vence, se elimina.
+  </p>
+  <p>
+    Más contexto sobre qué datos tratamos y por qué: <a href="/legal/privacidad/">Aviso de privacidad</a>.
+  </p>
+</LegalLayout>

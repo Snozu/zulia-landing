@@ -1,6 +1,6 @@
 ---
 import Wordmark from './Wordmark.astro';
-import { SITE, NAV, whatsappUrl } from '../data/site';
+import { SITE, NAV, LEGAL_NAV, whatsappUrl } from '../data/site';
 import { services } from '../data/services';
 const year = new Date().getFullYear();
 ---
@@ -38,6 +38,9 @@ const year = new Date().getFullYear();
   </div>
   <div class="shell bottom">
     <span class="mono">{year} {SITE.name}</span>
+    <nav class="legal-nav" aria-label="Documentos legales">
+      {LEGAL_NAV.map((d) => (<a href={d.href}>{d.label}</a>))}
+    </nav>
     <span class="mono">{SITE.city}</span>
   </div>
 </footer>
@@ -63,11 +66,16 @@ const year = new Date().getFullYear();
   .col a:hover { color: var(--ink); text-decoration: underline; }
   .bottom {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
     padding-block: 1.25rem;
     border-top: 1px solid var(--line);
   }
+  .legal-nav { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+  .legal-nav a { color: var(--ink-soft); font-size: .85rem; text-decoration: none; }
+  .legal-nav a:hover { color: var(--ink); text-decoration: underline; }
   @media (max-width: 900px) {
     .top { grid-template-columns: 1fr 1fr; }
     .brand-col { grid-column: 1 / -1; }

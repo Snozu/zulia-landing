@@ -1,0 +1,97 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { LEGAL } from '../../data/site';
+
+const heading = 'Política de cookies';
+const title = 'Política de cookies | ZulIA';
+const description =
+  'Qué cookies y almacenamiento local usa zulia.lat, para qué sirven, cuánto duran y cómo desactivarlos desde tu navegador.';
+const lead =
+  'El sitio usa la menor cantidad de cookies posible: una preferencia de tema que se queda en tu navegador y analítica para saber qué contenidos sirven. Nada de publicidad ni de rastreo entre sitios.';
+
+const toc = [
+  { id: 'que-son', label: 'Qué son' },
+  { id: 'cuales', label: 'Cuáles usamos' },
+  { id: 'no-usamos', label: 'Qué no usamos' },
+  { id: 'gestionar', label: 'Cómo desactivarlas' },
+  { id: 'cambios', label: 'Cambios' },
+];
+---
+
+<LegalLayout heading={heading} title={title} description={description} lead={lead} toc={toc}>
+  <h2 id="que-son">1. Qué son las cookies</h2>
+  <p>
+    Una cookie es un archivo pequeño que un sitio guarda en tu navegador para recordar algo entre visitas. El
+    almacenamiento local (<em>localStorage</em>) cumple una función parecida, pero la información se queda en tu
+    dispositivo y no viaja en cada petición. Este sitio usa ambos.
+  </p>
+
+  <h2 id="cuales">2. Cuáles usa zulia.lat</h2>
+  <h3>Técnicas y de preferencia (necesarias)</h3>
+  <dl class="dl">
+    <div>
+      <dt>theme — localStorage, permanente hasta que lo borres</dt>
+      <dd>
+        Guarda si prefieres el sitio en claro u oscuro, para que no cambie de aspecto en cada visita. No
+        identifica a nadie y no sale de tu navegador.
+      </dd>
+    </div>
+  </dl>
+
+  <h3>Analíticas</h3>
+  <p>
+    Usamos <strong>Google Analytics 4</strong> para saber qué páginas se leen, de dónde llega el tráfico y qué
+    botones de contacto se usan. Lo tenemos configurado con <strong>anonimización de IP</strong>, de modo que tu
+    dirección se trunca antes de almacenarse.
+  </p>
+  <dl class="dl">
+    <div>
+      <dt>_ga — cookie, hasta 2 años</dt>
+      <dd>Distingue navegadores mediante un identificador aleatorio, sin asociarlo a tu identidad.</dd>
+    </div>
+    <div>
+      <dt>_ga_&lt;ID&gt; — cookie, hasta 2 años</dt>
+      <dd>Mantiene el estado de la sesión de medición de la propiedad de Analytics.</dd>
+    </div>
+  </dl>
+  <p>
+    Google trata esos datos como encargado nuestro, conforme a
+    <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">sus condiciones para sitios asociados</a>.
+    La analítica no se carga si el sitio se despliega sin identificador de medición configurado.
+  </p>
+
+  <h2 id="no-usamos">3. Qué no usamos</h2>
+  <ul>
+    <li>No usamos cookies de publicidad ni de remarketing.</li>
+    <li>No vendemos ni compartimos datos de navegación con corredores de datos.</li>
+    <li>No rastreamos tu actividad en otros sitios ni construimos perfiles publicitarios.</li>
+    <li>No insertamos píxeles de redes sociales en el sitio.</li>
+  </ul>
+
+  <h2 id="gestionar">4. Cómo desactivarlas</h2>
+  <ul>
+    <li>
+      <strong>Desde tu navegador:</strong> todos permiten bloquear o borrar cookies y datos de sitio. Búscalo en
+      la configuración de privacidad, normalmente como «Cookies y datos de sitios».
+    </li>
+    <li>
+      <strong>Solo Google Analytics:</strong> instala el
+      <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">complemento de inhabilitación de Google Analytics</a>.
+    </li>
+    <li>
+      <strong>Señal Do Not Track / GPC:</strong> respetamos la configuración de privacidad de tu navegador cuando
+      la plataforma de medición la reconoce.
+    </li>
+  </ul>
+  <p>
+    Bloquear las cookies analíticas no afecta el funcionamiento del sitio. Bloquear el almacenamiento local hará
+    que el tema vuelva a su valor por defecto en cada visita.
+  </p>
+
+  <h2 id="cambios">5. Cambios</h2>
+  <p>
+    Si agregamos o quitamos alguna cookie, actualizamos esta página y su fecha. El tratamiento de los datos que
+    se recaban por estos medios se explica en el <a href="/legal/privacidad/">Aviso de privacidad</a>.
+  </p>
+  <p>Dudas: <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a>.</p>
+</LegalLayout>

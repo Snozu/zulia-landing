@@ -1,0 +1,144 @@
+---
+import Layout from './Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { LEGAL, LEGAL_NAV } from '../data/site';
+
+interface Props {
+  /** Page heading, also reused for the <title> and the JSON-LD name. */
+  heading: string;
+  title: string;
+  description: string;
+  lead: string;
+  /** Section index rendered as the sidebar table of contents. Ids must match the <h2> ids. */
+  toc: ReadonlyArray<{ id: string; label: string }>;
+}
+
+const { heading, title, description, lead, toc } = Astro.props;
+
+const path = Astro.url.pathname;
+const updated = new Date(`${LEGAL.updatedAt}T00:00:00`).toLocaleDateString('es-MX', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+// Legal pages are not marketing surfaces: a WebPage node is enough for search
+// engines and keeps the Organization node in Layout as the only entity claim.
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: heading,
+  description,
+  url: new URL(path, 'https://zulia.lat/').href,
+  inLanguage: 'es-MX',
+  dateModified: LEGAL.updatedAt,
+  isPartOf: { '@id': 'https://zulia.lat/#organization' },
+  publisher: { '@id': 'https://zulia.lat/#organization' },
+};
+---
+
+<Layout title={title} description={description} jsonLd={pageSchema}>
+  <Navbar />
+  <main id="contenido">
+    <section class="head section-tight">
+      <div class="shell">
+        <p class="label">Legal</p>
+        <h1 class="display">{heading}</h1>
+        <p class="lead">{lead}</p>
+        <p class="mono stamp">Última actualización: {updated}</p>
+      </div>
+    </section>
+
+    <section class="body section-tight">
+      <div class="shell cols">
+        <aside class="aside">
+          <nav class="toc" aria-label="Contenido de la página">
+            <p class="mono">En esta página</p>
+            <ul>
+              {toc.map((s) => (<li><a href={`#${s.id}`}>{s.label}</a></li>))}
+            </ul>
+          </nav>
+          <nav class="siblings" aria-label="Otros documentos legales">
+            <p class="mono">Otros documentos</p>
+            <ul>
+              {LEGAL_NAV.filter((d) => d.href !== path).map((d) => (
+                <li><a href={d.href}>{d.label}</a></li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+
+        <article class="legal">
+          <slot />
+        </article>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .head .display { margin-top: 1rem; max-width: 18ch; }
+  .head .lead { margin-top: 1.25rem; }
+  .stamp { margin-top: 1.5rem; }
+  /* The head already pads below the timestamp; a second section pad on top of
+     the rule would leave a void the width of the page. */
+  .body { padding-block-start: 0; }
+
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 3rem;
+    align-items: start;
+    border-top: 1px solid var(--line);
+    padding-top: 2.5rem;
+  }
+  .aside { position: sticky; top: 6rem; display: grid; gap: 2rem; align-content: start; }
+  .aside ul { list-style: none; margin: .9rem 0 0; padding: 0; display: grid; gap: .5rem; }
+  .aside a { color: var(--text-muted); font-size: .9rem; text-decoration: none; }
+  .aside a:hover { color: var(--ink); text-decoration: underline; }
+
+  .legal { max-width: 72ch; color: var(--ink-soft); }
+  .legal :global(h2) {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -.015em;
+    line-height: 1.25;
+    color: var(--ink);
+    scroll-margin-top: 6rem;
+  }
+  .legal :global(h2:first-child) { margin-top: 0; padding-top: 0; border-top: 0; }
+  .legal :global(h3) {
+    margin-top: 1.75rem;
+    font-size: 1rem;
+    font-weight: 650;
+    color: var(--ink);
+  }
+  .legal :global(p) { margin-top: 1rem; line-height: 1.65; }
+  .legal :global(ul),
+  .legal :global(ol) { margin: 1rem 0 0; padding-left: 1.25rem; display: grid; gap: .6rem; }
+  .legal :global(li) { line-height: 1.6; }
+  .legal :global(a) { color: var(--blue-dark); }
+  .legal :global(strong) { color: var(--ink); font-weight: 620; }
+  .legal :global(.quote) {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    background: var(--paper-deep);
+    font-size: .92rem;
+    line-height: 1.6;
+  }
+  .legal :global(.dl) { margin-top: 1rem; display: grid; gap: .75rem; }
+  .legal :global(.dl div) { display: grid; gap: .2rem; }
+  .legal :global(.dl dt) { font-weight: 620; color: var(--ink); font-size: .92rem; }
+  .legal :global(.dl dd) { margin: 0; font-size: .95rem; }
+
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr; gap: 2rem; }
+    .aside { position: static; }
+  }
+</style>

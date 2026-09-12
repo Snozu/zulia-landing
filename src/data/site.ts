@@ -6,12 +6,48 @@ export const SITE = {
   tagline: 'Consultoría de software, automatización e inteligencia artificial',
   city: 'Monterrey, México',
   url: 'https://zulia.lat',
+  /**
+   * Public commercial address. Mail for zulia.lat is one mailbox, `haziel@`,
+   * with Hostinger aliases pointing at it:
+   *
+   *   hola@        general, sales, quotes
+   *   privacidad@  ARCO requests and data deletion — see LEGAL.privacyEmail
+   *
+   * Swapping this for an alias is a one line change and needs no other edit.
+   */
   email: 'haziel@zulia.lat',
   whatsapp: '528122509882',
   founder: 'Haziel Zul',
   founderRole: 'Fundador y director técnico',
   founderLinkedin: 'https://www.linkedin.com/in/haziel-eduardo-zul-mendez-53b82b131/',
 } as const;
+
+/**
+ * Single source of truth for the legal pages. Platform reviewers (Meta, Google)
+ * check that the responsible party named here matches the one in the developer
+ * account, so every legal page reads these values instead of hardcoding them.
+ *
+ * TODO: add `taxId` (RFC) and expand `address` to the full fiscal address, then
+ * restore the RFC row in the privacy notice and the RFC mention in the terms.
+ * The LFPDPPP requires both to identify the responsible party.
+ */
+export const LEGAL = {
+  /** Persona física con actividad empresarial. */
+  responsible: 'Haziel Zul',
+  tradeName: 'ZulIA',
+  address: 'Monterrey, Nuevo León, México',
+  privacyEmail: 'privacidad@zulia.lat',
+  /** Shown on every legal page and bumped whenever the wording changes. */
+  updatedAt: '2026-09-12',
+  jurisdiction: 'Monterrey, Nuevo León, México',
+} as const;
+
+export const LEGAL_NAV: ReadonlyArray<{ label: string; href: string }> = [
+  { label: 'Aviso de privacidad', href: '/legal/privacidad/' },
+  { label: 'Términos de servicio', href: '/legal/terminos/' },
+  { label: 'Eliminación de datos', href: '/legal/eliminacion-de-datos/' },
+  { label: 'Cookies', href: '/legal/cookies/' },
+];
 
 export const CTA = {
   primary: 'Cotizar',

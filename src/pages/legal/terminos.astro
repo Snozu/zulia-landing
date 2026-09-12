@@ -1,0 +1,235 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { SITE, LEGAL } from '../../data/site';
+
+const heading = 'Términos de servicio';
+const title = 'Términos de servicio | ZulIA';
+const description =
+  'Términos y condiciones que rigen el uso del sitio zulia.lat, los productos de ZulIA y los servicios de consultoría, desarrollo y automatización con inteligencia artificial.';
+const lead =
+  'Estas condiciones rigen el uso del sitio zulia.lat, de los productos que operamos y de los servicios de consultoría, desarrollo e integración que prestamos. Al usarlos, aceptas lo que sigue.';
+
+const toc = [
+  { id: 'quienes', label: 'Quiénes somos' },
+  { id: 'aceptacion', label: 'Aceptación' },
+  { id: 'servicios', label: 'Servicios' },
+  { id: 'contratacion', label: 'Contratación y alcance' },
+  { id: 'cuentas', label: 'Cuentas y credenciales' },
+  { id: 'obligaciones', label: 'Obligaciones del cliente' },
+  { id: 'uso-aceptable', label: 'Uso aceptable' },
+  { id: 'terceros', label: 'Plataformas de terceros' },
+  { id: 'ia', label: 'Resultados generados por IA' },
+  { id: 'propiedad', label: 'Propiedad intelectual' },
+  { id: 'pagos', label: 'Precios y pagos' },
+  { id: 'disponibilidad', label: 'Disponibilidad y soporte' },
+  { id: 'confidencialidad', label: 'Confidencialidad' },
+  { id: 'datos', label: 'Protección de datos' },
+  { id: 'garantias', label: 'Garantías y responsabilidad' },
+  { id: 'vigencia', label: 'Vigencia y terminación' },
+  { id: 'cambios', label: 'Cambios' },
+  { id: 'ley', label: 'Ley aplicable' },
+];
+---
+
+<LegalLayout heading={heading} title={title} description={description} lead={lead} toc={toc}>
+  <h2 id="quienes">1. Quiénes somos</h2>
+  <p>
+    El sitio <a href={SITE.url}>{SITE.url}</a> y los servicios descritos en él son operados por
+    <strong>{LEGAL.responsible}</strong>, persona física con actividad empresarial bajo el nombre comercial
+    <strong>{LEGAL.tradeName}</strong>, con domicilio en {LEGAL.address}. En adelante,
+    «ZulIA» o «nosotros». Contacto: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+  </p>
+
+  <h2 id="aceptacion">2. Aceptación de estos términos</h2>
+  <p>
+    Al navegar el sitio, solicitar una cotización, inscribirte a un curso o contratar un servicio, aceptas estos
+    términos en su versión vigente. Si no estás de acuerdo, no uses el sitio ni contrates los servicios.
+  </p>
+  <p>
+    Si aceptas en nombre de una empresa, declaras que tienes facultades para obligarla, y «tú» o «el cliente» se
+    refiere a esa empresa.
+  </p>
+
+  <h2 id="servicios">3. Qué servicios prestamos</h2>
+  <p>ZulIA presta servicios profesionales de tecnología, que pueden incluir:</p>
+  <ul>
+    <li>Consultoría, diagnóstico y arquitectura de software.</li>
+    <li>Desarrollo de software a medida, sitios web, catálogos y plataformas.</li>
+    <li>Integración y operación de agentes e infraestructura de inteligencia artificial sobre los sistemas del cliente.</li>
+    <li>Automatización de procesos e integraciones con plataformas de terceros.</li>
+    <li>Cursos, talleres y capacitación.</li>
+    <li>Soporte y mantenimiento sobre lo construido.</li>
+  </ul>
+  <p>
+    El contenido publicado en el sitio —incluidos proyectos, casos y descripciones de servicio— es informativo y
+    no constituye una oferta vinculante ni asesoría profesional para un caso concreto.
+  </p>
+
+  <h2 id="contratacion">4. Contratación y alcance</h2>
+  <p>
+    Cada proyecto se formaliza en una propuesta, cotización u orden de trabajo donde se define el alcance, los
+    entregables, los plazos, el precio y las condiciones particulares. Ese documento, junto con estos términos,
+    forma el acuerdo entre las partes. <strong>Si hay contradicción, prevalece lo pactado en la propuesta u
+    orden de trabajo firmada.</strong>
+  </p>
+  <p>
+    Todo lo que no esté escrito en el alcance no está incluido. Los cambios al alcance se documentan por escrito
+    y pueden implicar ajustes de precio y calendario.
+  </p>
+
+  <h2 id="cuentas">5. Cuentas, accesos y credenciales</h2>
+  <ul>
+    <li>
+      Las cuentas, dominios, repositorios, servidores y licencias de un proyecto quedan a nombre del cliente
+      desde el inicio, salvo que se pacte otra cosa por escrito.
+    </li>
+    <li>
+      Cuando el cliente nos otorga accesos a sus sistemas, es responsable de que quien los concede tenga
+      facultades para hacerlo y de mantenerlos vigentes durante el proyecto.
+    </li>
+    <li>
+      Usamos los accesos exclusivamente para prestar el servicio contratado. El cliente puede revocarlos en
+      cualquier momento; si eso impide prestar el servicio, los plazos se suspenden.
+    </li>
+    <li>Al terminar la relación, entregamos o revocamos los accesos que hayan quedado bajo nuestro control.</li>
+  </ul>
+
+  <h2 id="obligaciones">6. Obligaciones del cliente</h2>
+  <ul>
+    <li>Proporcionar información veraz, completa y oportuna, y designar a una persona con capacidad de decisión.</li>
+    <li>Revisar y aprobar entregables dentro de los plazos acordados. La falta de respuesta puede correr el calendario.</li>
+    <li>Contar con los derechos sobre los contenidos, marcas y datos que nos entregue para el proyecto.</li>
+    <li>Cubrir los costos de servicios de terceros —nube, licencias, APIs, dominios— salvo que se pacte lo contrario.</li>
+    <li>Cumplir las leyes aplicables al uso que dé a las soluciones, incluidas las de protección de datos y publicidad.</li>
+  </ul>
+
+  <h2 id="uso-aceptable">7. Uso aceptable</h2>
+  <p>No está permitido usar el sitio, los productos ni las soluciones que construimos para:</p>
+  <ul>
+    <li>Actividades ilícitas, fraudulentas o engañosas.</li>
+    <li>Enviar mensajería masiva no solicitada o incumplir las políticas de las plataformas de mensajería.</li>
+    <li>Vulnerar, sondear o sobrecargar la infraestructura, ni intentar acceder a datos de terceros.</li>
+    <li>Extraer contenido del sitio de forma automatizada con fines de suplantación o reventa.</li>
+    <li>Infringir derechos de propiedad intelectual, de privacidad o de imagen de cualquier persona.</li>
+  </ul>
+  <p>El incumplimiento de esta sección permite suspender el servicio de inmediato.</p>
+
+  <h2 id="terceros">8. Plataformas y servicios de terceros</h2>
+  <p>
+    Nuestras soluciones suelen integrarse con plataformas de terceros —entre otras, WhatsApp Business Platform y
+    demás servicios de Meta, las APIs de Google, proveedores de nube y proveedores de modelos de inteligencia
+    artificial—. Sobre ellas aplica lo siguiente:
+  </p>
+  <ul>
+    <li>El uso de cada plataforma queda sujeto a sus propios términos y políticas, que el cliente acepta al usarlas.</li>
+    <li>Un tercero puede cambiar, limitar o suspender su servicio, sus precios o sus APIs. ZulIA no controla esos cambios ni responde por ellos.</li>
+    <li>La aprobación de una cuenta, número o aplicación ante una plataforma depende de esa plataforma, no de ZulIA.</li>
+    <li>ZulIA no es responsable de suspensiones derivadas de que el cliente incumpla las políticas de una plataforma.</li>
+  </ul>
+
+  <h2 id="ia">9. Resultados generados por inteligencia artificial</h2>
+  <p>
+    Las soluciones que construimos pueden usar modelos de lenguaje. Por su naturaleza, estos sistemas pueden
+    producir respuestas incorrectas, incompletas o inesperadas. En consecuencia:
+  </p>
+  <ul>
+    <li>Los resultados generados por IA son apoyo, no sustituto del criterio de una persona.</li>
+    <li>No constituyen asesoría legal, fiscal, médica, financiera ni profesional de ningún tipo.</li>
+    <li>Las acciones sensibles se configuran para requerir confirmación humana; el cliente es responsable de no desactivar esos controles.</li>
+    <li>El cliente es responsable del uso que dé a los resultados y de verificarlos antes de actuar sobre ellos.</li>
+  </ul>
+
+  <h2 id="propiedad">10. Propiedad intelectual</h2>
+  <h3>Del cliente</h3>
+  <p>
+    Una vez cubierto el pago total de la fase o proyecto correspondiente, <strong>el código fuente y los
+    entregables desarrollados específicamente para el cliente le pertenecen</strong>, junto con su
+    infraestructura, dominios y datos.
+  </p>
+  <h3>De ZulIA</h3>
+  <p>
+    ZulIA conserva la titularidad de su conocimiento previo, metodologías, plantillas, librerías internas,
+    componentes reutilizables y herramientas propias. Sobre los que queden incorporados a un entregable, el
+    cliente recibe una licencia no exclusiva, perpetua, irrevocable y transferible para usarlos, modificarlos y
+    explotarlos como parte de esa solución.
+  </p>
+  <h3>Del sitio</h3>
+  <p>
+    La marca ZulIA, el sitio, sus textos, diseño y elementos gráficos son propiedad de ZulIA. Las marcas de
+    clientes mostradas pertenecen a sus respectivos titulares y se usan solo con fines de identificación.
+  </p>
+
+  <h2 id="pagos">11. Precios, pagos e impuestos</h2>
+  <ul>
+    <li>Los precios se expresan en la moneda indicada en la propuesta y no incluyen impuestos salvo que se señale.</li>
+    <li>Salvo pacto distinto, los proyectos se facturan por fases con un anticipo al inicio de cada una.</li>
+    <li>Los servicios recurrentes —operación, soporte, suscripciones— se facturan por período adelantado.</li>
+    <li>La falta de pago por más de 15 días naturales permite suspender el servicio previo aviso, sin responsabilidad para ZulIA.</li>
+    <li>Los costos de terceros se trasladan al cliente según lo pactado y pueden variar si el proveedor cambia sus precios.</li>
+  </ul>
+
+  <h2 id="disponibilidad">12. Disponibilidad y soporte</h2>
+  <p>
+    El sitio se ofrece «tal cual» y puede presentar interrupciones por mantenimiento o causas fuera de nuestro
+    control. Para las soluciones en operación, los niveles de servicio, horarios de atención y tiempos de
+    respuesta son los que se definan en el contrato de soporte; sin un contrato vigente, la atención se presta
+    por hora y sujeta a disponibilidad.
+  </p>
+
+  <h2 id="confidencialidad">13. Confidencialidad</h2>
+  <p>
+    Ambas partes se obligan a mantener en confidencialidad la información no pública que reciban de la otra y a
+    usarla solo para cumplir el proyecto. La obligación permanece vigente durante la relación y por 3 años
+    después de su terminación. No se considera confidencial la información que sea de dominio público, que la
+    parte receptora ya conociera legítimamente o cuya divulgación exija una autoridad competente.
+  </p>
+  <p>
+    ZulIA no publicará un proyecto como caso de estudio sin autorización previa y por escrito del cliente.
+  </p>
+
+  <h2 id="datos">14. Protección de datos personales</h2>
+  <p>
+    El tratamiento de datos personales se rige por nuestro <a href="/legal/privacidad/">Aviso de privacidad</a>.
+    Cuando ZulIA trata datos personales por cuenta de un cliente, lo hace como encargado, siguiendo sus
+    instrucciones documentadas y con las medidas de seguridad ahí descritas. El cliente, como responsable, debe
+    contar con la base legal y los avisos de privacidad necesarios frente a sus propios usuarios.
+  </p>
+
+  <h2 id="garantias">15. Garantías y límite de responsabilidad</h2>
+  <p>
+    Prestamos los servicios con diligencia profesional y corregimos sin costo los defectos de un entregable que
+    se reporten dentro de los <strong>30 días naturales</strong> siguientes a su entrega, siempre que provengan
+    de nuestro trabajo y no de cambios hechos por terceros, de un uso distinto al previsto o de fallas de
+    plataformas externas.
+  </p>
+  <p>
+    Fuera de esa garantía, los servicios se prestan sin garantías implícitas de comercialización o adecuación a
+    un fin particular. ZulIA no responde por daños indirectos, lucro cesante, pérdida de datos o de oportunidad
+    de negocio. <strong>En cualquier caso, la responsabilidad total acumulada de ZulIA se limita al monto
+    efectivamente pagado por el cliente en los 3 meses anteriores al hecho que dio origen al reclamo.</strong>
+    Estas limitaciones no aplican en casos de dolo o cuando la ley no permita limitarlas.
+  </p>
+
+  <h2 id="vigencia">16. Vigencia y terminación</h2>
+  <ul>
+    <li>Los proyectos terminan al entregarse el alcance pactado; los servicios recurrentes son de renovación periódica.</li>
+    <li>Cualquiera de las partes puede terminar un servicio recurrente avisando por escrito con 30 días de anticipación.</li>
+    <li>ZulIA puede terminar de inmediato ante incumplimiento de pago, uso indebido o solicitud ilícita.</li>
+    <li>Al terminar, el cliente paga el trabajo realizado hasta esa fecha y ZulIA entrega los materiales y accesos correspondientes.</li>
+  </ul>
+
+  <h2 id="cambios">17. Cambios a estos términos</h2>
+  <p>
+    Podemos actualizar estos términos. La versión vigente es la publicada en esta página, con su fecha de última
+    actualización. Los cambios no afectan proyectos ya contratados, que se rigen por los términos aceptados al
+    momento de la contratación, salvo que se acuerde lo contrario por escrito.
+  </p>
+
+  <h2 id="ley">18. Ley aplicable y jurisdicción</h2>
+  <p>
+    Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Para cualquier controversia, las
+    partes se someten a los tribunales competentes de {LEGAL.jurisdiction}, renunciando a cualquier otro fuero
+    que pudiera corresponderles.
+  </p>
+  <p>Dudas sobre estos términos: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</LegalLayout>

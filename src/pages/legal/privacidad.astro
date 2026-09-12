@@ -1,0 +1,270 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { SITE, LEGAL } from '../../data/site';
+
+const heading = 'Aviso de privacidad';
+const title = 'Aviso de privacidad | ZulIA';
+const description =
+  'Aviso de privacidad integral de ZulIA: qué datos personales tratamos, con qué finalidades, con quién los compartimos y cómo ejercer tus derechos ARCO.';
+const lead =
+  'Este aviso explica qué datos personales tratamos, para qué, con quién los compartimos y cómo puedes controlarlos. Aplica al sitio zulia.lat, a los productos que operamos y a los servicios de consultoría que prestamos.';
+
+const toc = [
+  { id: 'responsable', label: 'Responsable' },
+  { id: 'alcance', label: 'Alcance y roles' },
+  { id: 'datos', label: 'Datos que tratamos' },
+  { id: 'finalidades', label: 'Finalidades' },
+  { id: 'fundamento', label: 'Fundamento del tratamiento' },
+  { id: 'transferencias', label: 'Transferencias y encargados' },
+  { id: 'meta', label: 'WhatsApp y plataformas de Meta' },
+  { id: 'google', label: 'APIs de Google' },
+  { id: 'ia', label: 'Uso de inteligencia artificial' },
+  { id: 'conservacion', label: 'Conservación y eliminación' },
+  { id: 'seguridad', label: 'Seguridad' },
+  { id: 'arco', label: 'Derechos ARCO' },
+  { id: 'cookies', label: 'Cookies' },
+  { id: 'menores', label: 'Menores de edad' },
+  { id: 'cambios', label: 'Cambios a este aviso' },
+];
+---
+
+<LegalLayout heading={heading} title={title} description={description} lead={lead} toc={toc}>
+  <h2 id="responsable">1. Responsable de tus datos personales</h2>
+  <p>
+    <strong>{LEGAL.responsible}</strong>, persona física con actividad empresarial que opera bajo el nombre
+    comercial <strong>{LEGAL.tradeName}</strong>, es responsable del tratamiento de los datos personales
+    descritos en este aviso.
+  </p>
+  <dl class="dl">
+    <div><dt>Domicilio</dt><dd>{LEGAL.address}</dd></div>
+    <div><dt>Correo para asuntos de privacidad</dt><dd><a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a></dd></div>
+    <div><dt>Sitio</dt><dd><a href={SITE.url}>{SITE.url}</a></dd></div>
+  </dl>
+  <p>
+    Este aviso se emite en cumplimiento de la Ley Federal de Protección de Datos Personales en Posesión de los
+    Particulares y su normativa derivada.
+  </p>
+
+  <h2 id="alcance">2. Alcance y roles</h2>
+  <p>ZulIA trata datos personales en dos papeles distintos, y eso cambia quién decide sobre ellos:</p>
+  <ul>
+    <li>
+      <strong>Como responsable.</strong> Datos de quienes visitan zulia.lat, solicitan una cotización, se
+      inscriben a un curso o contratan nuestros servicios. Aquí decidimos nosotros las finalidades y los medios.
+    </li>
+    <li>
+      <strong>Como encargado.</strong> Datos que un cliente nos permite tratar dentro de sus propios sistemas
+      —su CRM, su ERP, su cuenta de WhatsApp Business, sus correos— para construir, operar o dar soporte a una
+      solución. En ese caso el responsable es el cliente, nosotros actuamos siguiendo sus instrucciones y bajo
+      contrato, y el aviso de privacidad aplicable frente a sus usuarios finales es el del cliente.
+    </li>
+  </ul>
+  <p>
+    Si llegaste aquí desde un asistente, chatbot o sistema operado por ZulIA para una empresa, el responsable de
+    esos datos es esa empresa. Aun así puedes escribirnos a <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a>
+    y te dirigimos con quien corresponde.
+  </p>
+
+  <h2 id="datos">3. Datos personales que tratamos</h2>
+  <h3>De prospectos y clientes</h3>
+  <ul>
+    <li>Identificación y contacto: nombre, correo electrónico, teléfono, empresa y puesto.</li>
+    <li>Contenido de la comunicación: mensajes de WhatsApp, correos, notas de reuniones y llamadas.</li>
+    <li>Datos de facturación: razón social, RFC, domicilio fiscal, régimen fiscal y datos de pago.</li>
+  </ul>
+  <h3>De quienes navegan el sitio</h3>
+  <ul>
+    <li>Datos técnicos: dirección IP (anonimizada en analítica), tipo de dispositivo, navegador e idioma.</li>
+    <li>Datos de uso: páginas vistas, origen del tráfico y clics en botones de contacto.</li>
+  </ul>
+  <h3>Dentro de los sistemas de un cliente</h3>
+  <ul>
+    <li>
+      Los datos que el propio cliente nos autorice para operar su solución: registros de clientes, pedidos,
+      inventarios, conversaciones, documentos y archivos, según el alcance del contrato.
+    </li>
+  </ul>
+  <p>
+    <strong>No recabamos datos personales sensibles</strong> —origen racial o étnico, estado de salud,
+    creencias, preferencia sexual, datos biométricos ni genéticos— y te pedimos no enviarlos por nuestros
+    canales de contacto. Si una solución específica requiriera tratarlos, se acordaría por contrato y con el
+    consentimiento expreso que la ley exige.
+  </p>
+
+  <h2 id="finalidades">4. Finalidades del tratamiento</h2>
+  <h3>Finalidades primarias (necesarias)</h3>
+  <ul>
+    <li>Atender solicitudes de contacto, cotización y soporte.</li>
+    <li>Prestar los servicios contratados, incluyendo desarrollo, integración, operación y mantenimiento.</li>
+    <li>Emitir facturas y cumplir obligaciones fiscales, contables y contractuales.</li>
+    <li>Gestionar accesos, credenciales y seguridad de los sistemas que operamos.</li>
+    <li>Registrar inscripciones a cursos y entregar los materiales correspondientes.</li>
+  </ul>
+  <h3>Finalidades secundarias (opcionales)</h3>
+  <ul>
+    <li>Enviar novedades, contenidos o invitaciones a eventos y cursos.</li>
+    <li>Medir el uso del sitio para mejorar contenidos y desempeño.</li>
+    <li>Mostrar un proyecto como caso de estudio, solo con autorización previa y por escrito del cliente.</li>
+  </ul>
+  <p>
+    Puedes negarte a las finalidades secundarias en cualquier momento escribiendo a
+    <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a>. Negarte no afecta los servicios que ya
+    tengas contratados.
+  </p>
+
+  <h2 id="fundamento">5. Fundamento del tratamiento</h2>
+  <p>Tratamos datos personales cuando se cumple al menos uno de estos supuestos:</p>
+  <ul>
+    <li>Nos diste tu consentimiento al enviarnos un formulario o escribirnos por WhatsApp o correo.</li>
+    <li>El tratamiento es necesario para la relación contractual que tenemos contigo o con tu empresa.</li>
+    <li>Existe una obligación legal, principalmente fiscal, que nos obliga a conservar la información.</li>
+    <li>Un cliente, como responsable, nos instruye a tratarlos en su nombre bajo un contrato de encargo.</li>
+  </ul>
+
+  <h2 id="transferencias">6. Transferencias, remisiones y encargados</h2>
+  <p>
+    <strong>No vendemos datos personales ni los compartimos con terceros para fines publicitarios.</strong>
+    Sí nos apoyamos en proveedores de tecnología que los tratan por cuenta nuestra —lo que la ley llama
+    remisiones— bajo contratos que los obligan a los mismos deberes de confidencialidad y seguridad:
+  </p>
+  <ul>
+    <li><strong>Infraestructura y alojamiento:</strong> proveedores de nube y servidores donde corren el sitio y las soluciones.</li>
+    <li><strong>Comunicación:</strong> Meta Platforms (WhatsApp Business Platform) y proveedores de correo electrónico.</li>
+    <li><strong>Productividad:</strong> Google (Workspace y APIs de Google) y herramientas de agenda y documentos.</li>
+    <li><strong>Analítica:</strong> Google Analytics, con anonimización de IP.</li>
+    <li><strong>Modelos de inteligencia artificial:</strong> proveedores de modelos de lenguaje, bajo condiciones que prohíben usar el contenido para entrenar modelos.</li>
+    <li><strong>Facturación y pagos:</strong> proveedores de facturación electrónica y procesadores de pago.</li>
+  </ul>
+  <p>
+    Algunos de estos proveedores están fuera de México, por lo que los datos pueden tratarse en otros países.
+    Solo transferimos datos a un tercero distinto de estos casos cuando la ley lo permite sin consentimiento
+    —por ejemplo, ante un requerimiento de autoridad competente— o cuando tú lo autorizas.
+  </p>
+
+  <h2 id="meta">7. WhatsApp y plataformas de Meta</h2>
+  <p>
+    ZulIA integra y opera soluciones sobre WhatsApp Business Platform y otras plataformas de Meta, tanto para su
+    propia comunicación como para la de sus clientes.
+  </p>
+  <ul>
+    <li>
+      Cuando nos escribes por WhatsApp recibimos tu número de teléfono, tu nombre de perfil y el contenido de los
+      mensajes que envías. Los usamos para atender tu solicitud y darle seguimiento comercial.
+    </li>
+    <li>
+      Cuando operamos la cuenta de WhatsApp de un cliente, los mensajes de sus usuarios finales pertenecen a ese
+      cliente. ZulIA los procesa únicamente para hacer funcionar la solución contratada.
+    </li>
+    <li>
+      La información obtenida de las plataformas de Meta se usa solo para prestar y mejorar la funcionalidad
+      visible al usuario, conforme a las políticas de la plataforma. No la vendemos, no la usamos para
+      publicidad de terceros ni la transferimos a redes publicitarias o corredores de datos.
+    </li>
+    <li>
+      Meta trata los datos de la mensajería conforme a su propia política de privacidad, disponible en
+      <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">whatsapp.com/legal/privacy-policy</a>.
+    </li>
+  </ul>
+  <p>
+    Para solicitar la eliminación de los datos asociados a tu número o a tu cuenta, consulta
+    <a href="/legal/eliminacion-de-datos/">Eliminación de datos</a>.
+  </p>
+
+  <h2 id="google">8. Uso de las APIs de Google</h2>
+  <p>
+    Algunas soluciones de ZulIA se conectan, con tu autorización explícita vía OAuth, a servicios de Google como
+    Gmail, Google Calendar y Google Drive. Esa conexión solo ocurre cuando tú la apruebas en la pantalla de
+    consentimiento de Google, y puedes revocarla cuando quieras desde
+    <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>.
+  </p>
+  <p>
+    El uso y la transferencia que ZulIA hace de la información recibida de las APIs de Google se apega a la
+    <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>,
+    incluidos sus requisitos de Limited Use. En concreto: usamos esos datos únicamente para ofrecer o mejorar
+    funciones visibles para ti, no los transferimos salvo que sea necesario para prestar el servicio, cumplir la
+    ley o con tu consentimiento, no los usamos para publicidad y ninguna persona los lee, salvo que tú lo
+    autorices por escrito, que sea necesario por seguridad o para cumplir la ley, o que estén agregados y
+    anonimizados. Tampoco se usan para entrenar modelos de inteligencia artificial generalizados.
+  </p>
+  <p class="quote">
+    ZulIA's use and transfer to any other app of information received from Google APIs will adhere to the
+    <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>,
+    including the Limited Use requirements.
+  </p>
+
+  <h2 id="ia">9. Uso de inteligencia artificial</h2>
+  <p>
+    Nuestras soluciones usan modelos de lenguaje para leer, redactar y ejecutar tareas sobre los sistemas
+    autorizados. Sobre eso conviene que sepas:
+  </p>
+  <ul>
+    <li>El contenido que se envía a un proveedor de modelos se procesa bajo acuerdos que <strong>prohíben su uso para entrenar modelos</strong>.</li>
+    <li>Las acciones que escriben o modifican información están declaradas por herramienta y limitadas por permisos.</li>
+    <li>Las operaciones sensibles —pagos, cancelaciones, cambios irreversibles— requieren confirmación de una persona.</li>
+    <li>No tomamos decisiones automatizadas con efectos jurídicos sobre ti sin intervención humana.</li>
+  </ul>
+
+  <h2 id="conservacion">10. Conservación y eliminación</h2>
+  <ul>
+    <li><strong>Prospectos sin contratación:</strong> hasta 24 meses después del último contacto.</li>
+    <li><strong>Clientes:</strong> mientras dure la relación y hasta 5 años después, por obligaciones fiscales y contables.</li>
+    <li><strong>Datos tratados como encargado:</strong> según lo que indique el contrato con el cliente; al terminar, se devuelven o se eliminan.</li>
+    <li><strong>Registros de analítica:</strong> conforme a la retención configurada en Google Analytics.</li>
+  </ul>
+  <p>
+    Puedes pedir la eliminación anticipada en cualquier momento. El procedimiento está en
+    <a href="/legal/eliminacion-de-datos/">Eliminación de datos</a>.
+  </p>
+
+  <h2 id="seguridad">11. Medidas de seguridad</h2>
+  <p>Aplicamos medidas administrativas, técnicas y físicas proporcionales al riesgo, entre ellas:</p>
+  <ul>
+    <li>Cifrado en tránsito (TLS) y en reposo en los servicios que lo permiten.</li>
+    <li>Acceso por principio de mínimo privilegio y autenticación de dos factores en cuentas críticas.</li>
+    <li>Credenciales gestionadas en gestores de secretos, nunca en código ni en repositorios.</li>
+    <li>Bitácoras de operaciones y separación entre ambientes de desarrollo y producción.</li>
+    <li>Acuerdos de confidencialidad con cualquier persona que participe en un proyecto.</li>
+  </ul>
+  <p>
+    Ningún sistema es infalible. Si ocurriera una vulneración que afecte de forma significativa tus derechos, te
+    lo comunicaremos sin demora por el medio de contacto que tengamos registrado.
+  </p>
+
+  <h2 id="arco">12. Tus derechos ARCO y cómo ejercerlos</h2>
+  <p>Tienes derecho a <strong>acceder</strong> a tus datos, <strong>rectificarlos</strong> si son inexactos, <strong>cancelarlos</strong> cuando ya no sean necesarios y <strong>oponerte</strong> a un tratamiento específico. También puedes revocar tu consentimiento y limitar el uso o divulgación de tus datos.</p>
+  <p>Para ejercerlos, envía un correo a <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a> con:</p>
+  <ol>
+    <li>Tu nombre y un medio de contacto para responderte.</li>
+    <li>Copia de una identificación oficial que acredite tu identidad, o el poder si actúas como representante.</li>
+    <li>La descripción clara del derecho que quieres ejercer y de los datos involucrados.</li>
+  </ol>
+  <p>
+    Respondemos en un plazo máximo de 20 días hábiles y, si la solicitud procede, la hacemos efectiva dentro de
+    los 15 días hábiles siguientes. El trámite es gratuito; solo podrían cobrarse los gastos de envío o
+    reproducción que la ley permite. Si no quedas conforme con la respuesta, puedes acudir ante la autoridad
+    competente en materia de protección de datos personales.
+  </p>
+
+  <h2 id="cookies">13. Cookies y tecnologías similares</h2>
+  <p>
+    El sitio usa cookies y almacenamiento local para medir su uso y recordar tus preferencias de visualización.
+    El detalle de cada una, y cómo desactivarlas, está en <a href="/legal/cookies/">Política de cookies</a>.
+  </p>
+
+  <h2 id="menores">14. Menores de edad</h2>
+  <p>
+    Nuestros servicios están dirigidos a empresas y personas mayores de edad. No recabamos datos de menores de
+    18 años de forma consciente. Si detectamos que recibimos datos de un menor sin el consentimiento de quien
+    ejerce la patria potestad, los eliminamos.
+  </p>
+
+  <h2 id="cambios">15. Cambios a este aviso</h2>
+  <p>
+    Podemos actualizar este aviso cuando cambien nuestros servicios, la tecnología que usamos o la ley aplicable.
+    La versión vigente siempre está publicada en esta página con su fecha de última actualización. Si el cambio
+    es sustancial, lo notificamos por correo a clientes activos antes de que entre en vigor.
+  </p>
+  <p>
+    Cualquier duda sobre este aviso: <a href={`mailto:${LEGAL.privacyEmail}`}>{LEGAL.privacyEmail}</a>.
+  </p>
+</LegalLayout>
