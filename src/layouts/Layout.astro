@@ -126,6 +126,9 @@ const schema = jsonLd
     <meta name="author" content="Haziel Zul" />
     <meta name="description" content={description} />
     {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
+    {/* Verificación del dominio en el porfolio Zulia de Meta. No es secreto y debe
+        quedarse: Meta lo vuelve a revisar y sin él el dominio pierde la verificación. */}
+    <meta name="facebook-domain-verification" content="njxxx9nwo5xj05lkrol3xv7ehcg24q" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="es-MX" href={canonicalUrl} />
     <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
