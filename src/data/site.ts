@@ -27,18 +27,21 @@ export const SITE = {
  * check that the responsible party named here matches the one in the developer
  * account, so every legal page reads these values instead of hardcoding them.
  *
- * TODO: add `taxId` (RFC) and expand `address` to the full fiscal address, then
- * restore the RFC row in the privacy notice and the RFC mention in the terms.
- * The LFPDPPP requires both to identify the responsible party.
+ * `responsible` and `taxId` are copied verbatim from the Constancia de Situación
+ * Fiscal, which is the document Meta's business verification checks against.
+ * The fiscal address is a private home, so only the municipality is published;
+ * the full address lives in the CSF and the business portfolio, never here.
+ * Swap in a notification address (virtual office) here once there is one.
  */
 export const LEGAL = {
-  /** Persona física con actividad empresarial. */
-  responsible: 'Haziel Zul',
+  /** Persona física con actividad empresarial (RESICO). */
+  responsible: 'Haziel Eduardo Zul Mendez',
+  taxId: 'ZUMH000909FWA',
   tradeName: 'ZulIA',
-  address: 'Monterrey, Nuevo León, México',
+  address: 'Juárez, Nuevo León, México',
   privacyEmail: 'privacidad@zulia.lat',
   /** Shown on every legal page and bumped whenever the wording changes. */
-  updatedAt: '2026-09-12',
+  updatedAt: '2026-10-16',
   jurisdiction: 'Monterrey, Nuevo León, México',
 } as const;
 
