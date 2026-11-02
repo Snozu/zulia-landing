@@ -76,6 +76,7 @@ const whatsapp = '528122509882';
         } else {
           const message = `Hola, quiero acceso a la demo de Semilla. Mi correo es ${email}`;
           trackOutbound('generate_lead', { form_id: 'semilla-capture', channel: 'whatsapp', source: 'semilla-landing' });
+          (window as any).fbq?.('track', 'Lead', { content_name: 'semilla' });
           window.open(`https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
           setStatus('Abrimos WhatsApp para darte acceso, sin fingir un envío que todavía no está conectado.', 'handoff');
           if (button) { button.disabled = false; button.querySelector('span')!.textContent = 'Quiero acceso'; }
@@ -83,6 +84,7 @@ const whatsapp = '528122509882';
         }
 
         trackEvent('generate_lead', { form_id: 'semilla-capture', channel: 'endpoint', source: 'semilla-landing' });
+        (window as any).fbq?.('track', 'Lead', { content_name: 'semilla' });
         form.hidden = true;
         if (success) { success.hidden = false; success.focus(); }
       } catch {

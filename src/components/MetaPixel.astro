@@ -1,0 +1,67 @@
+---
+// Píxel de Meta (conjunto de datos "ZulIA - zulia.lat" en el porfolio Zulia).
+// El ID no es secreto: viaja en cada página. Solo se emite en el build de
+// producción para que las visitas de desarrollo y de los túneles de vista
+// previa no ensucien las audiencias ni la optimización de los anuncios.
+const pixelId = '871183312753694';
+const enabled = import.meta.env.PROD;
+---
+
+{
+  enabled && (
+    <>
+      {/* Igual que GA: la cola de fbq se arma de inmediato sin costo de red y
+          fbevents.js (unos 100 KiB) se descarga en el primer gesto o cuando el
+          navegador queda ocioso, para no competir con el primer pintado. Los
+          eventos que se disparen antes quedan en la cola y no se pierden. */}
+      <script is:inline define:vars={{ pixelId }}>
+        (() => {
+          if (window.fbq) return;
+          const fbq = function () {
+            fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments);
+          };
+          fbq.push = fbq;
+          fbq.loaded = true;
+          fbq.version = '2.0';
+          fbq.queue = [];
+          window.fbq = fbq;
+          window._fbq = fbq;
+
+          fbq('init', pixelId);
+          fbq('track', 'PageView');
+
+          let pedido = false;
+          const cargar = () => {
+            if (pedido) return;
+            pedido = true;
+            const s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+            document.head.appendChild(s);
+          };
+
+          const gestos = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+          const alGesto = () => {
+            gestos.forEach((g) => window.removeEventListener(g, alGesto));
+            cargar();
+          };
+          gestos.forEach((g) => window.addEventListener(g, alGesto, { passive: true, once: true }));
+          if ('requestIdleCallback' in window) requestIdleCallback(cargar, { timeout: 5000 });
+          else setTimeout(cargar, 3000);
+        })();
+      </script>
+      <script is:inline>
+        // Conversiones por clic. Los formularios que abren WhatsApp con
+        // window.open no disparan un clic en un enlace; esos mandan su Lead
+        // por su cuenta (cotizar y Semilla).
+        document.addEventListener('click', (event) => {
+          const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+          if (!link || !window.fbq) return;
+          const href = link.getAttribute('href') || '';
+          if (href.includes('wa.me') || href.includes('api.whatsapp.com')) window.fbq('track', 'Contact');
+          else if (href.includes('agenda.zulia.lat')) window.fbq('track', 'Schedule');
+        });
+      </script>
+    </>
+  )
+}

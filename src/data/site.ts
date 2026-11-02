@@ -41,7 +41,7 @@ export const LEGAL = {
   address: 'Juárez, Nuevo León, México',
   privacyEmail: 'privacidad@zulia.lat',
   /** Shown on every legal page and bumped whenever the wording changes. */
-  updatedAt: '2026-10-16',
+  updatedAt: '2026-11-02',
   jurisdiction: 'Monterrey, Nuevo León, México',
 } as const;
 
